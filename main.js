@@ -29,6 +29,14 @@ const nodehandler=require("./handler/nodehandler");
 //storehandler처럼 require만 하면 IPC가 등록됨(따로 호출 안함)
 require("./handler/passwordhandler");
 const { Filefilter } = require('./src/Layout/TOOL/Nodetool');
+
+//개발모드 판정. `npm run dev`가 electron을 --dev로 띄우고, 그때만 Parcel 개발서버를 봄.
+//NODE_ENV를 쓰려면 윈도우에서 env를 넣어주는 패키지(cross-env)가 따로 필요해서 인자로 감.
+//포장된 앱은 무조건 배포모드(누가 --dev를 붙여도 개발서버를 보면 안됨).
+//예전 조건은 `!process.env.NODE_ENV === 'development'` 였는데, 이건
+//`(!undefined) === 'development'` → `true === 'development'` → 항상 false라 아무 역할도 못했음
+const isdev = !app.isPackaged && process.argv.includes('--dev');
+
 function createWindow() {
   
   const win = new BrowserWindow({
@@ -43,16 +51,16 @@ function createWindow() {
     }
   });
   win.setMenu(null)
-  // 개발: Parcel 서버 / 배포: 파일
-  if (app.isPackaged || !process.env.NODE_ENV === 'development') {
-   //이게 배포할떄
-    win.loadFile(path.join(__dirname, 'dist/index.html'));
+  // 개발: Parcel 서버 / 배포: 빌드된 파일.
+  //판단은 isdev 하나로만 함(위쪽에 정의).
+  if (isdev) {
+    win.loadURL('http://localhost:1234');
   } else {
-     // 개발: Parcel dev 서버
-  win.loadURL('http://localhost:1234');
+    win.loadFile(path.join(__dirname, 'dist/index.html'));
   }
 
-   win.webContents.openDevTools(); // 개발자도구 자동 열기
+  //개발자도구는 개발중에만. 예전엔 조건없이 열려서 배포판에서도 같이 떴음
+  if (isdev) win.webContents.openDevTools();
 }
 
   

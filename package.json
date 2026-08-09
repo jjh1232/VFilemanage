@@ -9,8 +9,8 @@
     "rebuild-addon": "powershell -Command \"cd addon; node-gyp clean; node-gyp rebuild\"",
     "start": "parcel index.html",
     "build-addon": "cd addon && node-gyp rebuild",
-    "build": "parcel build index.html",
-    "dev": "concurrently \"npm start\" \"wait-on http://localhost:1234 && electron .\"",
+    "build": "parcel build index.html --public-url ./",
+    "dev": "concurrently \"npm start\" \"wait-on http://localhost:1234 && electron . --dev\"",
     "electron": "electron ."
   },
   "keywords": [],
