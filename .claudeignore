@@ -1,0 +1,31 @@
+﻿# 의존성
+node_modules/
+addon/node_modules/
+addon/node-addon-api/
+
+# 빌드 산출물
+build/
+dist/
+out/
+addon/build/
+.parcel-cache/
+*.node
+
+# 락파일 (git엔 있어야 하지만 읽을 필요 없음)
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# SQLite amalgamation (수십만 줄, 읽으면 컨텍스트 폭발)
+addon/sqlite3.c
+addon/sqlite3.h
+sqlite3.c
+sqlite3.h
+
+# 바이너리 / 데이터
+*.db
+*.sqlite3
+src/assets/
+
+# 로그
+*.log

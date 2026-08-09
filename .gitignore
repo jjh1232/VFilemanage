@@ -1,0 +1,50 @@
+﻿# 의존성
+node_modules/
+addon/node_modules/
+addon/node-addon-api/
+
+# 빌드 산출물
+build/
+dist/
+out/
+target/
+release/
+release-builds/
+addon/build/
+*.node
+
+# Parcel 캐시
+.parcel-cache/
+
+# SQLite 원본 (amalgamation, 재생성 가능)
+addon/sqlite3.c
+addon/sqlite3.h
+
+# 데이터베이스 파일
+# 실제 DB는 사용자 데이터 폴더(userData)에 있음. 여기 남은건 위치 옮기기 전의 예전 파일들
+*.db
+*.db-journal
+*.db.old
+*.db.bak
+*.sqlite
+*.sqlite3
+
+# 환경변수 / 비밀키
+.env
+.env.local
+.env.*.local
+
+# 로그
+*.log
+npm-debug.log*
+yarn-error.log*
+
+# OS / 에디터
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Claude Code
+# settings.json은 프로젝트 공용이라 커밋함. local쪽은 내 PC 경로가 박혀있어서 제외
+.claude/settings.local.json

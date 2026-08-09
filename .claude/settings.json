@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python \"C:/Users/dlwjd/AppData/Local/Temp/claude/d--SUBPROGRAM-react-parcel/85e8a916-40ab-4e83-8d48-81a6e2d65e46/scratchpad/after.py\")",
+      "Bash(python \"C:/Users/dlwjd/AppData/Local/Temp/claude/d--SUBPROGRAM-react-parcel/85e8a916-40ab-4e83-8d48-81a6e2d65e46/scratchpad/root.py\")",
+      "Bash(python \"C:/Users/dlwjd/AppData/Local/Temp/claude/d--SUBPROGRAM-react-parcel/85e8a916-40ab-4e83-8d48-81a6e2d65e46/scratchpad/id96.py\")",
+      "PowerShell(Get-Process | Where-Object { $_.ProcessName -match 'electron|node' } | Stop-Process -Force -ErrorAction SilentlyContinue; Start-Sleep -Milliseconds 800; Remove-Item Env:\\\\ELECTRON_RUN_AS_NODE -ErrorAction SilentlyContinue; npm run dev 2>&1)"
+    ]
+  }
+}
