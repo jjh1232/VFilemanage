@@ -76,22 +76,12 @@ bool SQLiteCRUD::insertFiles(const std::vector<FileInfo>&files){
         return false;
     }
     //트랜잭션으로 파일을 다중 으로 넣는게 비용적으로도 좋다함
-    printf(" DB시작\n");
-      // 벡터 전체 순회해서 출력
-    for (size_t i = 0; i < files.size(); i++) {
-        printf("  [%zu] parentid=%d, filename=%s, ,path=%s, type=%d, size=%lld\n",
-            
-            files[i].parentid,
-            files[i].filename.c_str(),      // std::string이면 .c_str()
-            files[i].realpath.c_str(),
-            files[i].type,
-            files[i].size,
-            files[i].realfilename.c_str(),
-            files[i].isori
-
-        );
-    }
-    printf("==========================\n\n");
+    //여기 있던 "벡터 전체 순회 출력"은 앱을 죽이던 코드라 지웠다.
+    //포맷 지정자와 인자가 어긋나 있었고(%s 자리에 std::string 객체를 그대로 넘김),
+    //printf가 그 바이트를 포인터로 읽으려다 세그폴트했다. 파일 하나당 한번씩 도는
+    //루프라 개수가 많을수록 확실히 터졌다 - "파일 많이 넣으면 앱이 꺼짐"의 원인.
+    //대량삽입 경로에서 건당 로그는 어차피 두면 안되므로 개수만 남긴다
+    printf(" DB시작: %zu건\n", files.size());
 
     //트랜잭션시작   열린db핸들변수,SQL명령어,결과,콜백데이터,에러메세지받을포인터
     if(sqlite3_exec(db_,"BEGIN TRANSACTION",nullptr,nullptr,nullptr)!=SQLITE_OK){
@@ -170,6 +160,9 @@ bool SQLiteCRUD::insertFiles(const std::vector<FileInfo>&files){
               //ROLLBACK
         printf(" 트랜잭션롤백\n");
         sqlite3_exec(db_,"ROLLBACK",nullptr,nullptr,nullptr);
+        //위쪽 재시도실패 경로엔 있는데 여기만 빠져있었다. 안하면 컴파일된 statement가
+        //해제되지 않고 계속 쌓인다(호출할때마다 하나씩)
+        sqlite3_finalize(stmt);
         return false;
         }
         

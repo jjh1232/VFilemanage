@@ -1,4 +1,36 @@
+//⚠️ 이 파일은 CommonJS(require)인데 아래에서 불러오는 dbpath / InitDB / fileCRUD /
+//   setting / handler 대부분은 ESM(import)이다. 원래 섞으면 SyntaxError가 나야 정상이고,
+//   Node 22.12+의 require(ESM) 지원 덕에 돌아가는 상태다(Electron 40은 Node 24.11 기반).
+//   → Electron 버전을 내리면 앱이 시작조차 안된다.
+//   → 저 ESM 파일들 최상단에 await를 쓰면 그순간 깨진다(require는 비동기를 못 기다림).
+//   언젠가 package.json에 "type":"module"을 넣고 통째로 통합할것.
 const { app, BrowserWindow } = require('electron');
+
+//앱은 SQLite 파일 하나를 쓴다. 두번 켜지면 두 프로세스가 같은 파일에 쓰기를 시도해서
+//SQLITE_BUSY가 터지거나 최악엔 DB가 깨진다. 사용자는 아이콘을 두번 누르는게 일상이라
+//"이미 켜져있으면 원래 창을 띄워주고 새 프로세스는 즉시 죽는다"로 처리한다.
+//
+//반드시 dbpath/InitDB를 require하기 "전"이어야 한다. 그 아래는 불러오는 순간
+//DB파일을 만들고 연결까지 열어버려서, 늦게 검사하면 이미 붙은 뒤가 된다
+if (!app.requestSingleInstanceLock()) {
+  //quit()은 "종료해줘" 예약일 뿐이라 아래 require들이 계속 실행된다. 여기서 확실히 끊는다
+  app.quit();
+  process.exit(0);
+}
+
+//두번째로 켜려던 프로세스가 죽으면 이 이벤트가 온다. 원래 창을 앞으로 꺼내줌
+//(안하면 사용자 입장에선 아이콘을 눌렀는데 아무일도 안일어난것처럼 보인다)
+app.on('second-instance', () => {
+  const win = BrowserWindow.getAllWindows()[0];
+  if (!win) return;
+  if (win.isMinimized()) win.restore();
+  win.focus();
+});
+
+//아래 require들이 터지는것까지 잡으려면 여기가 제일 위여야 한다.
+//import만 하면 예외 핸들러가 등록됨(따로 호출 안함)
+require('./handler/crashhandler');
+
 const path = require('path');
 const fs = require('fs');
 const {dbpath}=require(`./nodeDatabase/dbpath.js`)
@@ -28,7 +60,9 @@ require('./handler/storehandler')
 const nodehandler=require("./handler/nodehandler");
 //storehandler처럼 require만 하면 IPC가 등록됨(따로 호출 안함)
 require("./handler/passwordhandler");
-const { Filefilter } = require('./src/Layout/TOOL/Nodetool');
+//메인 전용 코드라 handler/로 옮겼음. 예전엔 src/ 안에 있어서
+//화면쪽이 실수로 import하면 electron-store가 브라우저 번들에 섞이는 상태였음
+const { buildFilterSet, passesName, keepFolders, filterInside } = require('./handler/filefilter');
 
 //개발모드 판정. `npm run dev`가 electron을 --dev로 띄우고, 그때만 Parcel 개발서버를 봄.
 //NODE_ENV를 쓰려면 윈도우에서 env를 넣어주는 패키지(cross-env)가 따로 필요해서 인자로 감.
@@ -134,7 +168,136 @@ app.on('window-all-closed', () => {
 //경로들을 폴더구조 그대로 재귀로 넣기.
 //addon은 디렉터리를 만나도 안으로 안들어가고(행 하나만 넣음), 폴더 id도 안돌려줘서
 //폴더행 생성은 JS쪽 createFile(lastId 반환)로 하고, 각 폴더 안의 파일들만 addon으로 벌크삽입함
-async function insertPathsRecursive(paths, parentId, depth=0){
+//가져오는 동안 화면에 "몇개 처리했는지"를 알려주는 장치.
+//addon.file.insertfiles가 동기함수라 도는 동안 메인 프로세스가 멈추는데, 폴더 단위로
+//끊어서 호출되므로 그 사이사이에 이 알림이 나간다.
+//
+//파일 하나마다 보내면 IPC가 밀려서 오히려 전체가 느려지므로 100ms에 한번만 보냄
+function makeProgress(event){
+  let count=0;
+  let lastsent=0;
+
+  const send=(force)=>{
+    const now=Date.now();
+    if(!force && now-lastsent<100) return;
+    lastsent=now;
+    //작업중에 창을 닫았을 수 있다. 없어진 창에 보내면 예외가 남
+    if(!event.sender.isDestroyed()) event.sender.send('insert-progress',{count});
+  };
+
+  return {
+    //다이얼로그를 닫자마자 화면을 잠그기 위한 첫 신호.
+    //이게 없으면 첫 폴더의 삽입이 끝날때까지(=몇초씩) 아무 반응도 없어서 먹통으로 보인다
+    start(){ send(true); },
+    add(n){ count+=n; send(false); },
+    //stopped: 한도에 걸려 중간에 접었으면 그 사유. 화면이 "다 못 가져왔다"를 알려줘야 한다
+    done(stopped){
+      if(!event.sender.isDestroyed()) event.sender.send('insert-done',{count,stopped:stopped||null});
+      return count;
+    }
+  };
+}
+
+
+//경로들을 폴더구조 그대로 재귀로 넣기.
+//ctx: {progress, keepfolders, filterinside} - 최상위에서 한번만 만들어 재귀 내내 물려준다.
+//설정을 여기서 매번 읽지 않는 이유: electron-store의 get은 설정파일을 그때마다
+//다시 읽어서, 폴더 수천개면 그만큼 디스크를 왕복하게 된다
+//===== 가져오기 진행 흔적 남기기 =====
+//앱이 "아무 메시지도 없이" 꺼지는 일이 있는데, 그렇게 죽으면 try/catch도
+//uncaughtException도 못 잡는다. 죽기 "전에" 이미 파일에 적혀 있어야 원인을 알 수 있다.
+//그래서 버퍼에 안 남게 동기(appendFileSync)로 쓴다 - crashhandler가 동기쓰기를 쓰는 이유와 같음.
+//에러기록(error.log)과 섞으면 읽기 어려워서 파일을 나눔
+const IMPORTLOG=path.join(app.getPath('userData'),'logs','import.log');
+
+function importlog(line){
+  try{
+    fs.mkdirSync(path.dirname(IMPORTLOG),{recursive:true});
+    const t=new Date().toTimeString().slice(0,8);
+    fs.appendFileSync(IMPORTLOG,`[${t}] ${line}\n`,'utf8');
+  }catch{
+    //기록하다 또 터지면 할수있는게 없다
+  }
+}
+
+//메모리가 계속 오르다 끊기면 고갈, 특정 경로에서 끊기면 그 경로가 범인
+function memline(){
+  const m=process.memoryUsage();
+  const mb=(n)=>Math.round(n/1024/1024);
+  return `heap ${mb(m.heapUsed)}MB / rss ${mb(m.rss)}MB`;
+}
+
+//===== 한 번에 받을 수 있는 양의 상한 =====
+//넘으면 크래시를 각오하느니 깔끔하게 멈추고 알려주는게 낫다.
+//지금까지 넣은 것은 그대로 두므로 사용자가 나눠서 다시 넣을 수 있다.
+//로그로 실제 한계가 드러나면 조정할 값이지 정답은 아니다
+const MAXITEMS=50000;
+const MAXFOLDERS=10000;
+
+//폴더 하나를 열어 {path,isdir} 목록으로 돌려준다.
+//
+//두가지가 핵심이다.
+//1) stat을 안 부른다 - withFileTypes가 타입을 같이 주므로 디스크를 더 안 건드린다
+//2) 필터에 걸릴 파일은 "이름만 보고" 여기서 끝낸다 - 경로문자열도 객체도 안 만든다.
+//   예전엔 전부 만들어 배열에 쌓아둔 다음에야 걸렀는데, txt만 켜놔도 이미지 수만개의
+//   경로와 객체를 먼저 쌓아두고 버리는 셈이라 그러다 앱이 꺼졌다
+async function readEntries(dir, ctx, depth){
+  const dirents=await fs.promises.readdir(dir,{withFileTypes:true});
+  const out=[];
+
+  //"폴더 안의 내용도 필터 적용"을 꺼두면 이 안쪽은 종류를 안 가리고 다 받는다
+  const usefilter = !(depth>0 && !ctx.filterinside);
+
+  for(const entry of dirents){
+    //바로가기/정션은 Dirent가 "링크"라고만 알려주고 그 대상이 폴더인지는 안 알려준다.
+    //예전 stat은 링크를 따라갔으므로 동작을 맞추려면 이때만 확인이 필요하다.
+    //링크는 드물어서 이 예외 때문에 느려지지 않는다
+    if(entry.isSymbolicLink()){
+      const full=path.join(dir,entry.name);
+      try{
+        const st=await fs.promises.stat(full);//따라가서 확인
+        //링크가 파일을 가리키면 그것도 필터 대상
+        if(!st.isDirectory() && usefilter && !passesName(entry.name, ctx.exts)) continue;
+        out.push({path:full, isdir:st.isDirectory()});
+      }catch{
+        //끊어진 링크는 건너뜀
+      }
+      continue;
+    }
+
+    if(entry.isDirectory()){
+      out.push({path:path.join(dir,entry.name), isdir:true});
+      continue;
+    }
+
+    //여기가 요점 - 통과 못하면 아무것도 만들지 않고 넘어간다
+    if(usefilter && !passesName(entry.name, ctx.exts)) continue;
+
+    out.push({path:path.join(dir,entry.name), isdir:false});
+  }
+  return out;
+}
+
+//사용자가 직접 고른 최상위 경로들. 여긴 Dirent가 없어서 stat이 필요하지만
+//드롭하거나 다이얼로그로 고른 개수라 얼마 안된다.
+//필터는 여기(depth 0)에도 걸린다 - 직접 고른 파일이라도 "받을 형식"은 지킨다
+async function toEntries(paths, exts){
+  const checked=await Promise.all(paths.map(async p=>{
+    try{
+      const st=await fs.promises.stat(p);
+      const isdir=st.isDirectory();
+      if(!isdir && !passesName(path.basename(p), exts)) return null;
+      return {path:p, isdir};
+    }catch(error){
+      //권한없음/링크깨짐 등은 그냥 건너뜀
+      console.log("경로확인실패, 건너뜀:",p,error.message);
+      return null;
+    }
+  }));
+  return checked.filter(Boolean);
+}
+
+async function insertPathsRecursive(entries, parentId, depth=0, ctx={}){
   //윈도우 정션/심볼릭링크로 경로가 순환할수있어서 안전장치
   if(depth>30){
     console.log("재귀깊이초과, 중단:",parentId);
@@ -143,27 +306,52 @@ async function insertPathsRecursive(paths, parentId, depth=0){
 
   const dirs=[];
   const files=[];
-  for(const p of paths){
-    try{
-      const stat=await fs.promises.stat(p);
-      if(stat.isDirectory()) dirs.push(p); else files.push(p);
-    }catch(error){
-      //권한없음/링크깨짐 등은 그냥 건너뜀
-      console.log("경로확인실패, 건너뜀:",p,error.message);
-    }
+  for(const item of entries){
+    if(!item) continue;
+    if(item.isdir) dirs.push(item.path); else files.push(item.path);
   }
 
-  //이 레벨의 파일들: 확장자필터는 파일에만 적용(폴더는 확장자가없어서 태우면 무조건 걸러짐)
+  //여기 오는 files는 이미 걸러진 것들이다(readEntries/toEntries가 이름단계에서 처리).
+  //예전엔 이 자리에서 Filefilter를 불렀는데, 그러려면 걸릴 파일까지 전부 배열에
+  //담아와야 했다 - 그게 대량 폴더에서 메모리를 쌓던 원인이라 판정을 앞으로 옮겼다
   if(files.length>0){
-    const filtered=Filefilter(files);
-    if(filtered.length>0){
-      addon.file.insertfiles(filtered, parentId);
-    }
+    addon.file.insertfiles(files, parentId);
+    ctx.progress&&ctx.progress.add(files.length);
+    if(ctx.stat) ctx.stat.files+=files.length;
   }
 
-  //하위폴더: DB에 폴더행 만들어서 id받고 그 밑으로 재귀
+  //한도 확인. 넘으면 여기서 접는다(이미 넣은건 그대로 둔다)
+  if(ctx.stat && ctx.stat.files+ctx.stat.folders>MAXITEMS){
+    if(!ctx.stat.stopped){
+      ctx.stat.stopped='toomany';
+      importlog(`중단(항목한도 ${MAXITEMS}) 파일 ${ctx.stat.files} 폴더 ${ctx.stat.folders} | ${memline()}`);
+    }
+    return;
+  }
+
+  //가져오기 필터에서 폴더를 껐으면 여기서 끝. 폴더도, 그 안의 내용도 안 들어온다.
+  //이 레벨의 파일들은 위에서 이미 처리했으므로 "끌어다 놓은 것 중 파일만" 남는게 맞다
+  if(!ctx.keepfolders) return;
+
   for(const d of dirs){
+    //폴더 한도. 항목한도와 별개로 둔 이유는 폴더가 DB삽입 비용이 제일 크기 때문
+    if(ctx.stat && ctx.stat.folders>=MAXFOLDERS){
+      if(!ctx.stat.stopped){
+        ctx.stat.stopped='toomany';
+        importlog(`중단(폴더한도 ${MAXFOLDERS}) 파일 ${ctx.stat.files} 폴더 ${ctx.stat.folders} | ${memline()}`);
+      }
+      return;
+    }
+    if(ctx.stat && ctx.stat.stopped) return;//다른 가지에서 이미 멈췄으면 같이 끝낸다
+
     try{
+      //withFileTypes를 주면 파일/폴더 구분을 여기서 같이 받는다.
+      //디렉터리 열거는 원래 그 정보를 같이 돌려주므로 공짜다 - 예전엔 이름만 받고
+      //다음 재귀에서 항목마다 stat을 다시 걸었는데, 그 stat이 "필터에 걸려서 버릴
+      //파일"까지 전부 돌아서 txt만 켜놔도 이미지 수만개를 디스크로 확인하고 있었다
+      const children=await readEntries(d, ctx, depth+1);
+
+      //하위폴더: DB에 폴더행 만들어서 id받고 그 밑으로 재귀
       const name=path.basename(d);
       const newId=await fileDB.createFile({
         parentid:parentId,
@@ -179,8 +367,19 @@ async function insertPathsRecursive(paths, parentId, depth=0){
         console.log("폴더id를 못받아서 하위 건너뜀:",d);
         continue;
       }
-      const children=(await fs.promises.readdir(d)).map(n=>path.join(d,n));
-      await insertPathsRecursive(children, newId, depth+1);
+
+      ctx.progress&&ctx.progress.add(1);
+
+      //200개마다 한줄. 죽어도 여기까지는 갔다는 증거가 남는다.
+      //현재 경로를 같이 적어야 "특정 폴더에서 죽는다"를 알 수 있다
+      if(ctx.stat){
+        ctx.stat.folders++;
+        if(ctx.stat.folders%200===0){
+          importlog(`폴더 ${ctx.stat.folders} / 파일 ${ctx.stat.files} | ${memline()} | 현재: ${d}`);
+        }
+      }
+
+      await insertPathsRecursive(children, newId, depth+1, ctx);
     }catch(error){
       console.log("폴더처리실패, 건너뜀:",d,error.message);
     }
@@ -206,11 +405,27 @@ ipcMain.handle('insertfile', async (event,{filepathfromdrop,currentfolderid}) =>
     }
      filePaths=result.filePaths;
   }
-  //폴더가 섞여있으면 안쪽까지 구조그대로 재귀삽입. 필터는 재귀함수안에서 파일에만 적용됨
-    console.log("재귀삽입시작",filePaths)
-    console.log("타입체크",typeof currentfolderid,currentfolderid);
-    await insertPathsRecursive(filePaths, currentfolderid);
-    console.log("재귀삽입완료")
+  //폴더가 섞여있으면 안쪽까지 구조그대로 재귀삽입. 필터는 재귀함수안에서 파일에만 적용됨.
+  //설정은 여기서 한번만 읽어 재귀 내내 물려준다(안에서 매번 읽으면 디스크를 그만큼 왕복)
+    console.log("재귀삽입시작",filePaths.length,"개 경로");
+    const progress=makeProgress(event);
+    const stat={files:0, folders:0, stopped:null};
+    //확장자 판정 기준은 여기서 딱 한번 만든다. 예전엔 파일묶음마다 설정파일을 다시
+  //읽고 Set을 새로 만들어서, 폴더가 2000개면 그걸 2000번 반복했다
+  const ctx={progress, keepfolders:keepFolders(), filterinside:filterInside(),
+             exts:buildFilterSet(), stat};
+    importlog(`=== 시작(드롭/파일선택) 최상위 ${filePaths.length}개 | ${memline()}`);
+    try{
+      //먼저 화면을 잠근다. 이게 없으면 첫 삽입이 끝날때까지 아무 반응도 없어서 먹통으로 보인다
+      progress.start();
+      //최상위만 stat으로 종류를 확인해 넘긴다(그 아래는 readdir이 알려줌)
+      await insertPathsRecursive(await toEntries(filePaths, ctx.exts), currentfolderid, 0, ctx);
+    }finally{
+      //중간에 터져도 화면의 진행표시는 반드시 걷어야 한다. 안그러면 영영 "가져오는 중"으로 남음
+      const total=progress.done(stat.stopped);
+      importlog(`=== 끝 파일 ${stat.files} 폴더 ${stat.folders} ${stat.stopped?'(중단:'+stat.stopped+')':''} | ${memline()}`);
+      console.log("재귀삽입완료:",total,"개");
+    }
  return "success";
 });
 //삭제핸들러
@@ -225,10 +440,22 @@ ipcMain.handle('insertfolder', async (event,{currentfolderid}={}) => {
     return { success: false, message: '취소됨' };
   }
 
-  console.log("폴더 재귀삽입시작",result.filePaths);
-  console.log("타입체크",typeof currentfolderid,currentfolderid);
-  await insertPathsRecursive(result.filePaths, currentfolderid);
-  console.log("폴더 재귀삽입완료");
+  console.log("폴더 재귀삽입시작",result.filePaths.length,"개 폴더");
+  const progress=makeProgress(event);
+  const stat={files:0, folders:0, stopped:null};
+  //확장자 판정 기준은 여기서 딱 한번 만든다. 예전엔 파일묶음마다 설정파일을 다시
+  //읽고 Set을 새로 만들어서, 폴더가 2000개면 그걸 2000번 반복했다
+  const ctx={progress, keepfolders:keepFolders(), filterinside:filterInside(),
+             exts:buildFilterSet(), stat};
+  importlog(`=== 시작(폴더선택) 최상위 ${result.filePaths.length}개 | ${memline()}`);
+  try{
+    progress.start();
+    await insertPathsRecursive(await toEntries(result.filePaths, ctx.exts), currentfolderid, 0, ctx);
+  }finally{
+    const total=progress.done(stat.stopped);
+    importlog(`=== 끝 파일 ${stat.files} 폴더 ${stat.folders} ${stat.stopped?'(중단:'+stat.stopped+')':''} | ${memline()}`);
+    console.log("폴더 재귀삽입완료:",total,"개");
+  }
   return "success";
 });
 //파일탐색기.

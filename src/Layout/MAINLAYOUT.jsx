@@ -7,6 +7,7 @@ import { useFolderHistory } from "./TOOL/useFolderHistory";
 import { LanguageProvider } from "../Tools/LanguageProvider";
 import Lockscreen from "./TOOL/Lockscreen";
 import { ConfirmProvider } from "./TOOL/Confirmdialog";
+import Progressoverlay from "./TOOL/Progressoverlay";
 
 
 const Wrapper=styled.div`
@@ -143,6 +144,10 @@ const themes={
              activemain={activemain} setactivemain={setactivemain}
              groupfolders={groupfolders}
             />
+
+            {/* 가져오기 진행 알림. 화면 구석에 뜨는거라 레이아웃에 영향을 안주고,
+                잠금화면 중에는 가져오기 자체가 불가능하니 Wrapper 안에 둔다 */}
+            <Progressoverlay/>
         </Wrapper>
         }
         </ConfirmProvider>

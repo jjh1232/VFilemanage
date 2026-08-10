@@ -1,3 +1,6 @@
+//반드시 맨 위. 이걸 불러오는 순간 app.setName이 끝나서, 아래 getPath('userData')가
+//설정(config.json)과 같은 폴더를 가리키는게 보장된다
+import '../appname.js';
 import { app } from 'electron';
 import fs from 'fs';
 import path from 'path';
@@ -10,10 +13,9 @@ import path from 'path';
 //2) 업데이트 설치때 앱 폴더가 통째로 교체돼서 사용자 라이브러리가 날아감
 //3) PC를 여러명이 쓰면 계정별로 분리돼야함
 
-//나중에 productName을 바꿔도 userData 폴더가 따라 움직이지 않게 이름을 고정.
-//폴더가 바뀌면 기존 사용자의 DB를 못찾게 됨
-app.setName('react-parcel');
-
+//앱이름 고정(=userData 폴더 고정)은 appname.js가 맡는다. 위에서 이미 import했음.
+//여기서 직접 setName을 하면, 이 파일보다 electron-store가 먼저 로드됐을때
+//설정과 DB가 다른 폴더로 갈라진다
 const dir = app.getPath('userData');
 fs.mkdirSync(dir, { recursive: true });
 

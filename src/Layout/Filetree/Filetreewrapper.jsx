@@ -20,7 +20,9 @@ const Wrapper=styled.div`
           height: 100%;
           overflow-y: auto;
           overflow-x: hidden;
-          padding: 2px;
+          /* 아래쪽만 넉넉히. 항목이 꽉 차도 맨 끝에 여유가 남아서
+             마지막 항목이 창 밑단에 붙어있는 답답함이 없어진다 */
+          padding: 2px 2px 40px 2px;
         `}
 `
 

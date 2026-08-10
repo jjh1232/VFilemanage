@@ -60,7 +60,6 @@ Napi::String FileModule::Test(const Napi::CallbackInfo& info) {
         //25같은걸로나오면 29까지돌면오류남
     for(uint32_t i=chunkStart;i<chunkend;i++){
         { //이중괄호가 컴파일러가 filepath를 다쓰고 자동으로 비워줌 안하면메모리폭팔
-         printf(" fileformoon start\n");
          //utf8로오나봄 변환필요
          try{
         std::string filePath=filepath.Get(i).As<Napi::String>().Utf8Value();
@@ -106,18 +105,13 @@ Napi::String FileModule::Test(const Napi::CallbackInfo& info) {
             fileinfo.isori=0;
 
         fileinfos.push_back(fileinfo);
-           
-          printf("=== FileInfo Debug ===\n");
-        printf("parentid: %d\n", fileinfo.parentid);
-       printf("real_path: %s\n", fileinfo.realpath.c_str());  // std::string이면 .c_str()
-        printf("filename: %s\n", fileinfo.filename.c_str());
-        printf("type: %s\n", fileinfo.type.c_str());
-        printf("size: %f\n", fileinfo.size);  // size_t면 %zu 또는 %lld
-        printf("====================\n\n");
-            
-          printf(" fileformoon end\n");
+
+        //여기 있던 건별 디버그출력(파일 하나당 8줄)은 지웠다.
+        //수천개를 넣으면 로그가 수만줄이 되고, concurrently가 stdout을 파이프로 잡고있어
+        //버퍼가 차면 그것만으로도 삽입이 느려진다
         }catch(...){
-            printf("에러남");
+            //경로변환/파일접근 실패는 그 파일만 건너뛰면 된다
+            printf(" 파일 건너뜀(변환/접근 실패)\n");
             continue;
         }
     } //메모리비우는 자동중괄호끝

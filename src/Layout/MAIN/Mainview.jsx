@@ -48,6 +48,10 @@ const Wrapper=styled.div`
     `}
     ${({ $viewmode }) => $viewmode === 'detail' && `
         flex-direction: column;
+        /* 목록 끝에만 여백. 마지막 행이 창 밑단에 딱 붙어있으면 답답하고,
+           끌어다 놓을 빈 자리도 없어진다(윈도우 탐색기도 끝에 여유가 있음).
+           좌우와 위는 0 그대로 - 표가 가장자리에 붙어야 sticky 머리글이 안뜬다 */
+        padding-bottom: 40px;
     `}
 `
 const Tableth=styled.th`

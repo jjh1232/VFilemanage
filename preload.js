@@ -17,6 +17,19 @@ contextBridge.exposeInMainWorld("nodeapi",{
   //가상 폴더구조를 실제 디스크에 펴기. preview는 개수만 세고 아무것도 안바꿈
   exportPreview:(payload)=>ipcRenderer.invoke('export-preview',payload),
   exportFolder:(payload)=>ipcRenderer.invoke('export-folder',payload),
+  //가져오기 진행상황. 지금까지 처리한 개수가 100ms마다 올라오고, 끝나면 onInsertDone이 온다.
+  //반환값은 "구독 해제 함수" - useEffect에서 그대로 return하면 정리까지 끝난다.
+  //이걸 안 걷으면 컴포넌트가 다시 그려질때마다 리스너가 쌓여서 같은 알림을 여러번 받는다
+  onInsertProgress:(callback)=>{
+    const listener=(event,data)=>callback(data);
+    ipcRenderer.on('insert-progress',listener);
+    return ()=>ipcRenderer.removeListener('insert-progress',listener);
+  },
+  onInsertDone:(callback)=>{
+    const listener=(event,data)=>callback(data);
+    ipcRenderer.on('insert-done',listener);
+    return ()=>ipcRenderer.removeListener('insert-done',listener);
+  },
   //드래그드랍으로 들어온 File객체의 실제 디스크경로 얻기.
   //Electron33에서 File.path가 제거돼서 이 방법밖에없음. File객체는 한개씩 넘겨야함
   getPathForFile:(file)=>webUtils.getPathForFile(file),
