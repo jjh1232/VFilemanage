@@ -48,14 +48,12 @@ export default function InputDropdown({currentfolderid,closeInputMenu}){
             e.stopPropagation();
             closeInputMenu&&closeInputMenu();
             //e.dataTransfer.files 이건드래그드랍데이터
-            console.log("파일체인지타입체크",typeof currentfolderid,currentfolderid);
             //드래그용 객체자리는널
            const result=await window.nodeapi.insertfile({currentfolderid:currentfolderid});
 
             if(result=="success"){
                 await queryClient.invalidateQueries({queryKey:['filedata']})
             }
-            console.log("결과",result)
         }
 
     //폴더 통째로 추가. 안쪽 구조까지 그대로 들어감(드래그드롭때와 같은 재귀삽입을 탐)
@@ -68,7 +66,6 @@ export default function InputDropdown({currentfolderid,closeInputMenu}){
             if(result=="success"){
                 await queryClient.invalidateQueries({queryKey:['filedata']});
             }
-            console.log("폴더추가결과",result)
         }
 
     //현재 폴더 안에 빈 폴더 만들기(우클릭 메뉴의 "새로만들기"와 같은 동작)

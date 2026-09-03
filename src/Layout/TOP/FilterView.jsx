@@ -204,12 +204,8 @@ export const FilterView=({setisopen})=>{
     useEffect(()=>{
         (async ()=>{
             try{
-                const dumy=await window.nodeapi.store.get("view")
-                console.log("view:",dumy);
                  const savedfilter=await window.nodeapi.store.get("filters")
-                 console.log("save:",savedfilter)
                  setTempfilters(savedfilter);
-                 console.log("temp:",tempFilters)
             }catch(err){
                 window.nodeapi.logerror("필터 초기화실패")
             }
@@ -296,7 +292,6 @@ export const FilterView=({setisopen})=>{
                      checked={category.enabled}
                      onChange={(e)=>{
                         e.stopPropagation();
-                        console.log("키값:",key)
                         setTempfilters((prev)=>({...prev
                         ,categories:{
                             ...prev.categories,

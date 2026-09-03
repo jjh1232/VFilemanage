@@ -142,10 +142,8 @@ export default function Mainview(props){
 
   // 1. handlemain을 useCallback으로 감싸서 함수를 고정합니다.
   const handlemain = useCallback(({ added, removed }) => {
-    console.log("드래그로직메인")
     setselectitems((prev) => {
       const next = new Set(prev);
-      console.log("셋아이템저장로직")
       added.forEach((el) => {
         const idx = Number(el.getAttribute("data-index"));
         const selectsitem = filesRef.current && filesRef.current[idx];

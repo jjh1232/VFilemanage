@@ -29,11 +29,9 @@ async function pump(queryClient) {
 
     running++;
     try {
-        console.log("[썸네일] 생성시작", job.kind, job.realpath);
         const dataurl = await generateThumbnail(job.realpath, job.kind);
         if (dataurl) {
             await window.nodeapi.db.saveThumbnail({ fileid: job.id, thumbnail: dataurl });
-            console.log("[썸네일] 저장완료 id:", job.id);
             scheduleRefresh(queryClient);
         } else {
             window.nodeapi.logerror(`[썸네일] 결과가 비어있음: ${job.realpath}`);
@@ -67,7 +65,6 @@ export function useThumbnailQueue(files) {
             queue.push({ id: file.id, realpath: file.realpath, kind });
             added++;
         }
-        if (added > 0) console.log(`[썸네일] ${added}개 대기열 추가`);
 
         //비어있는 자리만큼 시작
         for (let i = running; i < MAXRUNNING; i++) pump(queryClient);

@@ -64,20 +64,17 @@ export default function Filetreewrapper({parentid=0,level=0,menuopen,activemain,
         const onFileContextMenu = useCallback((e, file) => {
              e.preventDefault();
             e.stopPropagation();
-            console.log("우클릭로직시작")
             let currentfolderid=parentid;
             let currentIds = selectitems;
             let type = file.type;
 
             if (!selectitems.has(file.id)) {
               // 선택되지 않은 파일을 우클릭했을 때
-              console.log("클릭되지않은영역ㄴ")
               const newSelect = new Set([file.id]);
               setSelectitems(newSelect);
               currentIds = newSelect;
             } else if (selectitems.size > 1) {
               // 이미 여러 개 선택된 상태에서 우클릭했을 때
-              console.log("이미여러개선택됨")
               type = "manyfiles";
             }
 

@@ -33,7 +33,6 @@ export function useAppSetting(){
                     const tree=await window.nodeapi.store.get("tree");
                     const user=await window.nodeapi.store.get("user");
                 
-                    console.log("셋세팅가져오기성공:",view)
                     SetViewmenu([
           { id: "filename", label: "checkview1", visiable:view.isdetail.isfilename},
       { id: "date", label: "checkview2", visiable: view.isdetail.isdate },
@@ -59,15 +58,10 @@ export function useAppSetting(){
     //핸들러==========================================
     //뷰메뉴핸들러
         const viewmenuhandler=(id)=>{
-        console.log("뷰핸들러실행id:",id);
         SetViewmenu(prev =>{
-            const befores=prev.find(col=>col.id===id);
-            console.log("이전:",befores)
             const newviewmenu=prev.map(col=>
                 {if(col.id===id){
                     const newcol={...col,visiable:!col.visiable};
-                    console.log("new:",newcol);
-                    console.log("newcol.id:",newcol.id,"타입:",typeof newcol.id);
                     return newcol;
                 }
                     return col;
@@ -75,8 +69,6 @@ export function useAppSetting(){
             //변경저장
             const target=newviewmenu.find(c=>c.id===id);
             const key=`is${id}` 
-            console.log("key값:",key);
-            console.log("target:",target.visiable)
             window.nodeapi.store.set(`view.isdetail.${key}`,target.visiable);
             return newviewmenu;
         })
@@ -84,7 +76,6 @@ export function useAppSetting(){
 
          //크게보기등핸들러
     const viewmodehandler=(data)=>{
-        console.log("뷰모드:",data)
         setViewmode(data);
         window.nodeapi.store.set(`view.viewoption`,data);
     }

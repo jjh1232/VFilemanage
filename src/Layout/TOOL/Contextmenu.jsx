@@ -298,7 +298,6 @@ export default function Contextmenu(){
     const createfolder=async(parentid)=>{
         try{
             const newfileid=await createEmptyFolder(parentid);
-            console.log("생성")
             await queryClient.invalidateQueries({queryKey:['filedata']});
             return newfileid;
         }catch(error){
@@ -318,8 +317,6 @@ export default function Contextmenu(){
     },[isopen])
     //오픈
     const open=useCallback((e,type,{folderid,selectid=[],source='main'})=>{
-        console.log("현재폴더:",folderid);
-         console.log("메뉴실행:",selectid);
             //현재아이디만가져오봄
         setIsopen(true);
         setPosition({x:e.clientX,y:e.clientY});

@@ -51,7 +51,6 @@ const SelectableGroup = ({ children, selectables, onSelectionChange ,onReset, se
   //onStart/onEnd가 렌더마다 새로 생기면 viselect내부에서 매번 재바인딩하면서
   //select→state변경→리렌더→재바인딩→또select 로 무한루프가 생겨서 useCallback으로 참조고정
   const onEnd=useCallback(({store})=>{
-    console.log("onend실행")
     onSelectionChange({
       added:store.selected,
       removed:[]
