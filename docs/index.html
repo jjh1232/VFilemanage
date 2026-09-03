@@ -1,0 +1,641 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>VFilemanage — 묻혀 있던 파일을 바로 여는 파일 관리자</title>
+<meta name="description" content="깊은 폴더에 묻힌 파일을 한곳에 모아 두고 더블클릭으로 바로 여는 Windows 파일 관리자. 원본은 옮기지 않습니다. 설치 버전과 무설치 버전을 받을 수 있습니다.">
+<meta property="og:title" content="VFilemanage — 묻혀 있던 파일을 바로 여는 파일 관리자">
+<meta property="og:description" content="깊은 폴더에 묻힌 파일을 한곳에 모아 두고 더블클릭으로 바로 엽니다. 원본은 옮기지 않습니다.">
+<meta property="og:image" content="icon.png">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#3D2FA8">
+<link rel="icon" href="icon.png">
+<style>
+:root{
+  --paper:#EEEEE8;
+  --panel:#FFFFFF;
+  --ink:#171A1D;
+  --ink-2:#5E6572;
+  --ink-3:#8A9099;
+  --rule:#D9D9D1;
+  --rule-2:#E8E8E1;
+  --accent:#3D2FA8;
+  --accent-soft:#EDEBFA;
+  --amber:#D99B2B;
+  --font-ui:"Pretendard Variable",Pretendard,-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Segoe UI","Malgun Gothic","Noto Sans KR",sans-serif;
+  --font-mono:ui-monospace,"SF Mono","Cascadia Mono",Consolas,"D2Coding","Nanum Gothic Coding",monospace;
+}
+
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0;
+  background:var(--paper);
+  color:var(--ink);
+  font-family:var(--font-ui);
+  font-size:1rem;
+  line-height:1.65;
+  -webkit-font-smoothing:antialiased;
+}
+img{max-width:100%;display:block}
+a{color:var(--accent);text-decoration:none}
+a:hover{text-decoration:underline}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:2px}
+
+.wrap{width:min(1060px,100% - 44px);margin-inline:auto}
+.band{padding:84px 0}
+.band--panel{background:var(--panel);border-block:1px solid var(--rule-2)}
+
+h1,h2,h3{margin:0;text-wrap:balance}
+h1{font-size:clamp(2rem,5vw,3.1rem);font-weight:800;letter-spacing:-.022em;line-height:1.15}
+h2{font-size:1.75rem;font-weight:700;letter-spacing:-.022em;line-height:1.15}
+h3{font-size:1.0625rem;font-weight:700;letter-spacing:-.01em}
+p{margin:0}
+.lead{font-size:1.0625rem;color:var(--ink-2);max-width:60ch}
+/* 리드 안의 경로 예시. 문제 상황을 눈으로 보여주는 자리라 본문보다 진하게 */
+.path-eg{
+  font-family:var(--font-mono);font-size:.9em;color:var(--ink);
+  background:var(--rule-2);padding:1px 6px;border-radius:5px;
+  white-space:nowrap;
+}
+.sub{font-size:.9375rem;color:var(--ink-2)}
+.meta{font-size:.8125rem;color:var(--ink-3)}
+.mono{font-family:var(--font-mono);font-variant-numeric:tabular-nums}
+.section-head{margin-bottom:34px}
+.section-head p{margin-top:12px}
+
+/* 상단 바 */
+.topbar{
+  position:sticky;top:0;z-index:20;height:56px;
+  background:rgba(238,238,232,.88);
+  backdrop-filter:saturate(180%) blur(12px);
+  border-bottom:1px solid var(--rule);
+}
+.topbar .wrap{height:100%;display:flex;align-items:center;gap:26px}
+.brand{display:flex;align-items:center;gap:9px;font-weight:700;letter-spacing:-.015em;color:var(--ink)}
+.brand:hover{text-decoration:none}
+.brand img{width:22px;height:22px;border-radius:5px}
+.topnav{display:flex;gap:22px;margin-left:6px}
+.topnav a{color:var(--ink-2);font-size:.9375rem}
+.topnav a:hover{color:var(--ink);text-decoration:none}
+.badge{
+  margin-left:auto;font-family:var(--font-mono);font-size:.75rem;
+  color:var(--accent);background:var(--accent-soft);
+  padding:3px 10px;border-radius:999px;
+}
+
+/* 히어로 */
+.hero{padding:76px 0 84px}
+.hero-grid{display:grid;grid-template-columns:minmax(0,.92fr) minmax(0,1.2fr);gap:48px;align-items:center}
+.hero h1{margin-bottom:20px}
+.hero .lead{margin-bottom:30px}
+.cta{display:flex;flex-wrap:wrap;gap:11px;margin-bottom:14px}
+.btn{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:12px 19px;border-radius:8px;
+  font-size:.9375rem;font-weight:600;letter-spacing:-.01em;
+  border:1px solid transparent;cursor:pointer;
+  transition:background-color .15s,border-color .15s,color .15s;
+}
+.btn:hover{text-decoration:none}
+.btn--primary{background:var(--accent);color:#fff}
+.btn--primary:hover{background:#33268f}
+.btn--ghost{background:transparent;color:var(--ink);border-color:var(--rule)}
+.btn--ghost:hover{border-color:var(--ink-3);background:var(--panel)}
+.btn .size{font-family:var(--font-mono);font-weight:400;opacity:.75;font-size:.8125rem}
+
+/* 앱 창 재현 */
+.appwin{
+  background:var(--panel);border:1px solid var(--rule);border-radius:12px;
+  overflow:hidden;box-shadow:0 18px 44px -26px rgba(23,26,29,.32);
+  font-size:.78125rem;
+}
+.appwin__chrome{display:flex;align-items:center;gap:14px;padding:0 13px;height:38px;border-bottom:1px solid var(--rule-2)}
+.dots{display:flex;gap:6px}
+.dots i{width:10px;height:10px;border-radius:50%;background:var(--rule);display:block}
+.wintitle{font-weight:600;color:var(--ink-2);font-size:.75rem;letter-spacing:-.01em}
+.winsearch{
+  margin-left:auto;font-size:.6875rem;color:var(--ink-3);
+  border:1px solid var(--rule-2);border-radius:6px;padding:3px 12px;white-space:nowrap;
+}
+.appwin__path{
+  display:flex;align-items:center;gap:5px;flex-wrap:wrap;
+  padding:9px 14px;border-bottom:1px solid var(--rule-2);
+  font-family:var(--font-mono);font-size:.75rem;color:var(--ink-3);
+}
+.appwin__path b{color:var(--ink);font-weight:600}
+.appwin__body{display:grid;grid-template-columns:132px minmax(0,1fr);min-height:296px}
+.appwin__side{border-right:1px solid var(--rule-2);padding:11px 9px;display:flex;flex-direction:column;gap:1px}
+.side-label{font-size:.6875rem;color:var(--ink-3);padding:5px 9px 3px}
+.side-item{
+  display:flex;align-items:center;gap:8px;padding:5px 9px;border-radius:6px;color:var(--ink-2);
+  white-space:nowrap;overflow:hidden;
+}
+.side-item--on{background:var(--accent-soft);color:var(--accent);font-weight:600}
+.glyph{width:13px;height:13px;flex:none}
+.filelist{display:flex;flex-direction:column}
+.frow{
+  display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);
+  gap:12px;align-items:center;
+  padding:7px 13px;border-bottom:1px solid var(--rule-2);
+}
+.frow--head{color:var(--ink-3);font-size:.6875rem;border-bottom:1px solid var(--rule);padding-block:6px}
+.frow__name{display:flex;align-items:center;gap:8px;min-width:0}
+.frow__name span{font-family:var(--font-mono);font-size:.6875rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+/* 원본 위치. 행마다 드라이브가 다른 게 이 그림의 요점이라 잘리더라도 앞쪽을 보여준다 */
+.frow__path{
+  font-family:var(--font-mono);color:var(--ink-3);font-size:.6875rem;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+}
+/* 헤더 행은 같은 열을 쓰되 라벨이므로 본문 글꼴을 따르지 않는다 */
+.frow--head .frow__path{font-family:var(--font-ui)}
+.frow--on .frow__name span{color:var(--accent);font-weight:600}
+.frow--on .frow__size{color:var(--accent)}
+
+/* 다운로드 */
+.dl{border-top:1px solid var(--rule)}
+.dl__row{
+  display:grid;grid-template-columns:38px minmax(0,1fr) auto;
+  gap:22px;align-items:start;
+  padding:30px 0;border-bottom:1px solid var(--rule);
+}
+.dl__icon{margin-top:2px}
+.dl__title{display:flex;align-items:center;gap:9px;margin-bottom:9px}
+.pill{
+  font-size:.6875rem;font-weight:600;color:var(--accent);
+  background:var(--accent-soft);padding:2px 9px;border-radius:999px;
+}
+.dl__desc{color:var(--ink-2);font-size:.9375rem;max-width:60ch;margin-bottom:11px}
+.dl__meta{font-family:var(--font-mono);font-size:.8125rem;color:var(--ink-3);display:flex;flex-wrap:wrap;gap:9px}
+.dl__meta i{font-style:normal;color:var(--rule)}
+.dl__act{align-self:center}
+
+/* 비교표 */
+.tablewrap{overflow-x:auto;border:1px solid var(--rule);border-radius:10px;background:var(--paper)}
+table{border-collapse:collapse;width:100%;min-width:600px;font-size:.9375rem}
+th,td{text-align:left;padding:13px 18px;border-bottom:1px solid var(--rule-2)}
+thead th{
+  font-size:.8125rem;font-weight:600;color:var(--ink-2);
+  background:var(--panel);border-bottom:1px solid var(--rule);white-space:nowrap;
+}
+tbody tr:last-child td{border-bottom:0}
+td:first-child{color:var(--ink-2);white-space:nowrap}
+.win{color:var(--ink)}
+.lose{color:var(--ink-2)}
+td .mono{font-size:.8125rem}
+
+/* 설치 방법 */
+.howto{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:44px;margin-bottom:38px}
+.howto h3{margin-bottom:16px}
+ol.steps{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:13px;counter-reset:s}
+ol.steps li{
+  counter-increment:s;position:relative;padding-left:34px;
+  color:var(--ink-2);font-size:.9375rem;line-height:1.6;
+}
+ol.steps li::before{
+  content:counter(s);position:absolute;left:0;top:1px;
+  width:21px;height:21px;border-radius:50%;
+  background:var(--ink);color:var(--paper);
+  font-family:var(--font-mono);font-size:.6875rem;font-weight:600;
+  display:flex;align-items:center;justify-content:center;
+}
+ol.steps b{color:var(--ink);font-weight:600}
+ol.steps code{font-family:var(--font-mono);font-size:.84em;color:var(--ink)}
+
+.note{
+  background:#FBF7EC;border-left:3px solid var(--amber);
+  border-radius:0 10px 10px 0;padding:22px 26px;margin-bottom:38px;
+}
+.note h3{margin-bottom:10px}
+.note p{color:var(--ink-2);font-size:.9375rem;max-width:72ch}
+.note p+p{margin-top:11px}
+.note b{color:var(--ink)}
+
+.checksum h3{margin-bottom:14px}
+.codeblock{
+  background:var(--ink);border-radius:10px;padding:15px 17px;
+  display:flex;align-items:center;gap:16px;
+}
+.codeblock code{
+  font-family:var(--font-mono);font-size:.8125rem;color:#E8E8E1;
+  overflow-x:auto;white-space:nowrap;flex:1;
+}
+.copybtn{
+  flex:none;background:transparent;border:1px solid #3A3F45;color:#C9CDD3;
+  font-family:var(--font-ui);font-size:.78125rem;padding:6px 13px;border-radius:8px;
+  cursor:pointer;transition:border-color .15s,color .15s;
+}
+.copybtn:hover{border-color:#5E6572;color:#fff}
+.hashes{margin-top:16px;display:flex;flex-direction:column;gap:11px}
+.hashrow{display:flex;flex-direction:column;gap:3px}
+.hashrow .fn{font-family:var(--font-mono);font-size:.8125rem;color:var(--ink)}
+.hashrow .hv{font-family:var(--font-mono);font-size:.75rem;color:var(--ink-3);word-break:break-all}
+
+/* 시스템 요구사항 */
+.specs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:26px}
+.spec .k{font-size:.8125rem;color:var(--ink-3);margin-bottom:5px}
+.spec .v{font-size:1.0625rem;font-weight:700;letter-spacing:-.01em}
+
+/* FAQ */
+.faq{border-top:1px solid var(--rule);max-width:74ch}
+details{border-bottom:1px solid var(--rule)}
+summary{
+  list-style:none;cursor:pointer;padding:19px 34px 19px 0;position:relative;
+  font-weight:600;font-size:1rem;letter-spacing:-.01em;
+}
+summary::-webkit-details-marker{display:none}
+summary::after{
+  content:"";position:absolute;right:6px;top:50%;
+  width:8px;height:8px;margin-top:-6px;
+  border-right:1.5px solid var(--ink-3);border-bottom:1.5px solid var(--ink-3);
+  transform:rotate(45deg);transition:transform .15s;
+}
+details[open] summary::after{transform:rotate(-135deg);margin-top:-2px}
+details p{padding:0 0 19px;color:var(--ink-2);font-size:.9375rem;max-width:68ch}
+details p+p{margin-top:-8px}
+details code{font-family:var(--font-mono);font-size:.84em;color:var(--ink)}
+
+/* 변경 사항 */
+.changes{display:grid;grid-template-columns:200px minmax(0,1fr);gap:44px}
+.changes__ver{font-size:1.75rem;font-weight:800;letter-spacing:-.022em;line-height:1.1}
+.changes__date{font-family:var(--font-mono);font-size:.8125rem;color:var(--ink-3);margin-top:5px}
+.changes__tag{margin-top:11px}
+.changes ul{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:12px}
+.changes li{position:relative;padding-left:19px;color:var(--ink-2);font-size:.9375rem;max-width:64ch}
+.changes li::before{
+  content:"";position:absolute;left:0;top:.62em;
+  width:5px;height:5px;border-radius:50%;background:var(--rule);
+}
+
+/* 푸터 */
+footer{border-top:1px solid var(--rule);padding:34px 0 46px}
+footer .wrap{display:flex;justify-content:space-between;gap:22px;flex-wrap:wrap}
+footer .left{font-size:.875rem;color:var(--ink-3)}
+footer .right{display:flex;gap:22px;font-size:.875rem}
+footer .right a{color:var(--ink-2)}
+
+/* 히어로 파일 목록 등장 - 디렉터리를 읽어들이는 장면 */
+.filelist .frow{opacity:0;animation:rowin .3s ease-out forwards}
+.filelist .frow:nth-child(1){animation-delay:.05s}
+.filelist .frow:nth-child(2){animation-delay:.11s}
+.filelist .frow:nth-child(3){animation-delay:.17s}
+.filelist .frow:nth-child(4){animation-delay:.23s}
+.filelist .frow:nth-child(5){animation-delay:.29s}
+.filelist .frow:nth-child(6){animation-delay:.35s}
+.filelist .frow:nth-child(7){animation-delay:.41s}
+@keyframes rowin{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
+/* 마지막에 선택 배경이 들어온다 */
+.filelist .frow--on{animation:rowin .3s ease-out forwards,selin .28s ease-out .62s forwards}
+@keyframes selin{from{background:transparent}to{background:var(--accent-soft)}}
+
+@media (max-width:860px){
+  .band{padding:60px 0}
+  .hero{padding:52px 0 60px}
+  .hero-grid{grid-template-columns:minmax(0,1fr);gap:40px}
+  .topnav{display:none}
+  .appwin__body{grid-template-columns:minmax(0,1fr)}
+  .appwin__side{display:none}
+  /* 좁은 화면에선 경로를 옆이 아니라 파일명 아래로. 여기서 경로를 숨기면
+     "흩어진 걸 모았다"는 이 그림의 요점이 사라진다 */
+  .frow{grid-template-columns:minmax(0,1fr);gap:1px}
+  .frow__path{padding-left:21px}
+  .frow--head{display:none}
+  .dl__row{grid-template-columns:minmax(0,1fr);gap:15px}
+  .dl__icon{display:none}
+  .dl__act{align-self:start}
+  .howto{grid-template-columns:minmax(0,1fr);gap:36px}
+  .specs{grid-template-columns:repeat(2,minmax(0,1fr));gap:22px}
+  .changes{grid-template-columns:minmax(0,1fr);gap:22px}
+}
+
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.001ms !important;animation-delay:0s !important;transition-duration:.001ms !important}
+  .filelist .frow{opacity:1}
+  .filelist .frow--on{background:var(--accent-soft)}
+}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="wrap">
+    <a class="brand" href="#top"><img src="icon.png" alt="">VFilemanage</a>
+    <nav class="topnav">
+      <a href="#download">다운로드</a>
+      <a href="#compare">버전 비교</a>
+      <a href="#install">설치 방법</a>
+      <a href="#faq">자주 묻는 질문</a>
+    </nav>
+    <span class="badge">v1.0.0</span>
+  </div>
+</header>
+
+<main id="top">
+
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <h1>묻혀 있던 파일을<br>바로 엽니다</h1>
+      <p class="lead"><span class="path-eg">D:\사진\2024\여행\제주\둘째날</span> 처럼 깊이 넣어 둔 파일 하나를 열자고 매번 폴더를 파고들 필요가 없습니다. 자주 보는 것만 한곳에 모아 두고, 더블클릭하면 원본이 바로 실행됩니다.</p>
+      <div class="cta">
+        <a class="btn btn--primary" href="https://github.com/jjh1232/VFilemanage/releases/download/v1.0.0/VFilemanage-1.0.0-setup.exe">설치 버전 받기 <span class="size">96.2 MB</span></a>
+        <a class="btn btn--ghost" href="https://github.com/jjh1232/VFilemanage/releases/download/v1.0.0/VFilemanage-1.0.0-win.zip">무설치 ZIP 받기 <span class="size">134.6 MB</span></a>
+      </div>
+      <p class="meta">Windows 10 · 11 (64비트)</p>
+    </div>
+
+    <div class="appwin" role="img" aria-label="VFilemanage 화면. 여러 드라이브에 흩어져 있던 파일들이 한 목록에 모여 있고, 각 파일의 원본 위치가 함께 표시됩니다.">
+      <div class="appwin__chrome" aria-hidden="true">
+        <div class="dots"><i></i><i></i><i></i></div>
+        <span class="wintitle">VFilemanage</span>
+        <span class="winsearch">검색</span>
+      </div>
+      <div class="appwin__path" aria-hidden="true">
+        <span>라이브러리</span><span>›</span><b>자주 보는 것</b>
+      </div>
+      <div class="appwin__body" aria-hidden="true">
+        <aside class="appwin__side">
+          <div class="side-label">라이브러리</div>
+          <div class="side-item"><svg class="glyph" viewBox="0 0 16 16"><path d="M2 4.5A1.5 1.5 0 0 1 3.5 3h2.8l1.2 1.4h5A1.5 1.5 0 0 1 14 5.9v5.6a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 11.5v-7Z" fill="#D99B2B"/></svg>사진</div>
+          <div class="side-item"><svg class="glyph" viewBox="0 0 16 16"><path d="M2 4.5A1.5 1.5 0 0 1 3.5 3h2.8l1.2 1.4h5A1.5 1.5 0 0 1 14 5.9v5.6a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 11.5v-7Z" fill="#D99B2B"/></svg>영상</div>
+          <div class="side-item side-item--on"><svg class="glyph" viewBox="0 0 16 16"><path d="M2 4.5A1.5 1.5 0 0 1 3.5 3h2.8l1.2 1.4h5A1.5 1.5 0 0 1 14 5.9v5.6a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 11.5v-7Z" fill="#D99B2B"/></svg>자주 보는 것</div>
+          <div class="side-item"><svg class="glyph" viewBox="0 0 16 16"><path d="M2 4.5A1.5 1.5 0 0 1 3.5 3h2.8l1.2 1.4h5A1.5 1.5 0 0 1 14 5.9v5.6a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 11.5v-7Z" fill="#D99B2B"/></svg>자료</div>
+          <div class="side-item"><svg class="glyph" viewBox="0 0 16 16"><path d="M2 4.5A1.5 1.5 0 0 1 3.5 3h2.8l1.2 1.4h5A1.5 1.5 0 0 1 14 5.9v5.6a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 11.5v-7Z" fill="#D99B2B"/></svg>보관</div>
+        </aside>
+        <div class="filelist">
+          <div class="frow frow--head"><div>이름</div><div class="frow__path">원본 위치</div></div>
+          <div class="frow frow--on">
+            <div class="frow__name"><svg class="glyph" viewBox="0 0 16 16"><rect x="3" y="2" width="10" height="12" rx="1.5" fill="#3D2FA8"/></svg><span>secret_image.png</span></div>
+            <div class="frow__path">D:\Backup\old\2019\misc</div>
+          </div>
+          <div class="frow frow--on">
+            <div class="frow__name"><svg class="glyph" viewBox="0 0 16 16"><rect x="3" y="2" width="10" height="12" rx="1.5" fill="#3D2FA8"/></svg><span>jeju_day2.mp4</span></div>
+            <div class="frow__path">D:\Photos\2024\travel\jeju</div>
+          </div>
+          <div class="frow">
+            <div class="frow__name"><svg class="glyph" viewBox="0 0 16 16"><rect x="3" y="2" width="10" height="12" rx="1.5" fill="#8A9099"/></svg><span>contract_final.pdf</span></div>
+            <div class="frow__path">C:\Users\you\Documents\2023</div>
+          </div>
+          <div class="frow">
+            <div class="frow__name"><svg class="glyph" viewBox="0 0 16 16"><rect x="3" y="2" width="10" height="12" rx="1.5" fill="#8A9099"/></svg><span>reference_01.png</span></div>
+            <div class="frow__path">E:\Archive\work\ref</div>
+          </div>
+          <div class="frow">
+            <div class="frow__name"><svg class="glyph" viewBox="0 0 16 16"><rect x="3" y="2" width="10" height="12" rx="1.5" fill="#D9D9D1"/></svg><span>demo_clip.mp4</span></div>
+            <div class="frow__path">D:\Videos\project\raw</div>
+          </div>
+          <div class="frow">
+            <div class="frow__name"><svg class="glyph" viewBox="0 0 16 16"><rect x="3" y="2" width="10" height="12" rx="1.5" fill="#D9D9D1"/></svg><span>logo_source.psd</span></div>
+            <div class="frow__path">E:\Archive\design\2022</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="band band--panel" id="download">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>다운로드</h2>
+      <p class="lead">두 버전의 기능은 같습니다. 설치가 가능한 환경이면 위쪽을 받으세요.</p>
+    </div>
+
+    <div class="dl">
+      <div class="dl__row">
+        <div class="dl__icon">
+          <svg width="34" height="34" viewBox="0 0 34 34" aria-hidden="true">
+            <rect x="5" y="3" width="24" height="28" rx="3" fill="#EDEBFA"/>
+            <path d="M17 11v10m0 0 4-4m-4 4-4-4" stroke="#3D2FA8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+          </svg>
+        </div>
+        <div>
+          <div class="dl__title"><h3>설치 버전</h3><span class="pill">권장</span></div>
+          <p class="dl__desc">설치하면 시작 메뉴와 바탕 화면에 등록되어 다음부터 바로 실행됩니다. 관리자 권한 없이 현재 사용자 계정에만 설치되므로 회사 PC에서도 대부분 설치됩니다.</p>
+          <div class="dl__meta"><span>VFilemanage-1.0.0-setup.exe</span><i>·</i><span>96.2 MB</span><i>·</i><span>x64</span></div>
+        </div>
+        <div class="dl__act">
+          <a class="btn btn--primary" href="https://github.com/jjh1232/VFilemanage/releases/download/v1.0.0/VFilemanage-1.0.0-setup.exe">받기</a>
+        </div>
+      </div>
+
+      <div class="dl__row">
+        <div class="dl__icon">
+          <svg width="34" height="34" viewBox="0 0 34 34" aria-hidden="true">
+            <rect x="5" y="3" width="24" height="28" rx="3" fill="#E8E8E1"/>
+            <path d="M15 5h4v3h-4zM15 11h4v3h-4zM15 17h4v3h-4z" fill="#8A9099"/>
+          </svg>
+        </div>
+        <div>
+          <div class="dl__title"><h3>무설치 버전</h3></div>
+          <p class="dl__desc">압축을 푼 폴더에서 바로 실행됩니다. 레지스트리에 아무것도 남기지 않으므로 설치 권한이 없는 PC나 USB에서 쓰기 좋습니다. 지우고 싶으면 폴더만 삭제하면 됩니다.</p>
+          <div class="dl__meta"><span>VFilemanage-1.0.0-win.zip</span><i>·</i><span>134.6 MB</span><i>·</i><span>압축 해제 후 약 352 MB</span></div>
+        </div>
+        <div class="dl__act">
+          <a class="btn btn--ghost" href="https://github.com/jjh1232/VFilemanage/releases/download/v1.0.0/VFilemanage-1.0.0-win.zip">받기</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="band" id="compare">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>버전 비교</h2>
+      <p class="lead">기능 차이는 없습니다. 아래 항목 중 마음에 걸리는 게 있는 쪽을 피하시면 됩니다.</p>
+    </div>
+    <div class="tablewrap">
+      <table>
+        <thead>
+          <tr><th>항목</th><th>설치 버전 (.exe)</th><th>무설치 버전 (.zip)</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>설치 과정</td><td class="lose">설치 마법사 실행</td><td class="win">압축 해제만 하면 끝</td></tr>
+          <tr><td>관리자 권한</td><td class="win">필요 없음</td><td class="win">필요 없음</td></tr>
+          <tr><td>시작 메뉴 · 바로 가기</td><td class="win">자동 등록</td><td class="lose">직접 만들어야 함</td></tr>
+          <tr><td>업데이트</td><td class="lose">새 설치 파일을 받아 다시 설치</td><td class="lose">새 압축 파일을 받아 교체</td></tr>
+          <tr><td>라이브러리 저장 위치</td><td class="win"><span class="mono">%APPDATA%\VFilemanage</span></td><td class="win"><span class="mono">%APPDATA%\VFilemanage</span></td></tr>
+          <tr><td>USB 휴대</td><td class="lose">불가</td><td class="win">프로그램은 가능<br><span class="meta">단, 정리한 내용은 PC에 남습니다</span></td></tr>
+          <tr><td>삭제 방법</td><td class="lose">설정 › 앱에서 제거</td><td class="win">폴더 삭제</td></tr>
+          <tr><td>이런 분께</td><td class="win">내 PC에서 오래 쓸 분</td><td class="win">설치 흔적을 남기고 싶지 않은 분</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="sub" style="margin-top:18px;max-width:66ch">두 버전은 같은 라이브러리를 씁니다. 무설치로 써 보다가 설치 버전으로 옮겨도 정리해 둔 폴더가 그대로 이어집니다.</p>
+  </div>
+</section>
+
+<section class="band band--panel" id="install">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>설치 방법</h2>
+    </div>
+
+    <div class="howto">
+      <div>
+        <h3>설치 버전</h3>
+        <ol class="steps">
+          <li><code>VFilemanage-1.0.0-setup.exe</code>를 실행합니다.</li>
+          <li>파란 경고 창이 뜨면 <b>추가 정보</b>를 누르고 <b>실행</b>을 선택합니다. 아래 안내를 함께 읽어 주세요.</li>
+          <li>설치 폴더와 바로 가기 옵션을 고르고 <b>설치</b>를 누릅니다.</li>
+          <li>설치가 끝나면 시작 메뉴에서 VFilemanage를 실행합니다.</li>
+        </ol>
+      </div>
+      <div>
+        <h3>무설치 버전</h3>
+        <ol class="steps">
+          <li><code>VFilemanage-1.0.0-win.zip</code>을 받습니다.</li>
+          <li>ZIP 파일을 우클릭해 <b>속성</b>을 열고, 아래쪽 <b>차단 해제</b>에 체크한 뒤 확인을 누릅니다. 이 단계를 건너뛰면 실행이 막힐 수 있습니다.</li>
+          <li>원하는 폴더에 압축을 풉니다. 경로에 한글이나 공백이 없는 편이 안전합니다.</li>
+          <li>폴더 안의 <code>VFilemanage.exe</code>를 실행합니다.</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="note">
+      <h3>"Windows에서 PC를 보호했습니다" 창이 뜬다면</h3>
+      <p>코드 서명 인증서를 아직 적용하지 않아 SmartScreen이 처음 보는 프로그램으로 판단한 것입니다. 파일이 손상됐거나 악성이라는 뜻은 아닙니다. <b>추가 정보 › 실행</b>을 누르면 진행됩니다.</p>
+      <p>불안하다면 실행 전에 아래 방법으로 파일 지문(SHA-256)을 확인하세요. 값이 다르면 내려받다 손상됐거나 다른 파일이므로 실행하지 말고 다시 받으시면 됩니다.</p>
+    </div>
+
+    <div class="checksum">
+      <h3>내려받은 파일 확인하기</h3>
+      <p class="sub" style="margin-bottom:14px;max-width:66ch">PowerShell을 열고 파일이 있는 폴더에서 아래 명령을 실행하면 지문이 나옵니다.</p>
+      <div class="codeblock">
+        <code id="cmd">Get-FileHash .\VFilemanage-1.0.0-setup.exe -Algorithm SHA256 | Format-List</code>
+        <button class="copybtn" id="copy" type="button" data-target="cmd">복사</button>
+      </div>
+      <div class="hashes">
+        <div class="hashrow">
+          <span class="fn">VFilemanage-1.0.0-setup.exe</span>
+          <span class="hv">70DAC5D312BF1176B8825FC7A08AFB591926A487F90AFF6B6EE06165BB2F8108</span>
+        </div>
+        <div class="hashrow">
+          <span class="fn">VFilemanage-1.0.0-win.zip</span>
+          <span class="hv">1866C77F8D124DFD0237DBA421B18D8AD91F3C080493DB59577494FA884C3932</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="band">
+  <div class="wrap">
+    <div class="section-head"><h2>시스템 요구 사항</h2></div>
+    <div class="specs">
+      <div class="spec"><div class="k">운영체제</div><div class="v">Windows 10 (1809) 이상</div></div>
+      <div class="spec"><div class="k">아키텍처</div><div class="v">64비트 (x64)</div></div>
+      <div class="spec"><div class="k">메모리</div><div class="v">4 GB 이상</div></div>
+      <div class="spec"><div class="k">디스크 여유 공간</div><div class="v">350 MB</div></div>
+    </div>
+    <p class="meta" style="margin-top:26px">32비트 Windows와 ARM64 기기는 지원하지 않습니다. macOS · Linux 빌드는 아직 계획에 없습니다.</p>
+  </div>
+</section>
+
+<section class="band band--panel" id="faq">
+  <div class="wrap">
+    <div class="section-head"><h2>자주 묻는 질문</h2></div>
+    <div class="faq">
+      <details>
+        <summary>백신 프로그램이 위험하다고 표시합니다</summary>
+        <p>코드 서명이 되어 있지 않은 Electron 앱에서 흔히 나오는 오탐입니다. 위쪽 안내대로 SHA-256 값을 대조해 보시고, 값이 같다면 백신의 예외 목록에 추가해 주세요. 값이 다르면 내려받는 중에 파일이 손상된 것이므로 다시 받으시면 됩니다.</p>
+      </details>
+      <details>
+        <summary>원본 파일이 옮겨지거나 복사되나요?</summary>
+        <p>아니요. 이 프로그램은 파일이 어디 있는지를 기억할 뿐이고, 원본은 있던 자리에 그대로 둡니다. 앱 안에서 폴더를 만들고 옮기고 지워도 실제 파일에는 아무 일도 일어나지 않습니다.</p>
+        <p>같은 파일을 여러 폴더에 넣어 둘 수도 있습니다. 디스크를 더 쓰지 않습니다.</p>
+      </details>
+      <details>
+        <summary>정리한 내용은 어디에 저장되나요?</summary>
+        <p><code>%APPDATA%\VFilemanage</code> 폴더 안의 <code>filetree.db</code> 파일 하나에 들어 있습니다. 설정은 같은 폴더의 <code>config.json</code>입니다. 이 폴더를 복사해 두면 다른 PC에서도 같은 라이브러리를 열 수 있습니다.</p>
+      </details>
+      <details>
+        <summary>무설치로 쓰다가 설치 버전으로 옮길 수 있나요?</summary>
+        <p>그냥 설치하시면 됩니다. 두 버전이 같은 폴더를 보기 때문에 따로 옮길 것이 없고, 정리해 둔 라이브러리가 그대로 이어집니다.</p>
+      </details>
+      <details>
+        <summary>원본 파일을 옮기거나 지우면 어떻게 되나요?</summary>
+        <p>목록에는 남아 있지만 열 때 "원본을 찾을 수 없습니다"라고 알려 줍니다. 목록에서 지우거나, 옮긴 위치를 다시 연결할 수 있습니다. 드라이브 자체가 연결되어 있지 않은 경우에도 따로 알려 줍니다.</p>
+      </details>
+      <details>
+        <summary>회사 PC에 설치 권한이 없습니다</summary>
+        <p>무설치 버전을 쓰시면 됩니다. 압축을 푼 폴더에서 바로 실행되고 레지스트리에 아무것도 쓰지 않습니다. 참고로 설치 버전도 현재 사용자 계정에만 설치되므로 관리자 권한을 묻지 않습니다.</p>
+      </details>
+      <details>
+        <summary>완전히 지우려면 어떻게 하나요?</summary>
+        <p>설치 버전은 Windows 설정의 앱 목록에서 제거하고, 무설치 버전은 폴더를 지우면 됩니다. 정리해 둔 라이브러리까지 없애려면 <code>%APPDATA%\VFilemanage</code> 폴더를 함께 삭제하세요.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<section class="band">
+  <div class="wrap changes">
+    <div>
+      <div class="changes__ver">1.0.0</div>
+      <div class="changes__date">2026-09-03</div>
+      <div class="changes__tag"><span class="pill">첫 정식 릴리스</span></div>
+    </div>
+    <ul>
+      <li>깊은 폴더에 있는 파일을 한곳에 모아 두고, 더블클릭하면 원본이 연결된 프로그램으로 바로 열립니다.</li>
+      <li>원본을 옮기지 않고 가상 폴더로 정리합니다. 같은 파일을 여러 폴더에 넣어도 원본은 하나입니다.</li>
+      <li>폴더를 통째로 끌어다 놓으면 안쪽 구조까지 그대로 들어옵니다.</li>
+      <li>가져올 때 이미지 · 비디오 · 문서 · 오디오 등 원하는 형식만 받도록 거를 수 있습니다.</li>
+      <li>이미지와 영상은 썸네일로 보여 주고, 폴더마다 대표 이미지를 지정할 수 있습니다.</li>
+      <li>보기 크기를 다섯 단계로 바꾸고, 이름 · 날짜 · 유형 · 크기로 정렬합니다.</li>
+      <li>정리한 구조를 실제 폴더로 내보냅니다.</li>
+      <li>비밀번호로 앱을 잠글 수 있습니다. 힌트도 함께 저장됩니다.</li>
+      <li>한국어 · 영어 · 일본어 · 스페인어를 지원하고, 밝은 테마와 어두운 테마가 있습니다.</li>
+    </ul>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="left">VFilemanage 1.0.0 · ISC License</div>
+    <div class="right">
+      <a href="https://github.com/jjh1232/VFilemanage">저장소</a>
+      <a href="https://github.com/jjh1232/VFilemanage/issues">문제 신고</a>
+      <a href="#download">다운로드</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var btn = document.getElementById('copy');
+  if (!btn) return;
+  var timer;
+  btn.addEventListener('click', function(){
+    var text = document.getElementById(btn.dataset.target).textContent;
+    var done = function(ok){
+      btn.textContent = ok ? '복사됨' : '복사 실패';
+      clearTimeout(timer);
+      timer = setTimeout(function(){ btn.textContent = '복사'; }, 1800);
+    };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(function(){ done(true); }, function(){ done(false); });
+    } else {
+      //구형 브라우저 대비. execCommand는 폐지 예정이지만 실패해도 라벨로 알려주면 된다
+      var ta = document.createElement('textarea');
+      ta.value = text;
+      ta.setAttribute('readonly','');
+      ta.style.position = 'absolute';
+      ta.style.left = '-9999px';
+      document.body.appendChild(ta);
+      ta.select();
+      var ok = false;
+      try { ok = document.execCommand('copy'); } catch(e) { ok = false; }
+      document.body.removeChild(ta);
+      done(ok);
+    }
+  });
+})();
+</script>
+
+</body>
+</html>
