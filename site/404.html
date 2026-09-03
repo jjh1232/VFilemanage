@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Page not found — VFilemanage</title>
+<!-- canonical 은 달지 않는다. 없는 주소가 색인되면 안 된다 (헌법 §7) -->
+<meta name="robots" content="noindex">
+<link rel="icon" href="icon.png">
+<link rel="stylesheet" href="styles.css">
+<style>
+  /* 404 는 이 페이지에서만 쓰는 배치라 공통 CSS 를 늘리지 않고 여기 둔다 */
+  .nf{min-height:70vh;display:flex;flex-direction:column;justify-content:center;gap:18px}
+  .nf__code{font-family:var(--font-mono);font-size:.8125rem;color:var(--ink-3)}
+  .nf__links{display:flex;flex-wrap:wrap;gap:9px;margin-top:8px}
+</style>
+</head>
+<body>
+
+<main class="wrap nf">
+  <div class="nf__code">404</div>
+  <h1>Page not found</h1>
+  <p class="lead">The address you followed doesn't exist here. Pick a language below to reach the VFilemanage download page.</p>
+  <div class="nf__links">
+    <a class="btn btn--ghost" href="ko/" lang="ko">한국어</a>
+    <a class="btn btn--ghost" href="en/" lang="en">English</a>
+    <a class="btn btn--ghost" href="ja/" lang="ja">日本語</a>
+  </div>
+</main>
+
+</body>
+</html>

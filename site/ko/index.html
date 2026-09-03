@@ -1,0 +1,348 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>VFilemanage — 묻혀 있던 파일을 바로 여는 파일 관리자</title>
+<meta name="description" content="깊은 폴더에 묻힌 파일을 한곳에 모아 두고 더블클릭으로 바로 여는 Windows 파일 관리자. 원본은 옮기지 않습니다. 설치 버전과 무설치 버전을 받을 수 있습니다.">
+<link rel="canonical" href="https://prelaps.com/vfile/ko/">
+<link rel="alternate" hreflang="ko" href="https://prelaps.com/vfile/ko/">
+<link rel="alternate" hreflang="en" href="https://prelaps.com/vfile/en/">
+<link rel="alternate" hreflang="ja" href="https://prelaps.com/vfile/ja/">
+<link rel="alternate" hreflang="x-default" href="https://prelaps.com/vfile/en/">
+<meta property="og:title" content="VFilemanage — 묻혀 있던 파일을 바로 여는 파일 관리자">
+<meta property="og:description" content="깊은 폴더에 묻힌 파일을 한곳에 모아 두고 더블클릭으로 바로 여는 Windows 파일 관리자. 원본은 옮기지 않습니다. 설치 버전과 무설치 버전을 받을 수 있습니다.">
+<meta property="og:image" content="https://prelaps.com/vfile/icon.png">
+<meta property="og:url" content="https://prelaps.com/vfile/ko/">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#3D2FA8">
+<link rel="icon" href="../icon.png">
+<link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="wrap">
+    <a class="brand" href="#top"><img src="../icon.png" alt="">VFilemanage</a>
+    <nav class="topnav">
+      <a href="#download">다운로드</a>
+      <a href="#compare">버전 비교</a>
+      <a href="#install">설치 방법</a>
+      <a href="#faq">자주 묻는 질문</a>
+    </nav>
+    <div class="langs">
+      <a href="../ko/" aria-current="page" lang="ko">한국어</a><i>·</i>
+      <a href="../en/" lang="en">English</a><i>·</i>
+      <a href="../ja/" lang="ja">日本語</a>
+    </div>
+    <span class="badge">v1.0.0</span>
+  </div>
+</header>
+
+<main id="top">
+
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <h1>묻혀 있던 파일을<br>바로 엽니다</h1>
+      <p class="lead"><span class="path-eg">D:\사진\2024\여행\제주\둘째날</span> 처럼 깊이 넣어 둔 파일 하나를 열자고 매번 폴더를 파고들 필요가 없습니다. 자주 보는 것만 한곳에 모아 두고, 더블클릭하면 원본이 바로 실행됩니다.</p>
+      <div class="cta">
+        <a class="btn btn--primary" href="https://github.com/jjh1232/VFilemanage/releases/download/v1.0.0/VFilemanage-1.0.0-setup.exe">설치 버전 받기 <span class="size">96.2 MB</span></a>
+        <a class="btn btn--ghost" href="https://github.com/jjh1232/VFilemanage/releases/download/v1.0.0/VFilemanage-1.0.0-win.zip">무설치 ZIP 받기 <span class="size">134.6 MB</span></a>
+      </div>
+      <p class="meta">Windows 10 · 11 (64비트)</p>
+    </div>
+
+    <div class="appwin" role="img" aria-label="VFilemanage 화면. 여러 드라이브에 흩어져 있던 파일들이 한 목록에 모여 있고, 각 파일의 원본 위치가 함께 표시됩니다.">
+      <div class="appwin__chrome" aria-hidden="true">
+        <div class="dots"><i></i><i></i><i></i></div>
+        <span class="wintitle">VFilemanage</span>
+        <span class="winsearch">검색</span>
+      </div>
+      <div class="appwin__path" aria-hidden="true">
+        <span>라이브러리</span><span>›</span><b>자주 보는 것</b>
+      </div>
+      <div class="appwin__body" aria-hidden="true">
+        <aside class="appwin__side">
+          <div class="side-label">라이브러리</div>
+          <div class="side-item"><svg class="glyph" viewBox="0 0 16 16"><path d="M2 4.5A1.5 1.5 0 0 1 3.5 3h2.8l1.2 1.4h5A1.5 1.5 0 0 1 14 5.9v5.6a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 11.5v-7Z" fill="#D99B2B"/></svg>사진</div>
+          <div class="side-item"><svg class="glyph" viewBox="0 0 16 16"><path d="M2 4.5A1.5 1.5 0 0 1 3.5 3h2.8l1.2 1.4h5A1.5 1.5 0 0 1 14 5.9v5.6a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 11.5v-7Z" fill="#D99B2B"/></svg>영상</div>
+          <div class="side-item side-item--on"><svg class="glyph" viewBox="0 0 16 16"><path d="M2 4.5A1.5 1.5 0 0 1 3.5 3h2.8l1.2 1.4h5A1.5 1.5 0 0 1 14 5.9v5.6a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 11.5v-7Z" fill="#D99B2B"/></svg>자주 보는 것</div>
+          <div class="side-item"><svg class="glyph" viewBox="0 0 16 16"><path d="M2 4.5A1.5 1.5 0 0 1 3.5 3h2.8l1.2 1.4h5A1.5 1.5 0 0 1 14 5.9v5.6a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 11.5v-7Z" fill="#D99B2B"/></svg>자료</div>
+          <div class="side-item"><svg class="glyph" viewBox="0 0 16 16"><path d="M2 4.5A1.5 1.5 0 0 1 3.5 3h2.8l1.2 1.4h5A1.5 1.5 0 0 1 14 5.9v5.6a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 11.5v-7Z" fill="#D99B2B"/></svg>보관</div>
+        </aside>
+        <div class="filelist">
+          <div class="frow frow--head"><div>이름</div><div class="frow__path">원본 위치</div></div>
+          <div class="frow frow--on">
+            <div class="frow__name"><svg class="glyph" viewBox="0 0 16 16"><rect x="3" y="2" width="10" height="12" rx="1.5" fill="#3D2FA8"/></svg><span>secret_image.png</span></div>
+            <div class="frow__path">D:\Backup\old\2019\misc</div>
+          </div>
+          <div class="frow frow--on">
+            <div class="frow__name"><svg class="glyph" viewBox="0 0 16 16"><rect x="3" y="2" width="10" height="12" rx="1.5" fill="#3D2FA8"/></svg><span>jeju_day2.mp4</span></div>
+            <div class="frow__path">D:\Photos\2024\travel\jeju</div>
+          </div>
+          <div class="frow">
+            <div class="frow__name"><svg class="glyph" viewBox="0 0 16 16"><rect x="3" y="2" width="10" height="12" rx="1.5" fill="#8A9099"/></svg><span>contract_final.pdf</span></div>
+            <div class="frow__path">C:\Users\you\Documents\2023</div>
+          </div>
+          <div class="frow">
+            <div class="frow__name"><svg class="glyph" viewBox="0 0 16 16"><rect x="3" y="2" width="10" height="12" rx="1.5" fill="#8A9099"/></svg><span>reference_01.png</span></div>
+            <div class="frow__path">E:\Archive\work\ref</div>
+          </div>
+          <div class="frow">
+            <div class="frow__name"><svg class="glyph" viewBox="0 0 16 16"><rect x="3" y="2" width="10" height="12" rx="1.5" fill="#D9D9D1"/></svg><span>demo_clip.mp4</span></div>
+            <div class="frow__path">D:\Videos\project\raw</div>
+          </div>
+          <div class="frow">
+            <div class="frow__name"><svg class="glyph" viewBox="0 0 16 16"><rect x="3" y="2" width="10" height="12" rx="1.5" fill="#D9D9D1"/></svg><span>logo_source.psd</span></div>
+            <div class="frow__path">E:\Archive\design\2022</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="band band--panel" id="download">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>다운로드</h2>
+      <p class="lead">두 버전의 기능은 같습니다. 설치가 가능한 환경이면 위쪽을 받으세요.</p>
+    </div>
+
+    <div class="dl">
+      <div class="dl__row">
+        <div class="dl__icon">
+          <svg width="34" height="34" viewBox="0 0 34 34" aria-hidden="true">
+            <rect x="5" y="3" width="24" height="28" rx="3" fill="#EDEBFA"/>
+            <path d="M17 11v10m0 0 4-4m-4 4-4-4" stroke="#3D2FA8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+          </svg>
+        </div>
+        <div>
+          <div class="dl__title"><h3>설치 버전</h3><span class="pill">권장</span></div>
+          <p class="dl__desc">설치하면 시작 메뉴와 바탕 화면에 등록되어 다음부터 바로 실행됩니다. 관리자 권한 없이 현재 사용자 계정에만 설치되므로 회사 PC에서도 대부분 설치됩니다.</p>
+          <div class="dl__meta"><span>VFilemanage-1.0.0-setup.exe</span><i>·</i><span>96.2 MB</span><i>·</i><span>x64</span></div>
+        </div>
+        <div class="dl__act">
+          <a class="btn btn--primary" href="https://github.com/jjh1232/VFilemanage/releases/download/v1.0.0/VFilemanage-1.0.0-setup.exe">받기</a>
+        </div>
+      </div>
+
+      <div class="dl__row">
+        <div class="dl__icon">
+          <svg width="34" height="34" viewBox="0 0 34 34" aria-hidden="true">
+            <rect x="5" y="3" width="24" height="28" rx="3" fill="#E8E8E1"/>
+            <path d="M15 5h4v3h-4zM15 11h4v3h-4zM15 17h4v3h-4z" fill="#8A9099"/>
+          </svg>
+        </div>
+        <div>
+          <div class="dl__title"><h3>무설치 버전</h3></div>
+          <p class="dl__desc">압축을 푼 폴더에서 바로 실행됩니다. 레지스트리에 아무것도 남기지 않으므로 설치 권한이 없는 PC나 USB에서 쓰기 좋습니다. 지우고 싶으면 폴더만 삭제하면 됩니다.</p>
+          <div class="dl__meta"><span>VFilemanage-1.0.0-win.zip</span><i>·</i><span>134.6 MB</span><i>·</i><span>압축 해제 후 약 352 MB</span></div>
+        </div>
+        <div class="dl__act">
+          <a class="btn btn--ghost" href="https://github.com/jjh1232/VFilemanage/releases/download/v1.0.0/VFilemanage-1.0.0-win.zip">받기</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="band" id="compare">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>버전 비교</h2>
+      <p class="lead">기능 차이는 없습니다. 아래 항목 중 마음에 걸리는 게 있는 쪽을 피하시면 됩니다.</p>
+    </div>
+    <div class="tablewrap">
+      <table>
+        <thead>
+          <tr><th>항목</th><th>설치 버전 (.exe)</th><th>무설치 버전 (.zip)</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>설치 과정</td><td class="lose">설치 마법사 실행</td><td class="win">압축 해제만 하면 끝</td></tr>
+          <tr><td>관리자 권한</td><td class="win">필요 없음</td><td class="win">필요 없음</td></tr>
+          <tr><td>시작 메뉴 · 바로 가기</td><td class="win">자동 등록</td><td class="lose">직접 만들어야 함</td></tr>
+          <tr><td>업데이트</td><td class="lose">새 설치 파일을 받아 다시 설치</td><td class="lose">새 압축 파일을 받아 교체</td></tr>
+          <tr><td>라이브러리 저장 위치</td><td class="win"><span class="mono">%APPDATA%\VFilemanage</span></td><td class="win"><span class="mono">%APPDATA%\VFilemanage</span></td></tr>
+          <tr><td>USB 휴대</td><td class="lose">불가</td><td class="win">프로그램은 가능<br><span class="meta">단, 정리한 내용은 PC에 남습니다</span></td></tr>
+          <tr><td>삭제 방법</td><td class="lose">설정 › 앱에서 제거</td><td class="win">폴더 삭제</td></tr>
+          <tr><td>이런 분께</td><td class="win">내 PC에서 오래 쓸 분</td><td class="win">설치 흔적을 남기고 싶지 않은 분</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="sub" style="margin-top:18px;max-width:66ch">두 버전은 같은 라이브러리를 씁니다. 무설치로 써 보다가 설치 버전으로 옮겨도 정리해 둔 폴더가 그대로 이어집니다.</p>
+  </div>
+</section>
+
+<section class="band band--panel" id="install">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>설치 방법</h2>
+    </div>
+
+    <div class="howto">
+      <div>
+        <h3>설치 버전</h3>
+        <ol class="steps">
+          <li><code>VFilemanage-1.0.0-setup.exe</code>를 실행합니다.</li>
+          <li>파란 경고 창이 뜨면 <b>추가 정보</b>를 누르고 <b>실행</b>을 선택합니다. 아래 안내를 함께 읽어 주세요.</li>
+          <li>설치 폴더와 바로 가기 옵션을 고르고 <b>설치</b>를 누릅니다.</li>
+          <li>설치가 끝나면 시작 메뉴에서 VFilemanage를 실행합니다.</li>
+        </ol>
+      </div>
+      <div>
+        <h3>무설치 버전</h3>
+        <ol class="steps">
+          <li><code>VFilemanage-1.0.0-win.zip</code>을 받습니다.</li>
+          <li>ZIP 파일을 우클릭해 <b>속성</b>을 열고, 아래쪽 <b>차단 해제</b>에 체크한 뒤 확인을 누릅니다. 이 단계를 건너뛰면 실행이 막힐 수 있습니다.</li>
+          <li>원하는 폴더에 압축을 풉니다. 경로에 한글이나 공백이 없는 편이 안전합니다.</li>
+          <li>폴더 안의 <code>VFilemanage.exe</code>를 실행합니다.</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="note">
+      <h3>"Windows에서 PC를 보호했습니다" 창이 뜬다면</h3>
+      <p>코드 서명 인증서를 아직 적용하지 않아 SmartScreen이 처음 보는 프로그램으로 판단한 것입니다. 파일이 손상됐거나 악성이라는 뜻은 아닙니다. <b>추가 정보 › 실행</b>을 누르면 진행됩니다.</p>
+      <p>불안하다면 실행 전에 아래 방법으로 파일 지문(SHA-256)을 확인하세요. 값이 다르면 내려받다 손상됐거나 다른 파일이므로 실행하지 말고 다시 받으시면 됩니다.</p>
+    </div>
+
+    <div class="checksum">
+      <h3>내려받은 파일 확인하기</h3>
+      <p class="sub" style="margin-bottom:14px;max-width:66ch">PowerShell을 열고 파일이 있는 폴더에서 아래 명령을 실행하면 지문이 나옵니다.</p>
+      <div class="codeblock">
+        <code id="cmd">Get-FileHash .\VFilemanage-1.0.0-setup.exe -Algorithm SHA256 | Format-List</code>
+        <button class="copybtn" id="copy" type="button" data-target="cmd">복사</button>
+      </div>
+      <div class="hashes">
+        <div class="hashrow">
+          <span class="fn">VFilemanage-1.0.0-setup.exe</span>
+          <span class="hv">70DAC5D312BF1176B8825FC7A08AFB591926A487F90AFF6B6EE06165BB2F8108</span>
+        </div>
+        <div class="hashrow">
+          <span class="fn">VFilemanage-1.0.0-win.zip</span>
+          <span class="hv">1866C77F8D124DFD0237DBA421B18D8AD91F3C080493DB59577494FA884C3932</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="band">
+  <div class="wrap">
+    <div class="section-head"><h2>시스템 요구 사항</h2></div>
+    <div class="specs">
+      <div class="spec"><div class="k">운영체제</div><div class="v">Windows 10 (1809) 이상</div></div>
+      <div class="spec"><div class="k">아키텍처</div><div class="v">64비트 (x64)</div></div>
+      <div class="spec"><div class="k">메모리</div><div class="v">4 GB 이상</div></div>
+      <div class="spec"><div class="k">디스크 여유 공간</div><div class="v">350 MB</div></div>
+    </div>
+    <p class="meta" style="margin-top:26px">32비트 Windows와 ARM64 기기는 지원하지 않습니다. macOS · Linux 빌드는 아직 계획에 없습니다.</p>
+  </div>
+</section>
+
+<section class="band band--panel" id="faq">
+  <div class="wrap">
+    <div class="section-head"><h2>자주 묻는 질문</h2></div>
+    <div class="faq">
+      <details>
+        <summary>백신 프로그램이 위험하다고 표시합니다</summary>
+        <p>코드 서명이 되어 있지 않은 Electron 앱에서 흔히 나오는 오탐입니다. 위쪽 안내대로 SHA-256 값을 대조해 보시고, 값이 같다면 백신의 예외 목록에 추가해 주세요. 값이 다르면 내려받는 중에 파일이 손상된 것이므로 다시 받으시면 됩니다.</p>
+      </details>
+      <details>
+        <summary>원본 파일이 옮겨지거나 복사되나요?</summary>
+        <p>아니요. 이 프로그램은 파일이 어디 있는지를 기억할 뿐이고, 원본은 있던 자리에 그대로 둡니다. 앱 안에서 폴더를 만들고 옮기고 지워도 실제 파일에는 아무 일도 일어나지 않습니다.</p>
+        <p>같은 파일을 여러 폴더에 넣어 둘 수도 있습니다. 디스크를 더 쓰지 않습니다.</p>
+      </details>
+      <details>
+        <summary>정리한 내용은 어디에 저장되나요?</summary>
+        <p><code>%APPDATA%\VFilemanage</code> 폴더 안의 <code>filetree.db</code> 파일 하나에 들어 있습니다. 설정은 같은 폴더의 <code>config.json</code>입니다. 이 폴더를 복사해 두면 다른 PC에서도 같은 라이브러리를 열 수 있습니다.</p>
+      </details>
+      <details>
+        <summary>무설치로 쓰다가 설치 버전으로 옮길 수 있나요?</summary>
+        <p>그냥 설치하시면 됩니다. 두 버전이 같은 폴더를 보기 때문에 따로 옮길 것이 없고, 정리해 둔 라이브러리가 그대로 이어집니다.</p>
+      </details>
+      <details>
+        <summary>원본 파일을 옮기거나 지우면 어떻게 되나요?</summary>
+        <p>목록에는 남아 있지만 열 때 "원본을 찾을 수 없습니다"라고 알려 줍니다. 목록에서 지우거나, 옮긴 위치를 다시 연결할 수 있습니다. 드라이브 자체가 연결되어 있지 않은 경우에도 따로 알려 줍니다.</p>
+      </details>
+      <details>
+        <summary>회사 PC에 설치 권한이 없습니다</summary>
+        <p>무설치 버전을 쓰시면 됩니다. 압축을 푼 폴더에서 바로 실행되고 레지스트리에 아무것도 쓰지 않습니다. 참고로 설치 버전도 현재 사용자 계정에만 설치되므로 관리자 권한을 묻지 않습니다.</p>
+      </details>
+      <details>
+        <summary>완전히 지우려면 어떻게 하나요?</summary>
+        <p>설치 버전은 Windows 설정의 앱 목록에서 제거하고, 무설치 버전은 폴더를 지우면 됩니다. 정리해 둔 라이브러리까지 없애려면 <code>%APPDATA%\VFilemanage</code> 폴더를 함께 삭제하세요.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<section class="band">
+  <div class="wrap changes">
+    <div>
+      <div class="changes__ver">1.0.0</div>
+      <div class="changes__date">2026-09-03</div>
+      <div class="changes__tag"><span class="pill">첫 정식 릴리스</span></div>
+    </div>
+    <ul>
+      <li>깊은 폴더에 있는 파일을 한곳에 모아 두고, 더블클릭하면 원본이 연결된 프로그램으로 바로 열립니다.</li>
+      <li>원본을 옮기지 않고 가상 폴더로 정리합니다. 같은 파일을 여러 폴더에 넣어도 원본은 하나입니다.</li>
+      <li>폴더를 통째로 끌어다 놓으면 안쪽 구조까지 그대로 들어옵니다.</li>
+      <li>가져올 때 이미지 · 비디오 · 문서 · 오디오 등 원하는 형식만 받도록 거를 수 있습니다.</li>
+      <li>이미지와 영상은 썸네일로 보여 주고, 폴더마다 대표 이미지를 지정할 수 있습니다.</li>
+      <li>보기 크기를 다섯 단계로 바꾸고, 이름 · 날짜 · 유형 · 크기로 정렬합니다.</li>
+      <li>정리한 구조를 실제 폴더로 내보냅니다.</li>
+      <li>비밀번호로 앱을 잠글 수 있습니다. 힌트도 함께 저장됩니다.</li>
+      <li>한국어 · 영어 · 일본어 · 스페인어를 지원하고, 밝은 테마와 어두운 테마가 있습니다.</li>
+    </ul>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="left">VFilemanage 1.0.0 · ISC License</div>
+    <div class="right">
+      <a href="/ko/privacy#vfile">개인정보처리방침</a>
+      <a href="https://github.com/jjh1232/VFilemanage">저장소</a>
+      <a href="https://github.com/jjh1232/VFilemanage/issues">문제 신고</a>
+    </div>
+  </div>
+</footer>
+<script>
+(function(){
+  var btn = document.getElementById('copy');
+  if (!btn) return;
+  var timer;
+  btn.addEventListener('click', function(){
+    var text = document.getElementById(btn.dataset.target).textContent;
+    var done = function(ok){
+      btn.textContent = ok ? '복사됨' : '복사 실패';
+      clearTimeout(timer);
+      timer = setTimeout(function(){ btn.textContent = '복사'; }, 1800);
+    };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(function(){ done(true); }, function(){ done(false); });
+    } else {
+      //구형 브라우저 대비. execCommand는 폐지 예정이지만 실패해도 라벨로 알려주면 된다
+      var ta = document.createElement('textarea');
+      ta.value = text;
+      ta.setAttribute('readonly','');
+      ta.style.position = 'absolute';
+      ta.style.left = '-9999px';
+      document.body.appendChild(ta);
+      ta.select();
+      var ok = false;
+      try { ok = document.execCommand('copy'); } catch(e) { ok = false; }
+      document.body.removeChild(ta);
+      done(ok);
+    }
+  });
+})();
+</script>
+
+</body>
+</html>

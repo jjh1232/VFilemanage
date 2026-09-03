@@ -1,0 +1,10 @@
+{
+  "name": "vfile",
+  "private": true,
+  "description": "VFilemanage 다운로드 페이지 — prelaps.com/vfile/. 빌드 단계 없음. site/ 안이 그대로 사이트다. 설치 파일은 GitHub Releases 에 있고 여기는 안내와 링크만 담는다.",
+  "scripts": {
+    "check:links": "node test/links.js",
+    "deploy": "npm run check:links && npx wrangler deploy",
+    "serve": "npx --yes serve site"
+  }
+}

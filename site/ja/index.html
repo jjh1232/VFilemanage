@@ -1,0 +1,349 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>VFilemanage — 埋もれたファイルをすぐ開くファイル管理ソフト</title>
+<meta name="description" content="深いフォルダに埋もれたファイルを一か所にまとめ、ダブルクリックで元のファイルをそのまま開くWindows用ファイル管理ソフト。元ファイルは移動しません。インストール版とインストール不要版があります。">
+<link rel="canonical" href="https://prelaps.com/vfile/ja/">
+<link rel="alternate" hreflang="ko" href="https://prelaps.com/vfile/ko/">
+<link rel="alternate" hreflang="en" href="https://prelaps.com/vfile/en/">
+<link rel="alternate" hreflang="ja" href="https://prelaps.com/vfile/ja/">
+<link rel="alternate" hreflang="x-default" href="https://prelaps.com/vfile/en/">
+<meta property="og:title" content="VFilemanage — 埋もれたファイルをすぐ開くファイル管理ソフト">
+<meta property="og:description" content="深いフォルダに埋もれたファイルを一か所にまとめ、ダブルクリックで元のファイルをそのまま開きます。元ファイルは移動しません。">
+<meta property="og:image" content="https://prelaps.com/vfile/icon.png">
+<meta property="og:url" content="https://prelaps.com/vfile/ja/">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#3D2FA8">
+<link rel="icon" href="../icon.png">
+<link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="wrap">
+    <a class="brand" href="#top"><img src="../icon.png" alt="">VFilemanage</a>
+    <nav class="topnav">
+      <a href="#download">ダウンロード</a>
+      <a href="#compare">版の比較</a>
+      <a href="#install">導入方法</a>
+      <a href="#faq">よくある質問</a>
+    </nav>
+    <div class="langs">
+      <a href="../ko/" lang="ko">한국어</a><i>·</i>
+      <a href="../en/" lang="en">English</a><i>·</i>
+      <a href="../ja/" aria-current="page" lang="ja">日本語</a>
+    </div>
+    <span class="badge">v1.0.0</span>
+  </div>
+</header>
+
+<main id="top">
+
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <h1>埋もれたファイルを<br>すぐ開く</h1>
+      <p class="lead"><span class="path-eg">D:\写真\2024\旅行\済州\2日目</span> のように深くしまい込んだファイルを開くために、毎回フォルダをたどる必要はありません。よく開くものだけを一か所にまとめておき、ダブルクリックすれば元のファイルがそのまま起動します。</p>
+      <div class="cta">
+        <a class="btn btn--primary" href="https://github.com/jjh1232/VFilemanage/releases/download/v1.0.0/VFilemanage-1.0.0-setup.exe">インストール版 <span class="size">96.2 MB</span></a>
+        <a class="btn btn--ghost" href="https://github.com/jjh1232/VFilemanage/releases/download/v1.0.0/VFilemanage-1.0.0-win.zip">インストール不要版 ZIP <span class="size">134.6 MB</span></a>
+      </div>
+      <p class="meta">Windows 10 · 11（64ビット）</p>
+    </div>
+
+    <div class="appwin" role="img" aria-label="VFilemanageの画面。複数のドライブに散らばっていたファイルが一つのリストにまとまり、それぞれの元の場所が併記されています。">
+      <div class="appwin__chrome" aria-hidden="true">
+        <div class="dots"><i></i><i></i><i></i></div>
+        <span class="wintitle">VFilemanage</span>
+        <span class="winsearch">検索</span>
+      </div>
+      <div class="appwin__path" aria-hidden="true">
+        <span>ライブラリ</span><span>›</span><b>よく開くもの</b>
+      </div>
+      <div class="appwin__body" aria-hidden="true">
+        <aside class="appwin__side">
+          <div class="side-label">ライブラリ</div>
+          <div class="side-item"><svg class="glyph" viewBox="0 0 16 16"><path d="M2 4.5A1.5 1.5 0 0 1 3.5 3h2.8l1.2 1.4h5A1.5 1.5 0 0 1 14 5.9v5.6a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 11.5v-7Z" fill="#D99B2B"/></svg>写真</div>
+          <div class="side-item"><svg class="glyph" viewBox="0 0 16 16"><path d="M2 4.5A1.5 1.5 0 0 1 3.5 3h2.8l1.2 1.4h5A1.5 1.5 0 0 1 14 5.9v5.6a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 11.5v-7Z" fill="#D99B2B"/></svg>動画</div>
+          <div class="side-item side-item--on"><svg class="glyph" viewBox="0 0 16 16"><path d="M2 4.5A1.5 1.5 0 0 1 3.5 3h2.8l1.2 1.4h5A1.5 1.5 0 0 1 14 5.9v5.6a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 11.5v-7Z" fill="#D99B2B"/></svg>よく開くもの</div>
+          <div class="side-item"><svg class="glyph" viewBox="0 0 16 16"><path d="M2 4.5A1.5 1.5 0 0 1 3.5 3h2.8l1.2 1.4h5A1.5 1.5 0 0 1 14 5.9v5.6a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 11.5v-7Z" fill="#D99B2B"/></svg>資料</div>
+          <div class="side-item"><svg class="glyph" viewBox="0 0 16 16"><path d="M2 4.5A1.5 1.5 0 0 1 3.5 3h2.8l1.2 1.4h5A1.5 1.5 0 0 1 14 5.9v5.6a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 11.5v-7Z" fill="#D99B2B"/></svg>保管</div>
+        </aside>
+        <div class="filelist">
+          <div class="frow frow--head"><div>名前</div><div class="frow__path">元の場所</div></div>
+          <div class="frow frow--on">
+            <div class="frow__name"><svg class="glyph" viewBox="0 0 16 16"><rect x="3" y="2" width="10" height="12" rx="1.5" fill="#3D2FA8"/></svg><span>secret_image.png</span></div>
+            <div class="frow__path">D:\Backup\old\2019\misc</div>
+          </div>
+          <div class="frow frow--on">
+            <div class="frow__name"><svg class="glyph" viewBox="0 0 16 16"><rect x="3" y="2" width="10" height="12" rx="1.5" fill="#3D2FA8"/></svg><span>jeju_day2.mp4</span></div>
+            <div class="frow__path">D:\Photos\2024\travel\jeju</div>
+          </div>
+          <div class="frow">
+            <div class="frow__name"><svg class="glyph" viewBox="0 0 16 16"><rect x="3" y="2" width="10" height="12" rx="1.5" fill="#8A9099"/></svg><span>contract_final.pdf</span></div>
+            <div class="frow__path">C:\Users\you\Documents\2023</div>
+          </div>
+          <div class="frow">
+            <div class="frow__name"><svg class="glyph" viewBox="0 0 16 16"><rect x="3" y="2" width="10" height="12" rx="1.5" fill="#8A9099"/></svg><span>reference_01.png</span></div>
+            <div class="frow__path">E:\Archive\work\ref</div>
+          </div>
+          <div class="frow">
+            <div class="frow__name"><svg class="glyph" viewBox="0 0 16 16"><rect x="3" y="2" width="10" height="12" rx="1.5" fill="#D9D9D1"/></svg><span>demo_clip.mp4</span></div>
+            <div class="frow__path">D:\Videos\project\raw</div>
+          </div>
+          <div class="frow">
+            <div class="frow__name"><svg class="glyph" viewBox="0 0 16 16"><rect x="3" y="2" width="10" height="12" rx="1.5" fill="#D9D9D1"/></svg><span>logo_source.psd</span></div>
+            <div class="frow__path">E:\Archive\design\2022</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="band band--panel" id="download">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>ダウンロード</h2>
+      <p class="lead">できることは両方とも同じです。インストールできる環境なら上をどうぞ。</p>
+    </div>
+
+    <div class="dl">
+      <div class="dl__row">
+        <div class="dl__icon">
+          <svg width="34" height="34" viewBox="0 0 34 34" aria-hidden="true">
+            <rect x="5" y="3" width="24" height="28" rx="3" fill="#EDEBFA"/>
+            <path d="M17 11v10m0 0 4-4m-4 4-4-4" stroke="#3D2FA8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+          </svg>
+        </div>
+        <div>
+          <div class="dl__title"><h3>インストール版</h3><span class="pill">推奨</span></div>
+          <p class="dl__desc">スタートメニューとデスクトップに登録され、次回からすぐ起動できます。管理者権限は不要で、現在のユーザーアカウントにのみインストールされるため、職場のPCでもたいてい導入できます。</p>
+          <div class="dl__meta"><span>VFilemanage-1.0.0-setup.exe</span><i>·</i><span>96.2 MB</span><i>·</i><span>x64</span></div>
+        </div>
+        <div class="dl__act">
+          <a class="btn btn--primary" href="https://github.com/jjh1232/VFilemanage/releases/download/v1.0.0/VFilemanage-1.0.0-setup.exe">ダウンロード</a>
+        </div>
+      </div>
+
+      <div class="dl__row">
+        <div class="dl__icon">
+          <svg width="34" height="34" viewBox="0 0 34 34" aria-hidden="true">
+            <rect x="5" y="3" width="24" height="28" rx="3" fill="#E8E8E1"/>
+            <path d="M15 5h4v3h-4zM15 11h4v3h-4zM15 17h4v3h-4z" fill="#8A9099"/>
+          </svg>
+        </div>
+        <div>
+          <div class="dl__title"><h3>インストール不要版</h3></div>
+          <p class="dl__desc">展開したフォルダからそのまま起動します。レジストリには何も書き込まないため、インストール権限のないPCやUSBメモリでの利用に向いています。削除はフォルダを消すだけです。</p>
+          <div class="dl__meta"><span>VFilemanage-1.0.0-win.zip</span><i>·</i><span>134.6 MB</span><i>·</i><span>展開後 約352 MB</span></div>
+        </div>
+        <div class="dl__act">
+          <a class="btn btn--ghost" href="https://github.com/jjh1232/VFilemanage/releases/download/v1.0.0/VFilemanage-1.0.0-win.zip">ダウンロード</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="band" id="compare">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>版の比較</h2>
+      <p class="lead">機能に違いはありません。気になる点が少ないほうを選んでください。</p>
+    </div>
+    <div class="tablewrap">
+      <table>
+        <thead>
+          <tr><th>項目</th><th>インストール版 (.exe)</th><th>インストール不要版 (.zip)</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>導入</td><td class="lose">インストーラーを実行</td><td class="win">展開するだけ</td></tr>
+          <tr><td>管理者権限</td><td class="win">不要</td><td class="win">不要</td></tr>
+          <tr><td>スタートメニュー・ショートカット</td><td class="win">自動で登録</td><td class="lose">自分で作成</td></tr>
+          <tr><td>更新</td><td class="lose">新しいインストーラーを入れ直す</td><td class="lose">新しいZIPに置き換える</td></tr>
+          <tr><td>ライブラリの保存先</td><td class="win"><span class="mono">%APPDATA%\VFilemanage</span></td><td class="win"><span class="mono">%APPDATA%\VFilemanage</span></td></tr>
+          <tr><td>USBで持ち歩く</td><td class="lose">不可</td><td class="win">プログラムは可能<br><span class="meta">ただし整理した内容はPCに残ります</span></td></tr>
+          <tr><td>削除方法</td><td class="lose">設定 › アプリ から削除</td><td class="win">フォルダを削除</td></tr>
+          <tr><td>向いている人</td><td class="win">自分のPCで長く使う方</td><td class="win">導入の痕跡を残したくない方</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="sub" style="margin-top:18px;max-width:66ch">どちらも同じライブラリを使います。インストール不要版で試してからインストール版に移っても、整理した内容はそのまま引き継がれます。</p>
+  </div>
+</section>
+
+<section class="band band--panel" id="install">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>導入方法</h2>
+    </div>
+
+    <div class="howto">
+      <div>
+        <h3>インストール版</h3>
+        <ol class="steps">
+          <li><code>VFilemanage-1.0.0-setup.exe</code> を実行します。</li>
+          <li>青い警告が出たら <b>詳細情報</b> をクリックし、<b>実行</b> を選びます。下の案内も併せてお読みください。</li>
+          <li>インストール先とショートカットの設定を選び、<b>インストール</b> をクリックします。</li>
+          <li>スタートメニューから VFilemanage を起動します。</li>
+        </ol>
+      </div>
+      <div>
+        <h3>インストール不要版</h3>
+        <ol class="steps">
+          <li><code>VFilemanage-1.0.0-win.zip</code> をダウンロードします。</li>
+          <li>ZIPを右クリックして <b>プロパティ</b> を開き、下部の <b>ブロックの解除</b> にチェックを入れてOKを押します。これを飛ばすと起動できないことがあります。</li>
+          <li>好きなフォルダに展開します。パスに空白や特殊な文字が入らないほうが安全です。</li>
+          <li>フォルダ内の <code>VFilemanage.exe</code> を実行します。</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="note">
+      <h3>「WindowsによってPCが保護されました」と表示されたら</h3>
+      <p>コード署名証明書をまだ適用していないため、SmartScreenが「初めて見るプログラム」と判断したものです。ファイルが壊れている、あるいは悪意のあるものだという意味ではありません。<b>詳細情報 › 実行</b> を押すと進めます。</p>
+      <p>不安な場合は、実行する前に下の方法でファイルの指紋（SHA-256）をご確認ください。値が異なる場合はダウンロード中に壊れたか別のファイルですので、実行せずに取り直してください。</p>
+    </div>
+
+    <div class="checksum">
+      <h3>ダウンロードしたファイルの確認</h3>
+      <p class="sub" style="margin-bottom:14px;max-width:66ch">PowerShellを開き、ファイルのあるフォルダで次のコマンドを実行すると指紋が表示されます。</p>
+      <div class="codeblock">
+        <code id="cmd">Get-FileHash .\VFilemanage-1.0.0-setup.exe -Algorithm SHA256 | Format-List</code>
+        <button class="copybtn" id="copy" type="button" data-target="cmd">コピー</button>
+      </div>
+      <div class="hashes">
+        <div class="hashrow">
+          <span class="fn">VFilemanage-1.0.0-setup.exe</span>
+          <span class="hv">70DAC5D312BF1176B8825FC7A08AFB591926A487F90AFF6B6EE06165BB2F8108</span>
+        </div>
+        <div class="hashrow">
+          <span class="fn">VFilemanage-1.0.0-win.zip</span>
+          <span class="hv">1866C77F8D124DFD0237DBA421B18D8AD91F3C080493DB59577494FA884C3932</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="band">
+  <div class="wrap">
+    <div class="section-head"><h2>動作環境</h2></div>
+    <div class="specs">
+      <div class="spec"><div class="k">OS</div><div class="v">Windows 10 (1809) 以降</div></div>
+      <div class="spec"><div class="k">アーキテクチャ</div><div class="v">64ビット (x64)</div></div>
+      <div class="spec"><div class="k">メモリ</div><div class="v">4 GB 以上</div></div>
+      <div class="spec"><div class="k">ディスク空き容量</div><div class="v">350 MB</div></div>
+    </div>
+    <p class="meta" style="margin-top:26px">32ビット版WindowsとARM64端末には対応していません。macOS・Linux版の予定は今のところありません。</p>
+  </div>
+</section>
+
+<section class="band band--panel" id="faq">
+  <div class="wrap">
+    <div class="section-head"><h2>よくある質問</h2></div>
+    <div class="faq">
+      <details>
+        <summary>ウイルス対策ソフトが危険だと表示します</summary>
+        <p>コード署名のないElectronアプリでよくある誤検知です。上のSHA-256の値と照合し、一致していればウイルス対策ソフトの除外リストに追加してください。一致しない場合はダウンロード中に壊れているので、取り直してください。</p>
+      </details>
+      <details>
+        <summary>元のファイルが移動・複製されますか？</summary>
+        <p>いいえ。このソフトはファイルの場所を覚えるだけで、元のファイルはあった場所にそのまま残ります。アプリ内でフォルダを作ったり移動したり削除したりしても、実際のファイルには何も起きません。</p>
+        <p>同じファイルを複数のフォルダに入れておくこともできます。ディスク容量は増えません。</p>
+      </details>
+      <details>
+        <summary>整理した内容はどこに保存されますか？</summary>
+        <p><code>%APPDATA%\VFilemanage</code> フォルダ内の <code>filetree.db</code> という1つのファイルに入っています。設定は同じフォルダの <code>config.json</code> です。このフォルダをコピーしておけば、別のPCでも同じライブラリを開けます。</p>
+      </details>
+      <details>
+        <summary>インストール不要版からインストール版に移れますか？</summary>
+        <p>そのままインストールしてください。両方が同じフォルダを見るため移行作業は不要で、整理した内容はそのまま引き継がれます。</p>
+      </details>
+      <details>
+        <summary>元のファイルを移動・削除するとどうなりますか？</summary>
+        <p>一覧には残りますが、開こうとしたときに「元のファイルが見つかりません」と表示されます。一覧から削除するか、移動先を選び直せます。ドライブ自体が接続されていない場合も別に知らせます。</p>
+      </details>
+      <details>
+        <summary>職場のPCにインストール権限がありません</summary>
+        <p>インストール不要版をお使いください。展開したフォルダからそのまま起動し、レジストリには何も書き込みません。なお、インストール版も現在のユーザーアカウントにのみ入るため管理者権限は求められません。</p>
+      </details>
+      <details>
+        <summary>完全に削除するには？</summary>
+        <p>インストール版はWindowsの設定のアプリ一覧から削除し、インストール不要版はフォルダを消してください。整理したライブラリも消す場合は <code>%APPDATA%\VFilemanage</code> フォルダも併せて削除します。</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<section class="band">
+  <div class="wrap changes">
+    <div>
+      <div class="changes__ver">1.0.0</div>
+      <div class="changes__date">2026-09-03</div>
+      <div class="changes__tag"><span class="pill">初回リリース</span></div>
+    </div>
+    <ul>
+      <li>深いフォルダにあるファイルを一か所にまとめ、ダブルクリックすると関連付けられたプログラムで元のファイルが開きます。</li>
+      <li>元のファイルを移動せずに仮想フォルダで整理します。同じファイルを複数のフォルダに入れても実体は1つです。</li>
+      <li>フォルダごとドラッグすると、中の構造もそのまま取り込まれます。</li>
+      <li>取り込む際に画像・動画・文書・音声など、必要な形式だけを選べます。</li>
+      <li>画像と動画はサムネイルで表示し、フォルダごとに代表画像を設定できます。</li>
+      <li>表示サイズを5段階で切り替え、名前・日付・種類・サイズで並べ替えられます。</li>
+      <li>整理した構造を実際のフォルダとして書き出せます。</li>
+      <li>パスワードでアプリをロックできます。ヒントも保存されます。</li>
+      <li>日本語・韓国語・英語・スペイン語に対応し、ライトテーマとダークテーマがあります。</li>
+    </ul>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="left">VFilemanage 1.0.0 · ISC License</div>
+    <div class="right">
+      <a href="/ja/privacy#vfile">プライバシーポリシー</a>
+      <a href="https://github.com/jjh1232/VFilemanage">リポジトリ</a>
+      <a href="https://github.com/jjh1232/VFilemanage/issues">不具合の報告</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var btn = document.getElementById('copy');
+  if (!btn) return;
+  var timer;
+  btn.addEventListener('click', function(){
+    var text = document.getElementById(btn.dataset.target).textContent;
+    var done = function(ok){
+      btn.textContent = ok ? 'コピーしました' : 'コピー失敗';
+      clearTimeout(timer);
+      timer = setTimeout(function(){ btn.textContent = 'コピー'; }, 1800);
+    };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(function(){ done(true); }, function(){ done(false); });
+    } else {
+      //구형 브라우저 대비. execCommand는 폐지 예정이지만 실패해도 라벨로 알려주면 된다
+      var ta = document.createElement('textarea');
+      ta.value = text;
+      ta.setAttribute('readonly','');
+      ta.style.position = 'absolute';
+      ta.style.left = '-9999px';
+      document.body.appendChild(ta);
+      ta.select();
+      var ok = false;
+      try { ok = document.execCommand('copy'); } catch(e) { ok = false; }
+      document.body.removeChild(ta);
+      done(ok);
+    }
+  });
+})();
+</script>
+
+</body>
+</html>

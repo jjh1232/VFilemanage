@@ -1,0 +1,316 @@
+/* VFilemanage 다운로드 페이지 공통 스타일.
+   세 언어판(ko/en/ja)이 같은 파일을 쓴다 - 언어마다 복사해두면 한쪽만 고치고 끝난다.
+   도구는 루트에 있지 않으므로 각 페이지에서 상대 경로(../styles.css)로 부른다. */
+
+:root{
+  --paper:#EEEEE8;
+  --panel:#FFFFFF;
+  --ink:#171A1D;
+  --ink-2:#5E6572;
+  --ink-3:#8A9099;
+  --rule:#D9D9D1;
+  --rule-2:#E8E8E1;
+  --accent:#3D2FA8;
+  --accent-soft:#EDEBFA;
+  --amber:#D99B2B;
+  --font-ui:"Pretendard Variable",Pretendard,-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Segoe UI","Malgun Gothic","Noto Sans KR",sans-serif;
+  --font-mono:ui-monospace,"SF Mono","Cascadia Mono",Consolas,"D2Coding","Nanum Gothic Coding",monospace;
+}
+
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0;
+  background:var(--paper);
+  color:var(--ink);
+  font-family:var(--font-ui);
+  font-size:1rem;
+  line-height:1.65;
+  -webkit-font-smoothing:antialiased;
+}
+img{max-width:100%;display:block}
+a{color:var(--accent);text-decoration:none}
+a:hover{text-decoration:underline}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:2px}
+
+.wrap{width:min(1060px,100% - 44px);margin-inline:auto}
+.band{padding:84px 0}
+.band--panel{background:var(--panel);border-block:1px solid var(--rule-2)}
+
+h1,h2,h3{margin:0;text-wrap:balance}
+h1{font-size:clamp(2rem,5vw,3.1rem);font-weight:800;letter-spacing:-.022em;line-height:1.15}
+h2{font-size:1.75rem;font-weight:700;letter-spacing:-.022em;line-height:1.15}
+h3{font-size:1.0625rem;font-weight:700;letter-spacing:-.01em}
+p{margin:0}
+.lead{font-size:1.0625rem;color:var(--ink-2);max-width:60ch}
+/* 리드 안의 경로 예시. 문제 상황을 눈으로 보여주는 자리라 본문보다 진하게 */
+.path-eg{
+  font-family:var(--font-mono);font-size:.9em;color:var(--ink);
+  background:var(--rule-2);padding:1px 6px;border-radius:5px;
+  white-space:nowrap;
+}
+.sub{font-size:.9375rem;color:var(--ink-2)}
+.meta{font-size:.8125rem;color:var(--ink-3)}
+.mono{font-family:var(--font-mono);font-variant-numeric:tabular-nums}
+.section-head{margin-bottom:34px}
+.section-head p{margin-top:12px}
+
+/* 상단 바 */
+.topbar{
+  position:sticky;top:0;z-index:20;height:56px;
+  background:rgba(238,238,232,.88);
+  backdrop-filter:saturate(180%) blur(12px);
+  border-bottom:1px solid var(--rule);
+}
+.topbar .wrap{height:100%;display:flex;align-items:center;gap:26px}
+.brand{display:flex;align-items:center;gap:9px;font-weight:700;letter-spacing:-.015em;color:var(--ink)}
+.brand:hover{text-decoration:none}
+.brand img{width:22px;height:22px;border-radius:5px}
+.topnav{display:flex;gap:22px;margin-left:6px}
+.topnav a{color:var(--ink-2);font-size:.9375rem}
+.topnav a:hover{color:var(--ink);text-decoration:none}
+.badge{
+  font-family:var(--font-mono);font-size:.75rem;
+  color:var(--accent);background:var(--accent-soft);
+  padding:3px 10px;border-radius:999px;
+}
+/* 언어 전환. 세 언어판이 서로를 직접 가리킨다 - 도구 루트(/vfile/)로 보내면
+   Accept-Language 가 다시 판단해버려서 방문자가 고른 언어가 무시된다. */
+.langs{margin-left:auto;display:flex;gap:9px;align-items:center;font-size:.8125rem;white-space:nowrap}
+.langs a{color:var(--ink-3)}
+.langs a:hover{color:var(--ink);text-decoration:none}
+.langs a[aria-current="page"]{color:var(--ink);font-weight:600}
+.langs i{font-style:normal;color:var(--rule)}
+
+/* 히어로 */
+.hero{padding:76px 0 84px}
+.hero-grid{display:grid;grid-template-columns:minmax(0,.92fr) minmax(0,1.2fr);gap:48px;align-items:center}
+.hero h1{margin-bottom:20px}
+.hero .lead{margin-bottom:30px}
+.cta{display:flex;flex-wrap:wrap;gap:11px;margin-bottom:14px}
+.btn{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:12px 19px;border-radius:8px;
+  font-size:.9375rem;font-weight:600;letter-spacing:-.01em;
+  border:1px solid transparent;cursor:pointer;
+  transition:background-color .15s,border-color .15s,color .15s;
+}
+.btn:hover{text-decoration:none}
+.btn--primary{background:var(--accent);color:#fff}
+.btn--primary:hover{background:#33268f}
+.btn--ghost{background:transparent;color:var(--ink);border-color:var(--rule)}
+.btn--ghost:hover{border-color:var(--ink-3);background:var(--panel)}
+.btn .size{font-family:var(--font-mono);font-weight:400;opacity:.75;font-size:.8125rem}
+
+/* 앱 창 재현 */
+.appwin{
+  background:var(--panel);border:1px solid var(--rule);border-radius:12px;
+  overflow:hidden;box-shadow:0 18px 44px -26px rgba(23,26,29,.32);
+  font-size:.78125rem;
+}
+.appwin__chrome{display:flex;align-items:center;gap:14px;padding:0 13px;height:38px;border-bottom:1px solid var(--rule-2)}
+.dots{display:flex;gap:6px}
+.dots i{width:10px;height:10px;border-radius:50%;background:var(--rule);display:block}
+.wintitle{font-weight:600;color:var(--ink-2);font-size:.75rem;letter-spacing:-.01em}
+.winsearch{
+  margin-left:auto;font-size:.6875rem;color:var(--ink-3);
+  border:1px solid var(--rule-2);border-radius:6px;padding:3px 12px;white-space:nowrap;
+}
+.appwin__path{
+  display:flex;align-items:center;gap:5px;flex-wrap:wrap;
+  padding:9px 14px;border-bottom:1px solid var(--rule-2);
+  font-family:var(--font-mono);font-size:.75rem;color:var(--ink-3);
+}
+.appwin__path b{color:var(--ink);font-weight:600}
+.appwin__body{display:grid;grid-template-columns:132px minmax(0,1fr);min-height:296px}
+.appwin__side{border-right:1px solid var(--rule-2);padding:11px 9px;display:flex;flex-direction:column;gap:1px}
+.side-label{font-size:.6875rem;color:var(--ink-3);padding:5px 9px 3px}
+.side-item{
+  display:flex;align-items:center;gap:8px;padding:5px 9px;border-radius:6px;color:var(--ink-2);
+  white-space:nowrap;overflow:hidden;
+}
+.side-item--on{background:var(--accent-soft);color:var(--accent);font-weight:600}
+.glyph{width:13px;height:13px;flex:none}
+.filelist{display:flex;flex-direction:column}
+.frow{
+  display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);
+  gap:12px;align-items:center;
+  padding:7px 13px;border-bottom:1px solid var(--rule-2);
+}
+.frow--head{color:var(--ink-3);font-size:.6875rem;border-bottom:1px solid var(--rule);padding-block:6px}
+.frow__name{display:flex;align-items:center;gap:8px;min-width:0}
+.frow__name span{font-family:var(--font-mono);font-size:.6875rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+/* 원본 위치. 행마다 드라이브가 다른 게 이 그림의 요점이라 잘리더라도 앞쪽을 보여준다 */
+.frow__path{
+  font-family:var(--font-mono);color:var(--ink-3);font-size:.6875rem;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+}
+/* 헤더 행은 같은 열을 쓰되 라벨이므로 본문 글꼴을 따르지 않는다 */
+.frow--head .frow__path{font-family:var(--font-ui)}
+.frow--on .frow__name span{color:var(--accent);font-weight:600}
+.frow--on .frow__size{color:var(--accent)}
+
+/* 다운로드 */
+.dl{border-top:1px solid var(--rule)}
+.dl__row{
+  display:grid;grid-template-columns:38px minmax(0,1fr) auto;
+  gap:22px;align-items:start;
+  padding:30px 0;border-bottom:1px solid var(--rule);
+}
+.dl__icon{margin-top:2px}
+.dl__title{display:flex;align-items:center;gap:9px;margin-bottom:9px}
+.pill{
+  font-size:.6875rem;font-weight:600;color:var(--accent);
+  background:var(--accent-soft);padding:2px 9px;border-radius:999px;
+}
+.dl__desc{color:var(--ink-2);font-size:.9375rem;max-width:60ch;margin-bottom:11px}
+.dl__meta{font-family:var(--font-mono);font-size:.8125rem;color:var(--ink-3);display:flex;flex-wrap:wrap;gap:9px}
+.dl__meta i{font-style:normal;color:var(--rule)}
+.dl__act{align-self:center}
+
+/* 비교표 */
+.tablewrap{overflow-x:auto;border:1px solid var(--rule);border-radius:10px;background:var(--paper)}
+table{border-collapse:collapse;width:100%;min-width:600px;font-size:.9375rem}
+th,td{text-align:left;padding:13px 18px;border-bottom:1px solid var(--rule-2)}
+thead th{
+  font-size:.8125rem;font-weight:600;color:var(--ink-2);
+  background:var(--panel);border-bottom:1px solid var(--rule);white-space:nowrap;
+}
+tbody tr:last-child td{border-bottom:0}
+td:first-child{color:var(--ink-2);white-space:nowrap}
+.win{color:var(--ink)}
+.lose{color:var(--ink-2)}
+td .mono{font-size:.8125rem}
+
+/* 설치 방법 */
+.howto{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:44px;margin-bottom:38px}
+.howto h3{margin-bottom:16px}
+ol.steps{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:13px;counter-reset:s}
+ol.steps li{
+  counter-increment:s;position:relative;padding-left:34px;
+  color:var(--ink-2);font-size:.9375rem;line-height:1.6;
+}
+ol.steps li::before{
+  content:counter(s);position:absolute;left:0;top:1px;
+  width:21px;height:21px;border-radius:50%;
+  background:var(--ink);color:var(--paper);
+  font-family:var(--font-mono);font-size:.6875rem;font-weight:600;
+  display:flex;align-items:center;justify-content:center;
+}
+ol.steps b{color:var(--ink);font-weight:600}
+ol.steps code{font-family:var(--font-mono);font-size:.84em;color:var(--ink)}
+
+.note{
+  background:#FBF7EC;border-left:3px solid var(--amber);
+  border-radius:0 10px 10px 0;padding:22px 26px;margin-bottom:38px;
+}
+.note h3{margin-bottom:10px}
+.note p{color:var(--ink-2);font-size:.9375rem;max-width:72ch}
+.note p+p{margin-top:11px}
+.note b{color:var(--ink)}
+
+.checksum h3{margin-bottom:14px}
+.codeblock{
+  background:var(--ink);border-radius:10px;padding:15px 17px;
+  display:flex;align-items:center;gap:16px;
+}
+.codeblock code{
+  font-family:var(--font-mono);font-size:.8125rem;color:#E8E8E1;
+  overflow-x:auto;white-space:nowrap;flex:1;
+}
+.copybtn{
+  flex:none;background:transparent;border:1px solid #3A3F45;color:#C9CDD3;
+  font-family:var(--font-ui);font-size:.78125rem;padding:6px 13px;border-radius:8px;
+  cursor:pointer;transition:border-color .15s,color .15s;
+}
+.copybtn:hover{border-color:#5E6572;color:#fff}
+.hashes{margin-top:16px;display:flex;flex-direction:column;gap:11px}
+.hashrow{display:flex;flex-direction:column;gap:3px}
+.hashrow .fn{font-family:var(--font-mono);font-size:.8125rem;color:var(--ink)}
+.hashrow .hv{font-family:var(--font-mono);font-size:.75rem;color:var(--ink-3);word-break:break-all}
+
+/* 시스템 요구사항 */
+.specs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:26px}
+.spec .k{font-size:.8125rem;color:var(--ink-3);margin-bottom:5px}
+.spec .v{font-size:1.0625rem;font-weight:700;letter-spacing:-.01em}
+
+/* FAQ */
+.faq{border-top:1px solid var(--rule);max-width:74ch}
+details{border-bottom:1px solid var(--rule)}
+summary{
+  list-style:none;cursor:pointer;padding:19px 34px 19px 0;position:relative;
+  font-weight:600;font-size:1rem;letter-spacing:-.01em;
+}
+summary::-webkit-details-marker{display:none}
+summary::after{
+  content:"";position:absolute;right:6px;top:50%;
+  width:8px;height:8px;margin-top:-6px;
+  border-right:1.5px solid var(--ink-3);border-bottom:1.5px solid var(--ink-3);
+  transform:rotate(45deg);transition:transform .15s;
+}
+details[open] summary::after{transform:rotate(-135deg);margin-top:-2px}
+details p{padding:0 0 19px;color:var(--ink-2);font-size:.9375rem;max-width:68ch}
+details p+p{margin-top:-8px}
+details code{font-family:var(--font-mono);font-size:.84em;color:var(--ink)}
+
+/* 변경 사항 */
+.changes{display:grid;grid-template-columns:200px minmax(0,1fr);gap:44px}
+.changes__ver{font-size:1.75rem;font-weight:800;letter-spacing:-.022em;line-height:1.1}
+.changes__date{font-family:var(--font-mono);font-size:.8125rem;color:var(--ink-3);margin-top:5px}
+.changes__tag{margin-top:11px}
+.changes ul{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:12px}
+.changes li{position:relative;padding-left:19px;color:var(--ink-2);font-size:.9375rem;max-width:64ch}
+.changes li::before{
+  content:"";position:absolute;left:0;top:.62em;
+  width:5px;height:5px;border-radius:50%;background:var(--rule);
+}
+
+/* 푸터 */
+footer{border-top:1px solid var(--rule);padding:34px 0 46px}
+footer .wrap{display:flex;justify-content:space-between;gap:22px;flex-wrap:wrap}
+footer .left{font-size:.875rem;color:var(--ink-3)}
+footer .right{display:flex;gap:22px;font-size:.875rem}
+footer .right a{color:var(--ink-2)}
+
+/* 히어로 파일 목록 등장 - 디렉터리를 읽어들이는 장면 */
+.filelist .frow{opacity:0;animation:rowin .3s ease-out forwards}
+.filelist .frow:nth-child(1){animation-delay:.05s}
+.filelist .frow:nth-child(2){animation-delay:.11s}
+.filelist .frow:nth-child(3){animation-delay:.17s}
+.filelist .frow:nth-child(4){animation-delay:.23s}
+.filelist .frow:nth-child(5){animation-delay:.29s}
+.filelist .frow:nth-child(6){animation-delay:.35s}
+.filelist .frow:nth-child(7){animation-delay:.41s}
+@keyframes rowin{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
+/* 마지막에 선택 배경이 들어온다 */
+.filelist .frow--on{animation:rowin .3s ease-out forwards,selin .28s ease-out .62s forwards}
+@keyframes selin{from{background:transparent}to{background:var(--accent-soft)}}
+
+@media (max-width:860px){
+  .band{padding:60px 0}
+  .hero{padding:52px 0 60px}
+  .hero-grid{grid-template-columns:minmax(0,1fr);gap:40px}
+  .topnav{display:none}
+  /* 언어 전환은 좁은 화면에서도 남긴다 - 이게 없으면 다른 언어로 갈 방법이 사라진다 */
+  .langs{font-size:.75rem;gap:7px}
+  .badge{display:none}
+  .appwin__body{grid-template-columns:minmax(0,1fr)}
+  .appwin__side{display:none}
+  /* 좁은 화면에선 경로를 옆이 아니라 파일명 아래로. 여기서 경로를 숨기면
+     "흩어진 걸 모았다"는 이 그림의 요점이 사라진다 */
+  .frow{grid-template-columns:minmax(0,1fr);gap:1px}
+  .frow__path{padding-left:21px}
+  .frow--head{display:none}
+  .dl__row{grid-template-columns:minmax(0,1fr);gap:15px}
+  .dl__icon{display:none}
+  .dl__act{align-self:start}
+  .howto{grid-template-columns:minmax(0,1fr);gap:36px}
+  .specs{grid-template-columns:repeat(2,minmax(0,1fr));gap:22px}
+  .changes{grid-template-columns:minmax(0,1fr);gap:22px}
+}
+
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.001ms !important;animation-delay:0s !important;transition-duration:.001ms !important}
+  .filelist .frow{opacity:1}
+  .filelist .frow--on{background:var(--accent-soft)}
+}
