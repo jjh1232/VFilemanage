@@ -14,7 +14,9 @@ import path from 'path';
 const logdir = path.join(app.getPath('userData'), 'logs');
 const logfile = path.join(logdir, 'error.log');
 
-function write(kind, error) {
+//다른 모듈(handler/log.js)도 이걸 쓴다. try/catch로 잡아서 넘긴 오류들도 배포판에선
+//콘솔이 없어 통째로 증발하는데, 그것들도 여기 같은 파일에 남겨야 나중에 원인을 볼 수 있다.
+export function write(kind, error) {
     try {
         fs.mkdirSync(logdir, { recursive: true });
         const when = new Date().toISOString();
@@ -85,4 +87,8 @@ app.on('render-process-gone', (event, contents, details) => {
     notify(`화면이 종료되었습니다 (${details.reason})`);
 });
 
-console.log("크래시핸들러등록, 로그위치:", logfile);
+//log.js의 debug를 쓰고 싶지만 그쪽이 이 파일을 import하므로 순환이 된다.
+//조건은 같다 - 배포판에선 콘솔이 없어서 찍어봐야 아무도 못 본다
+if (!app.isPackaged || process.argv.includes('--verbose')) {
+    console.log("크래시핸들러등록, 로그위치:", logfile);
+}

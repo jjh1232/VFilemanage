@@ -102,7 +102,7 @@ const themes={
                 setLockstate({checking:false,locked:status.has,hint:status.hint});
             }catch(err){
                 //잠금 확인이 안되면 막지 않고 그냥 들여보냄(못 들어가는 상황이 더 나쁨)
-                console.log("잠금상태 확인실패",err);
+                window.nodeapi.logerror("잠금상태 확인실패",err);
                 setLockstate({checking:false,locked:false,hint:''});
             }
         })();

@@ -79,7 +79,7 @@ export default function InputDropdown({currentfolderid,closeInputMenu}){
                 await createEmptyFolder(currentfolderid);
                 await queryClient.invalidateQueries({queryKey:['filedata']});
             }catch(error){
-                console.log("새폴더 생성실패",error);
+                window.nodeapi.logerror("새폴더 생성실패",error);
             }
         }
 

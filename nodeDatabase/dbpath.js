@@ -4,6 +4,7 @@ import '../appname.js';
 import { app } from 'electron';
 import fs from 'fs';
 import path from 'path';
+import { debug } from '../handler/log.js';
 
 //DB파일 위치를 여기 한곳에서만 정한다. JS(InitDB)와 C++ addon이 각자 경로를 계산하면
 //둘이 어긋나도 티가 안나서(sqlite는 없는 파일을 그냥 만들어버림) DB가 조용히 갈라진다.
@@ -26,6 +27,6 @@ const dbpath = path.join(dir, 'filetree.db');
 //(0바이트 파일도 SQLite에선 유효한 빈 DB로 열림)
 if (!fs.existsSync(dbpath)) fs.closeSync(fs.openSync(dbpath, 'w'));
 
-console.log("DB 경로:", dbpath);
+debug("DB 경로:", dbpath);
 
 export { dbpath };

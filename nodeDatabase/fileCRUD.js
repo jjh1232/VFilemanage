@@ -1,7 +1,11 @@
 import { init, db, query } from '../nodeDatabase/InitDB.js'; // 확장자(.js)를 붙여야 할 수도 있습니다.
 import  * as Utils  from './Utilmethod.js';
-import Store from 'electron-store';
-const store=new Store();//여기서파일직접읽어옴
+//store는 setting.js 것을 그대로 쓴다. 여기서 new Store()로 따로 만들면 그 인스턴스엔
+//defaults가 없어서, 사용자가 openstore로 설정파일을 열어 view를 지우면
+//store.get("view.sort")가 undefined가 되고 아래 sortdata.key에서 터진다.
+//그러면 readFiles/readsearchFiles가 둘 다 죽어서 파일목록이 통째로 안 뜬다
+import store from '../setting.js';
+import { debug } from '../handler/log.js';
 //sqllite3는 비동기화 라 promise로 동기화안하면 db락걸려서개판난다함
 
 const allowsortkey=["filename","type","size","date"];
@@ -10,17 +14,11 @@ const allowsortorder=["DESC","ASC"]
 async function createFile({parentid,realfilename,filename,type,realpath,size=0,isori}){
   let currentname=filename;
   let counter=1;
-  console.log("createfolder")
-  console.log(`parentid:${parentid}`);
-  console.log(`realfilename:${realfilename}`);
-  console.log(`filename:${filename}`);
-  console.log(`type:${type}`);
-  console.log(`realpath:${realpath}`);
-  console.log(`size:${size}`);
-  console.log(`isori:${isori}`);
+  //예전엔 여기서 인자 8개를 한줄씩 찍었다. createFile은 폴더 하나마다 불리므로
+  //폴더 5천개짜리를 가져오면 아무도 못 볼 4만줄을 만드느라 시간을 썼다.
+  //진행상황은 main.js의 importlog가 200개마다 한줄씩 남긴다
   while(true){
     try{
-      console.log("suc");
       const result=await query(
         `INSERT INTO files(parent_id,realfilename,filename,type,realpath,size,isori)
         VALUES(?,?,?,?,?,?,?)`,
@@ -28,7 +26,6 @@ async function createFile({parentid,realfilename,filename,type,realpath,size=0,i
     )
     return result.lastId//새로만든 파일 id반환
     }catch(error){
-      console.log("err")
       if(error.message.includes('UNIQUE constraint failed')){
         let newname=await Utils.generateUniqueName({query,parentid,currentname})
         currentname=newname;
@@ -90,7 +87,7 @@ async function readFiles({parentid=0, folderFirst=true}={}){
 // 메인주소구하는 쉬운코드
 async function getFolderPath(currentfolderid) {
 
-  console.log("주소찾기시작",currentfolderid)
+  debug("주소찾기시작",currentfolderid)
   if(currentfolderid===null||currentfolderid===undefined) return [];
 
   const {rows}=await query(
@@ -114,8 +111,7 @@ async function getFolderPath(currentfolderid) {
   `,[currentfolderid])
   //유니온으로 나타내는데 위의 처음기준fp만든 것 fp를 기준으로 패런트아이디로 구한다.유니온합침
 
-  console.log("주소찾기끝");
-  console.log("결과:",rows)
+  debug("주소찾기끝, 결과",rows.length,"행")
 
   return rows;
   

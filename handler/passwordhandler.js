@@ -1,6 +1,7 @@
 import { ipcMain } from "electron";
 import crypto from "crypto";
 import store from "../setting.js";
+import { debug } from './log.js';
 
 //앱 잠금 비밀번호. 평문은 어디에도 저장하지 않고, 무작위 salt를 붙인 scrypt 해시만 남김.
 //검증은 전부 여기(메인 프로세스)에서만 하고 해시는 화면쪽으로 절대 안 보냄.
@@ -35,7 +36,7 @@ function verify(password, lock) {
 
 //storehandler.js와 같이 "import되면 바로 등록"되는 방식.
 //main.js가 require만 하면 되고 따로 호출할 필요 없음
-console.log("비밀번호핸들러등록");
+debug("비밀번호핸들러등록");
 
 //비밀번호가 걸려있는지 + 힌트만 알려줌(해시는 안 나감)
 ipcMain.handle('password-status', () => {

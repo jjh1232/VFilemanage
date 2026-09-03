@@ -211,7 +211,7 @@ export const FilterView=({setisopen})=>{
                  setTempfilters(savedfilter);
                  console.log("temp:",tempFilters)
             }catch(err){
-                console.log("초기화실패")
+                window.nodeapi.logerror("필터 초기화실패")
             }
 
 

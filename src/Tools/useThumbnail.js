@@ -36,11 +36,11 @@ async function pump(queryClient) {
             console.log("[썸네일] 저장완료 id:", job.id);
             scheduleRefresh(queryClient);
         } else {
-            console.log("[썸네일] 결과가 비어있음", job.realpath);
+            window.nodeapi.logerror(`[썸네일] 결과가 비어있음: ${job.realpath}`);
         }
     } catch (error) {
         //깨진 파일/권한 문제는 그냥 건너뜀. handled에 남아있어서 다시 시도하지 않음
-        console.log("[썸네일] 실패:", job.realpath, error.message);
+        window.nodeapi.logerror(`[썸네일] 실패: ${job.realpath}`, error);
     } finally {
         running--;
         pump(queryClient);

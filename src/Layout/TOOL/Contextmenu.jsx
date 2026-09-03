@@ -182,7 +182,7 @@ export default function Contextmenu(){
             await window.nodeapi.db.deleteFile(idArray);
             await queryClient.invalidateQueries({queryKey:['filedata']});
         }catch(error){
-            console.log("삭제 실패",error);
+            window.nodeapi.logerror("삭제 실패",error);
         }
     }
 
@@ -267,7 +267,7 @@ export default function Contextmenu(){
             await window.nodeapi.db.saveFolderCovers({folderid:pickerfolder, ids:pickedids});
             await queryClient.invalidateQueries({queryKey:['filedata']});
         }catch(error){
-            console.log("대표이미지 저장 실패",error);
+            window.nodeapi.logerror("대표이미지 저장 실패",error);
             alert(t("cover_savefail"));
         }finally{
             setPickerfolder(null);
@@ -290,7 +290,7 @@ export default function Contextmenu(){
             }
             await queryClient.invalidateQueries({queryKey:['filedata']});
         }catch(error){
-            console.log("붙여넣기 실패",error);
+            window.nodeapi.logerror("붙여넣기 실패",error);
         }
     }
 
@@ -302,7 +302,7 @@ export default function Contextmenu(){
             await queryClient.invalidateQueries({queryKey:['filedata']});
             return newfileid;
         }catch(error){
-            console.log("에러",error)
+            window.nodeapi.logerror("새폴더 만들기 실패",error)
         }
     }
 

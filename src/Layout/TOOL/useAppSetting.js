@@ -49,7 +49,7 @@ export function useAppSetting(){
                 setColumnwidth({...DEFAULTCOLUMNWIDTH, ...(view.columnwidth ?? {})})
                 setisdarkmode(user.isdarkmode);
                 }catch(err){
-                        console.log("store설정 초기값실패")
+                        window.nodeapi.logerror("store설정 초기값실패")
                 }
             })
             ();//이게 실행함수임 없으면 실행안함

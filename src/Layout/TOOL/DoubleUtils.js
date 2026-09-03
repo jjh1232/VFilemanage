@@ -31,7 +31,7 @@ async function askdeletemissing({item,result,t,queryClient,confirm}){
         await window.nodeapi.db.deleteFile([item.id]);
         await queryClient.invalidateQueries({queryKey:['filedata']});
     }catch(error){
-        console.log("없는파일 삭제실패",error);
+        window.nodeapi.logerror("없는파일 삭제실패",error);
     }
 }
 

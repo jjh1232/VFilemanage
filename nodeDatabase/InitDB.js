@@ -3,13 +3,16 @@ import sqlite3 from 'sqlite3';
 //라이브러리설치
 //경로는 dbpath.js가 정함(사용자 데이터 폴더). 여기서 직접 계산하면 addon쪽과 어긋남
 import { dbpath } from './dbpath.js';
+import { debug, logerror } from '../handler/log.js';
 //sqllite 연결객체
 const db=new sqlite3.Database(dbpath);
 
 
  function init(){
     //여러sql명령순서대로실행보장
-  console.log("init시작")
+  debug("init시작")
+  //표 생성이 다 끝나면 resolve된다. main.js가 이걸 await해야 첫 실행에서 안 터진다
+  return new Promise((resolve,reject)=>{
     db.serialize(()=>{//여러 sql순서대로 실행보장(병렬실행방지용)
       //if not exist 있으면 안생성
               db.run(`CREATE TABLE IF NOT EXISTS files (
@@ -58,7 +61,7 @@ const db=new sqlite3.Database(dbpath);
         //이미 컬럼이 있으면 에러가 나는데 그건 정상이라 무시함(CREATE TABLE IF NOT EXISTS로는 못 추가돼서 필요)
         db.run(`ALTER TABLE thumbnails ADD COLUMN updated_at INTEGER`,(err)=>{
           if(err && !String(err.message).includes('duplicate column')){
-            console.log("thumbnails 마이그레이션 참고:",err.message);
+            logerror("thumbnails 마이그레이션 실패",err);
           }
         });
 
@@ -66,7 +69,7 @@ const db=new sqlite3.Database(dbpath);
         //위와 같은 이유로 이미 있으면 에러가 나는데 정상이라 무시
         db.run(`ALTER TABLE files ADD COLUMN cover_ids TEXT`,(err)=>{
           if(err && !String(err.message).includes('duplicate column')){
-            console.log("files 마이그레이션 참고:",err.message);
+            logerror("files 마이그레이션 실패",err);
           }
         });
 
@@ -80,12 +83,22 @@ const db=new sqlite3.Database(dbpath);
         db.run(`UPDATE files SET type='folder' WHERE type='' OR type IS NULL`);
 
         // 인덱스 (parent_id 검색 100배 빨라짐) //패런트아이디컬럼내부에 인덱스를 줘서 속도개선이라함
-        db.run(`CREATE INDEX IF NOT EXISTS idx_parent_id ON files(parent_id)`);
+        //여기가 마지막 문장이다. serialize 안이라 위의 CREATE TABLE들이 전부 끝난 뒤에만
+        //이 콜백이 불린다 - 그래서 이걸로 "표가 다 준비됐다"를 알린다.
+        //예전엔 init이 Promise를 안 돌려줘서 main.js가 기다릴 방법이 없었고,
+        //표가 아직 없는 새 PC 첫 실행에서 뒤따르는 fixExtSuffixNames가
+        //"no such table: files"로 터졌다
+        db.run(`CREATE INDEX IF NOT EXISTS idx_parent_id ON files(parent_id)`,(err)=>{
+          if(err) return reject(err);
+          debug("init끝");
+          resolve();
+        });
           
 
            
     })
 
+  })
 }
 //예전엔 이름이 겹칠때 파일명 전체 뒤에 번호를 붙여서 "티아.png (1)"처럼 됐다.
 //앱 안에서는 타입을 realpath로 판별해서 티가 안났지만, 실제 폴더로 내보내면
@@ -113,7 +126,7 @@ async function fixExtSuffixNames(){
       [row.parent_id,newname,row.id]
     );
     if(dup.length>0){
-      console.log("이름정리 건너뜀(이미 있음):",row.filename,"->",newname);
+      debug("이름정리 건너뜀(이미 있음):",row.filename,"->",newname);
       continue;
     }
 
@@ -121,7 +134,7 @@ async function fixExtSuffixNames(){
     fixed++;
   }
 
-  if(fixed>0) console.log(`이름정리: 확장자 뒤에 있던 번호 ${fixed}개를 앞으로 옮김`);
+  if(fixed>0) debug(`이름정리: 확장자 뒤에 있던 번호 ${fixed}개를 앞으로 옮김`);
   return fixed;
 }
 

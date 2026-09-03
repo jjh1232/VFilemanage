@@ -19,7 +19,7 @@ export const LanguageProvider=({children})=>{
                 //저장된 값이 없거나 지금 지원 안하는 언어면 기본값 유지
                 if(storedLang && Language[storedLang]) setLang(storedLang);
             }catch(err){
-                console.log("stor언어로드실패")
+                window.nodeapi.logerror("언어설정 로드실패")
             }
         })();//이 ()가 없어서 여태 함수만 만들고 실행이 안됐음 → 저장한 언어가 복원되지 않았음
     },[]);
@@ -29,7 +29,7 @@ export const LanguageProvider=({children})=>{
         try{
             await window.nodeapi.store.set("user.Language",newLang);
         }catch(err){
-            console.log("store저장실패");
+            window.nodeapi.logerror("언어설정 저장실패");
         }
     };
 

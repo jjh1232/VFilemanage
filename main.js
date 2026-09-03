@@ -6,6 +6,15 @@
 //   언젠가 package.json에 "type":"module"을 넣고 통째로 통합할것.
 const { app, BrowserWindow } = require('electron');
 
+//반드시 requestSingleInstanceLock()보다 위여야 한다.
+//락은 userData 폴더를 쓰기 때문에, 부르는 순간 그 경로가 확정되고 그 뒤의 app.setName은
+//아무 효과가 없다. 게다가 Electron의 app.getName()은 package.json의 name보다
+//productName을 우선하므로, productName을 넣는 순간 userData가 통째로
+//Roaming 밑의 productName 폴더로 옮겨가서, 기존 사용자의 DB와 설정이 전부 사라진 것처럼 보인다.
+//appname.js를 먼저 부르면 이름이 이미 확정된 상태로 락이 올바른 폴더를 잡는다.
+//(아래 crashhandler/dbpath도 각자 appname을 import하지만, 그때는 이미 늦다)
+require('./appname.js');
+
 //앱은 SQLite 파일 하나를 쓴다. 두번 켜지면 두 프로세스가 같은 파일에 쓰기를 시도해서
 //SQLITE_BUSY가 터지거나 최악엔 DB가 깨진다. 사용자는 아이콘을 두번 누르는게 일상이라
 //"이미 켜져있으면 원래 창을 띄워주고 새 프로세스는 즉시 죽는다"로 처리한다.
@@ -30,6 +39,10 @@ app.on('second-instance', () => {
 //아래 require들이 터지는것까지 잡으려면 여기가 제일 위여야 한다.
 //import만 하면 예외 핸들러가 등록됨(따로 호출 안함)
 require('./handler/crashhandler');
+
+//진행상황(debug)은 개발중에만, 문제신호(logerror)는 배포판에서도 error.log에 남는다.
+//배포판엔 콘솔이 없어서 예전엔 아래 "...실패, 건너뜀" 들이 통째로 증발했다
+const { debug, logerror } = require('./handler/log.js');
 
 const path = require('path');
 const fs = require('fs');
@@ -118,7 +131,7 @@ app.whenReady().then(async ()=>{
 
       return net.fetch(pathToFileURL(filepath).toString());
     }catch(error){
-      console.log("appfile 열기실패:",request.url,error.message);
+      logerror(`appfile 열기실패: ${request.url}`,error);
       return new Response('not found',{status:404});
     }
   });
@@ -141,20 +154,22 @@ app.whenReady().then(async ()=>{
         }
       });
     }catch(error){
-      console.log("thumb 열기실패:",request.url,error.message);
+      logerror(`thumb 열기실패: ${request.url}`,error);
       return new Response('not found',{status:404});
     }
   });
 
-  console.log("mainjsinit시작");
-   init();
+  debug("mainjsinit시작");
+   //표가 다 만들어질 때까지 기다린다. 예전엔 await가 없어서, 표가 아직 없는
+   //새 PC 첫 실행에서 아래 fixExtSuffixNames가 "no such table: files"로 터졌다
+   await init();
    //init이 표를 만든 뒤에 돌아야함. 예전 이름("티아.png (1)")을 "티아 (1).png"로 되돌림.
    //몇번 실행해도 안전해서 켤때마다 그냥 돌려도 됨
-   await fixExtSuffixNames().catch(error=>console.log("이름정리 실패:",error.message));
-   console.log("mainjsinit끝");
-   console.log("노드핸들러시작");
+   await fixExtSuffixNames().catch(error=>logerror("이름정리 실패",error));
+   debug("mainjsinit끝");
+   debug("노드핸들러시작");
     nodehandler();
-    console.log("노드핸들러끝");
+    debug("노드핸들러끝");
      setTimeout(() => {
         createWindow();
     }, 1000);
@@ -290,7 +305,7 @@ async function toEntries(paths, exts){
       return {path:p, isdir};
     }catch(error){
       //권한없음/링크깨짐 등은 그냥 건너뜀
-      console.log("경로확인실패, 건너뜀:",p,error.message);
+      logerror(`경로확인실패, 건너뜀: ${p}`,error);
       return null;
     }
   }));
@@ -300,7 +315,7 @@ async function toEntries(paths, exts){
 async function insertPathsRecursive(entries, parentId, depth=0, ctx={}){
   //윈도우 정션/심볼릭링크로 경로가 순환할수있어서 안전장치
   if(depth>30){
-    console.log("재귀깊이초과, 중단:",parentId);
+    logerror(`재귀깊이초과, 중단: parentId=${parentId}`);
     return;
   }
 
@@ -364,7 +379,7 @@ async function insertPathsRecursive(entries, parentId, depth=0, ctx={}){
       });
       //id를 못받으면 그밑으로 재귀하면 안됨(자식들이 엉뚱하게 최상위로 쏟아짐)
       if(newId===undefined||newId===null){
-        console.log("폴더id를 못받아서 하위 건너뜀:",d);
+        logerror(`폴더id를 못받아서 하위 건너뜀: ${d}`);
         continue;
       }
 
@@ -381,7 +396,7 @@ async function insertPathsRecursive(entries, parentId, depth=0, ctx={}){
 
       await insertPathsRecursive(children, newId, depth+1, ctx);
     }catch(error){
-      console.log("폴더처리실패, 건너뜀:",d,error.message);
+      logerror(`폴더처리실패, 건너뜀: ${d}`,error);
     }
   }
 }
@@ -407,7 +422,7 @@ ipcMain.handle('insertfile', async (event,{filepathfromdrop,currentfolderid}) =>
   }
   //폴더가 섞여있으면 안쪽까지 구조그대로 재귀삽입. 필터는 재귀함수안에서 파일에만 적용됨.
   //설정은 여기서 한번만 읽어 재귀 내내 물려준다(안에서 매번 읽으면 디스크를 그만큼 왕복)
-    console.log("재귀삽입시작",filePaths.length,"개 경로");
+    debug("재귀삽입시작",filePaths.length,"개 경로");
     const progress=makeProgress(event);
     const stat={files:0, folders:0, stopped:null};
     //확장자 판정 기준은 여기서 딱 한번 만든다. 예전엔 파일묶음마다 설정파일을 다시
@@ -424,7 +439,7 @@ ipcMain.handle('insertfile', async (event,{filepathfromdrop,currentfolderid}) =>
       //중간에 터져도 화면의 진행표시는 반드시 걷어야 한다. 안그러면 영영 "가져오는 중"으로 남음
       const total=progress.done(stat.stopped);
       importlog(`=== 끝 파일 ${stat.files} 폴더 ${stat.folders} ${stat.stopped?'(중단:'+stat.stopped+')':''} | ${memline()}`);
-      console.log("재귀삽입완료:",total,"개");
+      debug("재귀삽입완료:",total,"개");
     }
  return "success";
 });
@@ -440,7 +455,7 @@ ipcMain.handle('insertfolder', async (event,{currentfolderid}={}) => {
     return { success: false, message: '취소됨' };
   }
 
-  console.log("폴더 재귀삽입시작",result.filePaths.length,"개 폴더");
+  debug("폴더 재귀삽입시작",result.filePaths.length,"개 폴더");
   const progress=makeProgress(event);
   const stat={files:0, folders:0, stopped:null};
   //확장자 판정 기준은 여기서 딱 한번 만든다. 예전엔 파일묶음마다 설정파일을 다시
@@ -454,7 +469,7 @@ ipcMain.handle('insertfolder', async (event,{currentfolderid}={}) => {
   }finally{
     const total=progress.done(stat.stopped);
     importlog(`=== 끝 파일 ${stat.files} 폴더 ${stat.folders} ${stat.stopped?'(중단:'+stat.stopped+')':''} | ${memline()}`);
-    console.log("폴더 재귀삽입완료:",total,"개");
+    debug("폴더 재귀삽입완료:",total,"개");
   }
   return "success";
 });
@@ -552,7 +567,7 @@ async function readId3AlbumArt(filepath){
     }
     return null;
   }catch(error){
-    console.log("앨범아트 읽기실패:",filepath,error.message);
+    logerror(`앨범아트 읽기실패: ${filepath}`,error);
     return null;
   }finally{
     await handle?.close().catch(()=>{});
@@ -672,7 +687,7 @@ async function exportNodes(nodes, destdir, ctx){
       try{
         await fileDB.updateFile({id:row.id,updates:{realpath:target}});
       }catch(error){
-        console.log("realpath 갱신실패:",row.id,error.message);
+        logerror(`realpath 갱신실패: id=${row.id}`,error);
       }
 
       //이 원본을 가리키던 "바깥"(내보내는 폴더 밖) 행들도 따라와야 함.
@@ -747,7 +762,7 @@ ipcMain.handle('export-folder',async(event,{folderid,removeorigin=false}={})=>{
   let relinked=0;
   for(const [from,to] of ctx.relocated){
     try{ relinked+=await fileDB.relinkRealpath({from,to}); }
-    catch(error){ console.log("바깥 행 갱신실패:",from,error.message); }
+    catch(error){ logerror(`바깥 행 갱신실패: ${from}`,error); }
   }
 
   //원본 정리는 반드시 맨 마지막. 여기 오기전에 모든 행이 이미 새 위치를 가리키고 있어서,
@@ -765,17 +780,24 @@ ipcMain.handle('export-folder',async(event,{folderid,removeorigin=false}={})=>{
           skipped:ctx.skipped, renamed:ctx.renamed};
 });
 
+//화면(렌더러)에서 올라온 오류를 메인의 error.log에 같이 남긴다.
+//화면과 메인의 실패가 한 파일에 시간순으로 쌓여야 원인을 따라갈 수 있다.
+//handle이 아니라 on인 이유: 보낸쪽이 답을 기다리지 않는다(preload에서 send로 보냄)
+ipcMain.on("renderer-log",(event,message,stack)=>{
+  logerror(`[화면] ${message}`,{stack});
+});
+
 //DB핸들러
 Object.keys(fileDB).forEach(method=>{
-  console.log(`ipcrun:${method}`)
+  debug(`ipcrun:${method}`)
   ipcMain.handle(`db-${method}`,async (event,data)=>{
     
     try{
       const result=await fileDB[method](data);
-      console.log(`${method}success`)
+      debug(`${method}success`)
       return result;
     }catch(error){
-        console.log(`${method}error`,error.message)
+        logerror(`IPC ${method} 실패`,error)
         throw error;
     }
     

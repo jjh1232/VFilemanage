@@ -1,14 +1,17 @@
 // preload.js (sandbox: false 후 동작)
 const { contextBridge, dialog, ipcRenderer, webUtils } = require('electron');
 
-console.log('🟢 Preload 시작');
-
 //addon은 여기서 안불러옴. 렌더러에서 부르면 DB커넥션이 프로세스마다 따로 열리는데,
 //실제 삽입은 main.js의 insertfile/insertfolder IPC를 타므로 렌더러쪽은 쓰이지도 않았음
 //(제거하면서 렌더러 메모리도 같이 줄어듦)
 
 //node.js용 파일API main.js아니면 안되서 IPC메인에서만들고여기추가
 contextBridge.exposeInMainWorld("nodeapi",{
+  //화면쪽 오류를 메인의 error.log로 넘기는 통로.
+  //배포판은 개발자도구가 안열려서 console.log는 아무도 못본다 - 사용자가 "삭제가 안돼요"라고
+  //해도 단서가 없었다. Error 객체는 IPC로 그대로 못넘기므로 stack만 문자열로 뽑아서 보낸다.
+  //invoke가 아니라 send인 이유: 로그를 남기려고 화면이 기다릴 이유가 없다
+  logerror:(message,error)=>ipcRenderer.send("renderer-log",String(message),error?.stack||String(error??"")),
   insertfile:(payload)=>ipcRenderer.invoke('insertfile',payload),
   insertfolder:(payload)=>ipcRenderer.invoke(`insertfolder`,payload),
   openFile:(filepath)=>ipcRenderer.invoke('open-file',filepath),
@@ -47,8 +50,7 @@ contextBridge.exposeInMainWorld("nodeapi",{
   },
   db:{readfiles:(payload)=>ipcRenderer.invoke(`db-readFiles`,payload),
       searchreadfiles:(payload)=>ipcRenderer.invoke(`db-readsearchFiles`,payload),
-      createfolder:(data)=>{console.log("createfolderbridge")
-        return ipcRenderer.invoke(`db-createFile`,data)}, //구조검사안해서대충엔티티
+      createfolder:(data)=>ipcRenderer.invoke(`db-createFile`,data), //구조검사안해서대충엔티티
        deleteFile:(ids)=>ipcRenderer.invoke("deleteFiles",ids),
        getFolderPath:(currentfolderid)=>ipcRenderer.invoke("db-getFolderPath",currentfolderid),
        moveFiles:(payload)=>ipcRenderer.invoke("db-moveFiles",payload),
