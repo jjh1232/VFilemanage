@@ -14,5 +14,8 @@ import { app } from 'electron';
 //
 //⚠️ 이 값은 절대 바꾸지 말것.
 //   바꾸는 순간 기존 사용자의 userData 폴더를 못찾아서 라이브러리가 통째로 사라진다.
-//   화면에 보이는 제품명을 바꾸고 싶으면 package.json의 productName만 바꾼다.
+//   화면에 보이는 제품명은 여기가 아니라 두 군데다:
+//   package.json의 productName(설치파일/시작메뉴/바로가기)과 index.html의 title(창 제목).
+//   그 둘은 마음대로 바꿔도 userData 폴더에 영향이 없다 - 이 파일이 락보다 먼저 이름을
+//   확정하기 때문이다(main.js 맨 위의 require 순서 참고).
 app.setName('react-parcel');

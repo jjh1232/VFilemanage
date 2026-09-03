@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#5B8DEF"/>
+      <stop offset="1" stop-color="#1E3A8A"/>
+    </linearGradient>
+    <linearGradient id="fold" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#FFFFFF"/>
+      <stop offset="1" stop-color="#DCE7FB"/>
+    </linearGradient>
+  </defs>
+
+  <rect x="0" y="0" width="256" height="256" rx="56" fill="url(#bg)"/>
+
+  <!-- 폴더 뒷면(탭). 앞면 위로 살짝만 드러나게 -->
+  <path d="M40 74 h58 l18 20 h100 a14 14 0 0 1 14 14 v20 H40 z" fill="#C0D5F6"/>
+  <!-- 폴더 앞면 -->
+  <rect x="40" y="98" width="176" height="112" rx="16" fill="url(#fold)"/>
+
+  <!-- 트리: 루트 1개에서 오른쪽으로 자식 2개 분기 -->
+  <g stroke="#2B4FA8" stroke-width="10" stroke-linecap="round" fill="none">
+    <path d="M92 157 H114"/>
+    <path d="M114 138 V176"/>
+    <path d="M114 138 H128"/>
+    <path d="M114 176 H128"/>
+  </g>
+  <g fill="#2B4FA8">
+    <circle cx="78" cy="157" r="14"/>
+    <rect x="128" y="126" width="62" height="24" rx="12"/>
+    <rect x="128" y="164" width="62" height="24" rx="12"/>
+  </g>
+</svg>

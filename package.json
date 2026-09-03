@@ -1,5 +1,6 @@
 {
   "name": "react-parcel",
+  "productName": "VFilemanage",
   "version": "1.0.0",
   "main": "main.js",
   "targets": {
@@ -7,16 +8,60 @@
   },
   "scripts": {
     "rebuild-addon": "powershell -Command \"cd addon; node-gyp clean; node-gyp rebuild\"",
-    "start": "parcel index.html",
+    "start": "parcel index.html --dist-dir .devdist",
     "build-addon": "cd addon && node-gyp rebuild",
-    "build": "parcel build index.html --public-url ./",
+    "clean": "node -e \"require('fs').rmSync('dist',{recursive:true,force:true})\"",
+    "build": "npm run clean && parcel build index.html --public-url ./ --no-source-maps",
+    "dist": "npm run build && electron-builder",
     "dev": "concurrently \"npm start\" \"wait-on http://localhost:1234 && electron . --dev\"",
     "electron": "electron ."
   },
   "keywords": [],
-  "author": "",
+  "author": "jjh1232",
   "license": "ISC",
-  "description": "",
+  "description": "원본을 옮기지 않고 가상 폴더트리로 파일을 정리하는 파일 관리자",
+  "build": {
+    "appId": "com.jjh1232.vfilemanage",
+    "productName": "VFilemanage",
+    "directories": {
+      "output": "release",
+      "buildResources": "buildassets"
+    },
+    "files": [
+      "main.js",
+      "preload.js",
+      "setting.js",
+      "appname.js",
+      "handler/**/*",
+      "nodeDatabase/**/*",
+      "dist/**/*",
+      "addon/build/Release/myaddon.node",
+      "!**/*.map"
+    ],
+    "asarUnpack": [
+      "addon/build/Release/myaddon.node",
+      "node_modules/sqlite3/**/*"
+    ],
+    "win": {
+      "target": [
+        "nsis",
+        "zip",
+        "portable"
+      ],
+      "icon": "buildassets/icon.ico"
+    },
+    "portable": {
+      "artifactName": "VFilemanage-${version}-portable.${ext}"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "perMachine": false,
+      "createDesktopShortcut": true,
+      "shortcutName": "VFilemanage",
+      "artifactName": "VFilemanage-${version}-setup.${ext}"
+    }
+  },
   "dependencies": {
     "@tanstack/react-query": "^5.90.21",
     "@viselect/react": "^3.9.0",
@@ -35,6 +80,7 @@
     "concurrently": "^9.2.1",
     "crypto-browserify": "^3.12.1",
     "electron": "^40.1.0",
+    "electron-builder": "^26.15.3",
     "electron-rebuild": "^3.2.9",
     "events": "^3.3.0",
     "node-gyp": "^12.2.0",
