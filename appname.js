@@ -18,4 +18,9 @@ import { app } from 'electron';
 //   package.json의 productName(설치파일/시작메뉴/바로가기)과 index.html의 title(창 제목).
 //   그 둘은 마음대로 바꿔도 userData 폴더에 영향이 없다 - 이 파일이 락보다 먼저 이름을
 //   확정하기 때문이다(main.js 맨 위의 require 순서 참고).
-app.setName('react-parcel');
+//
+//   2026-09-03: 첫 배포 직전에 'react-parcel'(개발 프로젝트명)에서 바꿨다.
+//   사용자가 %APPDATA%에서 찾을 이름은 제품명이어야 하는데 폴더만 딴 이름이었다.
+//   이때는 쓰던 사람이 개발자 본인뿐이라 폴더명만 바꿔 옮기면 끝나는 일이었지만,
+//   배포 이후로는 남의 PC에 이 폴더가 생기므로 정말로 못 바꾼다.
+app.setName('VFilemanage');
