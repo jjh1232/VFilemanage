@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>整理はバックアップではない — 混同すると起きること | VFilemanage</title>
+<meta name="description" content="ファイル整理ツールとバックアップは別の仕事をします。一覧だけ残って原本が消えたとき何が起きるか、同期がなぜバックアップでないか、両方を併用する方法。">
+
+<!-- canonical·hreflang·og:url 은 반드시 prelaps.com 절대 URL.
+     확장자 없는 형태다 — 자산 층이 .html 을 이쪽으로 301 하므로
+     .html 을 적으면 모든 링크에 리다이렉트가 한 번씩 붙는다. -->
+<link rel="canonical" href="https://prelaps.com/vfile/ja/not-a-backup">
+<link rel="alternate" hreflang="ko" href="https://prelaps.com/vfile/ko/not-a-backup">
+<link rel="alternate" hreflang="en" href="https://prelaps.com/vfile/en/not-a-backup">
+<link rel="alternate" hreflang="ja" href="https://prelaps.com/vfile/ja/not-a-backup">
+<link rel="alternate" hreflang="x-default" href="https://prelaps.com/vfile/en/not-a-backup">
+
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://prelaps.com/vfile/ja/not-a-backup">
+<meta property="og:title" content="整理はバックアップではない">
+<meta property="og:description" content="ファイル整理ツールとバックアップは別の仕事をします。一覧だけ残って原本が消えたとき何が起きるか、同期がなぜバックアップでないか、両方を併用する方法。">
+<meta property="og:image" content="https://prelaps.com/vfile/icon.png">
+<meta property="og:locale" content="ja_JP">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "整理はバックアップではない — 混同すると起きること",
+  "description": "ファイル整理ツールとバックアップは別の仕事をします。一覧だけ残って原本が消えたとき何が起きるか、同期がなぜバックアップでないか、両方を併用する方法。",
+  "inLanguage": "ja",
+  "mainEntityOfPage": "https://prelaps.com/vfile/ja/not-a-backup",
+  "author": { "@type": "Organization", "name": "prelaps", "url": "https://prelaps.com/" },
+  "publisher": { "@type": "Organization", "name": "prelaps", "url": "https://prelaps.com/" }
+}
+</script>
+
+<meta name="theme-color" content="#3D2FA8">
+<link rel="icon" href="../icon.png">
+<link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="wrap">
+    <a class="brand" href="./"><img src="../icon.png" alt="">VFilemanage</a>
+    <nav class="topnav">
+      <a href="./">概要</a>
+      <a href="./#download">ダウンロード</a>
+      <a href="./#faq">よくある質問</a>
+    </nav>
+    <div class="langs">
+      <a href="../ko/not-a-backup" lang="ko">한국어</a><i>·</i>
+      <a href="../en/not-a-backup" lang="en">English</a><i>·</i>
+      <a href="../ja/not-a-backup" aria-current="page" lang="ja">日本語</a>
+    </div>
+  </div>
+</header>
+
+<main class="band">
+  <div class="wrap">
+    <article class="article">
+      <p class="crumb"><a href="/ja">prelaps</a> · <a href="./">VFilemanage</a></p>
+      <div class="section-head">
+        <h1>整理はバックアップではない — 混同すると起きること</h1>
+        <p class="lead">整理ツールは探す時間を減らします。ファイルを守ってはくれません。混同すると失ってから気づきます。</p>
+      </div>
+<h2>いちばんよくある誤解</h2>
+<p>ファイルを一か所にまとめると、安全になった気がします。一画面に全部見えて、名前もサムネイルもきちんと出て、ダブルクリックで開きます。そこで<b>「整理してあるから大丈夫」</b>と思ってしまいます。</p>
+<p>ところが<a href="organize-without-moving">ファイルを動かさずに整理する方法</a>で扱った手段 — ショートカット、ライブラリ、そしてこのソフト — はすべて<b>「原本がどこにあるか」だけを覚えています。</b>ファイル自体の複製はどこにもありません。原本が消えれば、一覧に残るのは名前だけです。</p>
+
+<h2>実際に何が起きるか</h2>
+<p>よくあるのは三つです。</p>
+<ul>
+<li><b>原本を消したとき</b> — 整理した側は何の反応もしません。一覧にはそのまま残り、開こうとして初めて「元のファイルが見つかりません」と出ます。そのときにはごみ箱も空にした後かもしれません。</li>
+<li><b>ドライブを外したとき</b> — 外付けやUSBにあったものが丸ごと開けなくなります。これは挿し直せば戻るので慌てる必要はありません。</li>
+<li><b>原本を動かしたり名前を変えたとき</b> — 同じ症状です。ファイルは無事で、つながりが切れているだけです。</li>
+</ul>
+<p>問題は、三つ目と一つ目が<b>画面上まったく同じに見える</b>ことです。「見つかりません」だけでは、動かしたのか消したのか分かりません。整理ツールにそれを区別する手立てはありません — そもそもファイルを持っていないからです。</p>
+
+<h2>同期もバックアップではない</h2>
+<p>OneDriveやDropboxに入れてあるから大丈夫、と考えがちですが、同期は<b>「消したことも同期します。」</b>片方で消せばもう片方からも消え、それが正常な動作です。</p>
+<p>上書きも同じです。作業中のファイルを誤って保存すれば、その誤った版がすべての端末に広がります。多くのサービスがごみ箱や版の履歴を三十日ほど保持しますが、<b>気づくまでに三十日以上かかることは現実にあります。</b></p>
+<p>同期が守ってくれるのは「この端末が壊れる場合」のひとつだけです。人の操作ミスとマルウェアはそのまま追いかけてきます。</p>
+
+<h2>バックアップとはこういうもの</h2>
+<p>広く使われている目安が<b>3-2-1</b>です。覚えやすく作られたものなので、そのまま使えば足ります。</p>
+<ul>
+<li><b>複製を3つ</b> — 原本を含めて三つ。ひとつ死んでも二つ残ります。</li>
+<li><b>媒体を2種類</b> — 内蔵ディスクと外付けのように別のところへ。同じディスク内の別フォルダは複製になりません。</li>
+<li><b>1つは建物の外へ</b> — クラウドでも職場に置いたディスクでも。火災や盗難は同じ部屋のものを全部持っていきます。</li>
+</ul>
+<p>個人ですべて守るのは面倒ですが、最低限<b>「別の物理的な媒体に複製がもうひとつあるか」</b>だけ満たしていれば、たいていの事故は乗り切れます。</p>
+
+<h2>では整理ツールは何をするのか</h2>
+<p>整理ツールが解くのは<b>探す時間</b>です。それだけですが、それで十分な価値があります。</p>
+<p>深い階層に埋もれたファイルを毎回掘りに行く代わりに一画面から取り出すこと、同じファイルをテーマ別に複数の場所に置いてもディスクを食わないこと、原本のフォルダ構造を壊さずに自分のやり方でまとめること。これらはバックアップが代わりにやってくれる仕事ではありません。</p>
+<p>逆もまた同じです。<b>バックアップは整理の代わりになりません。</b>バックアップディスクに全部入っていても、必要なものを見つけるのに三十分かかるならそれは別の問題です。</p>
+
+<h2>両方を併用する</h2>
+<p>構造が分かれば組み合わせは簡単です。</p>
+<ul>
+<li><b>バックアップの対象は原本のフォルダに指定する。</b>整理ツールが見せている一覧ではなく、実際にファイルがあるフォルダです。整理はファイルを動かさないので、原本の位置はそのままです。</li>
+<li><b>整理した内容そのものもバックアップ対象に入れる。</b>VFilemanage は <code>%APPDATA%\VFilemanage</code> の中の <code>filetree.db</code> ひとつに全部入っています。ファイルは取ったのにこのフォルダを外すと、復元したあとに整理をやり直すことになります。<b>整理にかけた時間がそこに入っています。</b></li>
+<li><b>大事なものは原本を安定した場所に置く。</b>一時フォルダやダウンロードフォルダに置いたまま整理だけしておくと、後でそのフォルダを片づけた瞬間につながりが切れます。</li>
+</ul>
+
+<h2>原本を動かす必要があるとき</h2>
+<p>整理済みの状態で原本を動かす場面はいずれ来ます。ドライブを替えるときやフォルダ構成を整えるときです。順序を守れば安全です。</p>
+<ol>
+<li>動かす<b>前に</b>バックアップを一度回します。ここを飛ばすと残りは意味がありません。</li>
+<li>原本を動かします。</li>
+<li>整理ツールで「元のファイルが見つかりません」と出る項目を新しい場所につなぎ直します。</li>
+</ol>
+<p>ドライブレターが変わる場合(DからEへ)が特によくあります。ファイルはそのままでパスだけが変わっているので、つなぎ直せば済みます。</p>
+
+<h2>一行にすると</h2>
+<p><b>整理ツールは「どこにあるか」を覚え、バックアップは「複製を持っています」。</b>前者だけの状態で原本が消えれば、残るのは名前だけです。よく整理してあるほどその状態を安全だと錯覚しやすいので、バックアップは別に回しておいてください。</p>
+      <p class="back"><a href="./#download">VFilemanage をダウンロード</a></p>
+    </article>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="left">VFilemanage 1.0.0 · ISC License</div>
+    <div class="right">
+      <a href="/ja">prelaps ホーム</a>
+      <a href="./">VFilemanage</a>
+      <a href="/ja/privacy#vfile">プライバシーポリシー</a>
+      <a href="/ja/terms">利用規約</a>
+      <a href="/ja/contact">お問い合わせ</a>
+      <a href="https://github.com/jjh1232/VFilemanage">リポジトリ</a>
+      <a href="https://github.com/jjh1232/VFilemanage/issues">不具合の報告</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

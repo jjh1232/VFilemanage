@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Organizing files without moving them — shortcuts, libraries and symlinks | VFilemanage</title>
+<meta name="description" content="Four ways to organize files while leaving the originals where they are, and where each one stops working. Shortcuts, Windows libraries, symbolic links and search.">
+
+<!-- canonical·hreflang·og:url 은 반드시 prelaps.com 절대 URL.
+     확장자 없는 형태다 — 자산 층이 .html 을 이쪽으로 301 하므로
+     .html 을 적으면 모든 링크에 리다이렉트가 한 번씩 붙는다. -->
+<link rel="canonical" href="https://prelaps.com/vfile/en/organize-without-moving">
+<link rel="alternate" hreflang="ko" href="https://prelaps.com/vfile/ko/organize-without-moving">
+<link rel="alternate" hreflang="en" href="https://prelaps.com/vfile/en/organize-without-moving">
+<link rel="alternate" hreflang="ja" href="https://prelaps.com/vfile/ja/organize-without-moving">
+<link rel="alternate" hreflang="x-default" href="https://prelaps.com/vfile/en/organize-without-moving">
+
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://prelaps.com/vfile/en/organize-without-moving">
+<meta property="og:title" content="Organizing files without moving them">
+<meta property="og:description" content="Four ways to organize files while leaving the originals where they are, and where each one stops working. Shortcuts, Windows libraries, symbolic links and search.">
+<meta property="og:image" content="https://prelaps.com/vfile/icon.png">
+<meta property="og:locale" content="en_US">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Organizing files without moving them — shortcuts, libraries and symlinks",
+  "description": "Four ways to organize files while leaving the originals where they are, and where each one stops working. Shortcuts, Windows libraries, symbolic links and search.",
+  "inLanguage": "en",
+  "mainEntityOfPage": "https://prelaps.com/vfile/en/organize-without-moving",
+  "author": { "@type": "Organization", "name": "prelaps", "url": "https://prelaps.com/" },
+  "publisher": { "@type": "Organization", "name": "prelaps", "url": "https://prelaps.com/" }
+}
+</script>
+
+<meta name="theme-color" content="#3D2FA8">
+<link rel="icon" href="../icon.png">
+<link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="wrap">
+    <a class="brand" href="./"><img src="../icon.png" alt="">VFilemanage</a>
+    <nav class="topnav">
+      <a href="./">Overview</a>
+      <a href="./#download">Download</a>
+      <a href="./#faq">FAQ</a>
+    </nav>
+    <div class="langs">
+      <a href="../ko/organize-without-moving" lang="ko">한국어</a><i>·</i>
+      <a href="../en/organize-without-moving" aria-current="page" lang="en">English</a><i>·</i>
+      <a href="../ja/organize-without-moving" lang="ja">日本語</a>
+    </div>
+  </div>
+</header>
+
+<main class="band">
+  <div class="wrap">
+    <article class="article">
+      <p class="crumb"><a href="/en">prelaps</a> · <a href="./">VFilemanage</a></p>
+      <div class="section-head">
+        <h1>Organizing files without moving them — shortcuts, libraries and symlinks</h1>
+        <p class="lead">You want things tidy, but moving a file quietly breaks something. There are four ways to group files in place, each good at a different job.</p>
+      </div>
+<h2>Why moving files hurts</h2>
+<p>The moment you create a folder and start dragging things into it to tidy up by topic, a few things break without saying anything.</p>
+<ul>
+<li><b>Anything with a path baked in</b> — project files from editors like Premiere, After Effects or Blender record where their source assets live. Move the assets and the next time you open the project, it reports missing files.</li>
+<li><b>Recent-file lists</b> — every one of them, in every program, goes dead.</li>
+<li><b>Sync folders</b> — pull a file out of OneDrive or Dropbox and it stops syncing. Push one in and it suddenly starts consuming your quota.</li>
+<li><b>Backup rules</b> — if your backup targets specific folders, a moved file drops out of the next run. You find out about that when you try to restore it.</li>
+</ul>
+<p>So people give up and leave everything where it fell. But there are ways to group files without moving them.</p>
+
+<h2>Shortcuts (.lnk)</h2>
+<p>A one-kilobyte file that points at the original. Right-click to make one, drop it in any folder, double-click and the original opens.</p>
+<p><b>Good for</b> — a handful of items you keep on the desktop or in a working folder.</p>
+<p><b>Where it stops</b> — it does not scale. Open a folder full of shortcuts in Explorer and thumbnails often fail to render, and sorting by size or date sorts the shortcut files rather than the originals. If you move an original, Windows tries to track it, but that usually fails once a different drive or a rename is involved.</p>
+
+<h2>Windows libraries</h2>
+<p>These are the Documents and Pictures entries in Explorer's sidebar. A library <b>merges several scattered folders into one view</b>, and you can right-click it to add more folders.</p>
+<p><b>Good for</b> — grouping at the <b>folder level</b>, as in "show me the photos folder on D: and the one on my external drive together". It is built into Windows, needs nothing installed, and sorting, search and thumbnails all work against the real files.</p>
+<p><b>Where it stops</b> — it works on folders, not files. There is no way to say "just these three files out of that folder". Maintaining a set of topic-specific libraries also gets awkward fast.</p>
+
+<h2>Symbolic links and junctions (mklink)</h2>
+<p>These are filesystem-level entries that point at another path. The crucial difference from a shortcut is that <b>programs treat them as the real file or folder</b>. You create them from a command prompt.</p>
+<ul>
+<li><code>mklink /J link target</code> — a directory junction. The safest option for folders on the same PC, and it needs no administrator rights.</li>
+<li><code>mklink /D link target</code> — a directory symbolic link. It can point at network paths, but requires administrator rights.</li>
+<li><code>mklink link target</code> — points at a single file.</li>
+</ul>
+<p><b>Good for</b> — cases where a program insists the data live at a particular path. Relocating a game's save folder or a large cache directory to another drive is the classic use.</p>
+<p><b>Where it gets dangerous</b> — deletion. Deleting a junction in Explorer removes only the link, but <b>some tools follow it and delete the contents of the original.</b> Command-line deletes and older backup or sync software are the usual offenders. Backup tools also frequently count the original and the link separately and back the same data up twice. Powerful, but hard to recommend for everyday tidying.</p>
+
+<h2>When search is the answer</h2>
+<p>If the goal is simply <b>opening one file whose name you know</b>, search beats organizing. A filename indexer finds it across every drive instantly.</p>
+<p>What search cannot do is represent <b>"the set of things I look at often"</b>. That set is not written in any filename or folder; it exists only in your head, which is exactly the part you cannot type into a search box.</p>
+
+<h2>What VFilemanage does</h2>
+<p><a href="./">VFilemanage</a> does not touch the filesystem at all. It <b>records where each original lives in a single database file and builds virtual folders inside the app.</b></p>
+<ul>
+<li>Creating, moving and deleting folders inside the app does nothing whatsoever to the real files.</li>
+<li>The same file can sit in several folders at once without using any extra disk space.</li>
+<li>Double-clicking opens the original in whatever program is associated with it.</li>
+<li>Everything you organize lives in <code>filetree.db</code> under <code>%APPDATA%\VFilemanage</code>. Copy that folder and the same library opens on another PC.</li>
+</ul>
+<p><b>The limits are equally clear.</b> This organization exists only inside the app. It does not appear in other programs' Open dialogs and it does not appear in Explorer. If an original is moved or deleted, the entry stays in the list but reports that the original cannot be found, and you can either relink it to its new location or remove it.</p>
+
+<h2>Which one to use</h2>
+<table>
+<tr><th>Situation</th><th>What fits</th></tr>
+<tr><td>Group whole folders and see them in Explorer</td><td>Windows library</td></tr>
+<tr><td>A handful of items kept on the desktop</td><td>Shortcuts</td></tr>
+<tr><td>A program must believe the data is really at that path</td><td>Symbolic link or junction</td></tr>
+<tr><td>Open one file whose name you know</td><td>Search</td></tr>
+<tr><td>Group hundreds of frequently used files by topic</td><td>Virtual organization, as in VFilemanage</td></tr>
+</table>
+<p>Mixing them is fine. Libraries for whole folders, plus a separate grouping for the handful you actually reach for, tends to be the most comfortable arrangement in practice.</p>
+      <p class="back"><a href="./#download">Download VFilemanage</a></p>
+    </article>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="left">VFilemanage 1.0.0 · ISC License</div>
+    <div class="right">
+      <a href="/en">prelaps home</a>
+      <a href="./">VFilemanage</a>
+      <a href="/en/privacy#vfile">Privacy</a>
+      <a href="/en/terms">Terms</a>
+      <a href="/en/contact">Contact</a>
+      <a href="https://github.com/jjh1232/VFilemanage">Repository</a>
+      <a href="https://github.com/jjh1232/VFilemanage/issues">Report an issue</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

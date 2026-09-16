@@ -29,4 +29,52 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://prelaps.com/vfile/en/"/>
     <lastmod>2026-09-03</lastmod>
   </url>
+  <url>
+    <loc>https://prelaps.com/vfile/ko/organize-without-moving</loc>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://prelaps.com/vfile/ko/organize-without-moving"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://prelaps.com/vfile/en/organize-without-moving"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://prelaps.com/vfile/ja/organize-without-moving"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://prelaps.com/vfile/en/organize-without-moving"/>
+    <lastmod>2026-09-12</lastmod>
+  </url>
+  <url>
+    <loc>https://prelaps.com/vfile/en/organize-without-moving</loc>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://prelaps.com/vfile/ko/organize-without-moving"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://prelaps.com/vfile/en/organize-without-moving"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://prelaps.com/vfile/ja/organize-without-moving"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://prelaps.com/vfile/en/organize-without-moving"/>
+    <lastmod>2026-09-12</lastmod>
+  </url>
+  <url>
+    <loc>https://prelaps.com/vfile/ja/organize-without-moving</loc>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://prelaps.com/vfile/ko/organize-without-moving"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://prelaps.com/vfile/en/organize-without-moving"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://prelaps.com/vfile/ja/organize-without-moving"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://prelaps.com/vfile/en/organize-without-moving"/>
+    <lastmod>2026-09-12</lastmod>
+  </url>
+  <url>
+    <loc>https://prelaps.com/vfile/ko/not-a-backup</loc>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://prelaps.com/vfile/ko/not-a-backup"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://prelaps.com/vfile/en/not-a-backup"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://prelaps.com/vfile/ja/not-a-backup"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://prelaps.com/vfile/en/not-a-backup"/>
+    <lastmod>2026-09-12</lastmod>
+  </url>
+  <url>
+    <loc>https://prelaps.com/vfile/en/not-a-backup</loc>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://prelaps.com/vfile/ko/not-a-backup"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://prelaps.com/vfile/en/not-a-backup"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://prelaps.com/vfile/ja/not-a-backup"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://prelaps.com/vfile/en/not-a-backup"/>
+    <lastmod>2026-09-12</lastmod>
+  </url>
+  <url>
+    <loc>https://prelaps.com/vfile/ja/not-a-backup</loc>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://prelaps.com/vfile/ko/not-a-backup"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://prelaps.com/vfile/en/not-a-backup"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://prelaps.com/vfile/ja/not-a-backup"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://prelaps.com/vfile/en/not-a-backup"/>
+    <lastmod>2026-09-12</lastmod>
+  </url>
 </urlset>

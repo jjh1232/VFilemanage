@@ -95,11 +95,33 @@ for (const lang of LANGS) {
   if (!title.trim()) bad(rel, '<title> 이 비어 있다');
 
   // 자산은 전부 상대 경로. 절대 경로는 도메인 루트로 풀려 깨진다 — 도구는 루트에 없다.
-  // 예외는 허브의 정책 페이지 앵커뿐이다 (헌법 §8).
+  //
+  // 예외는 **허브 페이지**다. 허브는 도메인 루트에 있으므로 그쪽으로 가는 링크는
+  // 절대 경로인 것이 맞다 (헌법 §8 — 정책 문서는 허브에 하나씩). 상대 경로로 적으면
+  // /vfile/ 기준으로 풀려 오히려 깨진다.
+  //
+  // 이 예외가 privacy 앵커 하나뿐이라 푸터에 홈·약관·문의를 넣을 수가 없었다.
+  // imagesquish·race 는 넷을 다 갖고 있는데 vfile 만 방침 하나였던 원인이다.
+  // 애드센스는 도메인 단위 심사라 한 도구의 누락이 전체에 걸린다.
+  const HUB_PAGES = ['about', 'privacy', 'terms', 'contact'];
+  const hubLink = new RegExp(`^/(${LANGS.join('|')})(/(${HUB_PAGES.join('|')}))?(#[a-zA-Z0-9_-]+)?$`);
   for (const m of html.matchAll(/(?:src|href)="(\/[^/][^"]*)"/g)) {
     const href = m[1];
-    if (/^\/(ko|en|ja)\/privacy#/.test(href)) continue;
+    if (hubLink.test(href)) continue;
     bad(rel, `절대 경로 ${href} — 상대 경로여야 한다`);
+  }
+
+  // 허브로 돌아가는 링크가 있어야 한다. 없으면 크롤러에게 막다른 길이고,
+  // 방문자도 이 도구에서 사이트의 나머지로 갈 방법이 없다.
+  if (!html.includes(`href="/${lang}"`)) {
+    bad(rel, `푸터에 허브 홈(/${lang}) 링크가 없다`);
+  }
+
+  // 약관·문의도 모든 페이지에서 닿아야 한다 (헌법 §9).
+  for (const page of ['terms', 'contact']) {
+    if (!html.includes(`/${lang}/${page}`)) {
+      bad(rel, `푸터에 /${lang}/${page} 링크가 없다`);
+    }
   }
 
   // 상대 경로로 부른 자산이 실제로 있는지.
@@ -140,6 +162,19 @@ for (const lang of LANGS) {
     // 루트는 302 통로라 색인 대상이 아니다 (헌법 §5).
     if (xml.includes(`<loc>${ORIGIN}/</loc>`)) {
       bad(rel, '도구 루트가 들어 있다 — 302 통로라 색인 대상이 아니다');
+    }
+
+    // 사이트맵에 적혔는데 파일이 없으면 구글이 404 를 받는다. 언어판 세 줄만 보면
+    // 글이 늘었을 때 이걸 못 잡는다 — 실제로 imagesquish 에서 배포가 여기서 멈췄다.
+    //
+    // 확장자 없는 주소는 자산 층이 .html 로 낸다 (html_handling: auto-trailing-slash).
+    // canonical·사이트맵이 그 형태라 .html 을 붙여서도 찾아봐야 한다.
+    for (const m of xml.matchAll(/<loc>([^<]+)<\/loc>/g)) {
+      const p = m[1].replace(ORIGIN + '/', '');
+      const file = p === '' || p.endsWith('/') ? p + 'index.html' : p;
+      if (!exists(file) && !exists(file + '.html')) {
+        bad(rel, `없는 페이지를 가리킨다 ${m[1]}`);
+      }
     }
   }
 }

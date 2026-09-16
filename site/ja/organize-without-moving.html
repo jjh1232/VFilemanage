@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ファイルを動かさずに整理する方法 — ショートカット・ライブラリ・シンボリックリンク | VFilemanage</title>
+<meta name="description" content="元の場所を変えずにファイルを整理する四つの方法と、それぞれの限界。ショートカット、Windowsライブラリ、シンボリックリンク、検索の使い分け。">
+
+<!-- canonical·hreflang·og:url 은 반드시 prelaps.com 절대 URL.
+     확장자 없는 형태다 — 자산 층이 .html 을 이쪽으로 301 하므로
+     .html 을 적으면 모든 링크에 리다이렉트가 한 번씩 붙는다. -->
+<link rel="canonical" href="https://prelaps.com/vfile/ja/organize-without-moving">
+<link rel="alternate" hreflang="ko" href="https://prelaps.com/vfile/ko/organize-without-moving">
+<link rel="alternate" hreflang="en" href="https://prelaps.com/vfile/en/organize-without-moving">
+<link rel="alternate" hreflang="ja" href="https://prelaps.com/vfile/ja/organize-without-moving">
+<link rel="alternate" hreflang="x-default" href="https://prelaps.com/vfile/en/organize-without-moving">
+
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://prelaps.com/vfile/ja/organize-without-moving">
+<meta property="og:title" content="ファイルを動かさずに整理する方法">
+<meta property="og:description" content="元の場所を変えずにファイルを整理する四つの方法と、それぞれの限界。ショートカット、Windowsライブラリ、シンボリックリンク、検索の使い分け。">
+<meta property="og:image" content="https://prelaps.com/vfile/icon.png">
+<meta property="og:locale" content="ja_JP">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "ファイルを動かさずに整理する方法 — ショートカット・ライブラリ・シンボリックリンク",
+  "description": "元の場所を変えずにファイルを整理する四つの方法と、それぞれの限界。ショートカット、Windowsライブラリ、シンボリックリンク、検索の使い分け。",
+  "inLanguage": "ja",
+  "mainEntityOfPage": "https://prelaps.com/vfile/ja/organize-without-moving",
+  "author": { "@type": "Organization", "name": "prelaps", "url": "https://prelaps.com/" },
+  "publisher": { "@type": "Organization", "name": "prelaps", "url": "https://prelaps.com/" }
+}
+</script>
+
+<meta name="theme-color" content="#3D2FA8">
+<link rel="icon" href="../icon.png">
+<link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="wrap">
+    <a class="brand" href="./"><img src="../icon.png" alt="">VFilemanage</a>
+    <nav class="topnav">
+      <a href="./">概要</a>
+      <a href="./#download">ダウンロード</a>
+      <a href="./#faq">よくある質問</a>
+    </nav>
+    <div class="langs">
+      <a href="../ko/organize-without-moving" lang="ko">한국어</a><i>·</i>
+      <a href="../en/organize-without-moving" lang="en">English</a><i>·</i>
+      <a href="../ja/organize-without-moving" aria-current="page" lang="ja">日本語</a>
+    </div>
+  </div>
+</header>
+
+<main class="band">
+  <div class="wrap">
+    <article class="article">
+      <p class="crumb"><a href="/ja">prelaps</a> · <a href="./">VFilemanage</a></p>
+      <div class="section-head">
+        <h1>ファイルを動かさずに整理する方法 — ショートカット・ライブラリ・シンボリックリンク</h1>
+        <p class="lead">整理したいのに、動かすと何かが壊れます。動かさずにまとめる方法が四つあり、得意な場面がそれぞれ違います。</p>
+      </div>
+<h2>なぜ動かしてはいけないのか</h2>
+<p>テーマごとにまとめようとフォルダを作ってドラッグした瞬間、何も言わずに壊れるものがあります。</p>
+<ul>
+<li><b>パスが埋め込まれているもの</b> — Premiere や After Effects、Blender のようなソフトのプロジェクトファイルは、素材の場所を中に書いています。素材を動かすと次に開いたときに「ファイルが見つかりません」と出ます。</li>
+<li><b>最近使ったファイルの一覧</b> — ソフトごとに持っているあの一覧が、まとめて死にます。</li>
+<li><b>同期フォルダ</b> — OneDrive や Dropbox の中から外に出すと、そのファイルは同期されなくなります。逆に中に入れると、いきなり容量を消費し始めます。</li>
+<li><b>バックアップの対象</b> — フォルダ単位で指定していた場合、動かしたファイルは次回から外れます。外れていたことは、復元しようとしたときに分かります。</li>
+</ul>
+<p>だから整理をあきらめてそのままにしてしまいます。ですが、動かさずにまとめる方法がいくつかあります。</p>
+
+<h2>ショートカット (.lnk)</h2>
+<p>元のファイルを指す1KBほどの小さなファイルです。右クリックで作れて、どのフォルダにでも置けます。ダブルクリックすれば元が開きます。</p>
+<p><b>向いている場面</b> — 数が少なく、デスクトップや作業フォルダに置いて使う場合。</p>
+<p><b>限界</b> — 数が増えると手に負えません。ショートカットばかりのフォルダをエクスプローラーで開くとサムネイルがうまく出ず、サイズや日付で並べ替えても元のファイルではなくショートカット自体が基準になります。元を動かすと Windows が追跡を試みますが、ドライブが違ったり名前まで変わったりすると、たいてい失敗します。</p>
+
+<h2>Windows のライブラリ</h2>
+<p>エクスプローラー左側の「ドキュメント」「ピクチャ」がそれです。<b>散らばった複数のフォルダを一つの画面にまとめて見せる</b>機能で、ライブラリを右クリックしてフォルダを追加できます。</p>
+<p><b>向いている場面</b> — 「Dドライブの写真フォルダと外付けドライブの写真フォルダをまとめて見たい」のような<b>フォルダ単位</b>のまとめ。Windows の標準機能なので何も入れる必要がなく、並べ替えも検索もサムネイルも元のファイル基準で正しく動きます。</p>
+<p><b>限界</b> — フォルダ単位であってファイル単位ではありません。「このフォルダからこの三つだけ」はできません。テーマ別にライブラリをいくつも作って運用するのも、管理が面倒になります。</p>
+
+<h2>シンボリックリンクとジャンクション (mklink)</h2>
+<p>ファイルシステムのレベルで別のパスを指す項目です。ショートカットと決定的に違うのは、<b>ソフトが本物のファイルやフォルダとして認識する</b>点です。コマンドプロンプトで作ります。</p>
+<ul>
+<li><code>mklink /J リンク 対象</code> — フォルダのジャンクション。同じPC内のフォルダを指すなら最も無難で、管理者権限も要りません。</li>
+<li><code>mklink /D リンク 対象</code> — フォルダのシンボリックリンク。ネットワークパスも指せますが管理者権限が必要です。</li>
+<li><code>mklink リンク 対象</code> — ファイル一つを指します。</li>
+</ul>
+<p><b>向いている場面</b> — ソフトがそのパスに実体があると信じる必要がある場合。ゲームのセーブフォルダや容量の大きいキャッシュフォルダを別ドライブに逃がす用途が代表的です。</p>
+<p><b>危ないところ</b> — 削除です。ジャンクションをエクスプローラーで消すとリンクだけが消えますが、<b>ツールによっては中に入り込んで元のファイルまで消すものがあります。</b>コマンドラインでの削除や、古いバックアップ・同期ソフトが特にそうです。バックアップソフトが元とリンクを別々に数え、同じデータを二度保存してしまう問題もよくあります。強力ですが、日常的な整理用途にはすすめにくい方法です。</p>
+
+<h2>検索で済む場合</h2>
+<p>目的が<b>名前の分かっているファイルを一つ開くこと</b>なら、整理するより検索のほうが速いです。ファイル名を索引化するツールを使えば、全ドライブから即座に出てきます。</p>
+<p>検索にできないのは<b>「自分がよく見るものの組」</b>という概念です。その組はファイル名にもフォルダにも書かれておらず、頭の中にしかありません。検索語で表現できないのがまさにこの部分です。</p>
+
+<h2>VFilemanage が選んだ方式</h2>
+<p><a href="./">VFilemanage</a> はファイルシステムにいっさい触れません。<b>元がどこにあるかをデータベースファイル一つに記録し、アプリの中だけに仮想のフォルダを作ります。</b></p>
+<ul>
+<li>アプリの中でフォルダを作っても動かしても消しても、実際のファイルには何も起きません。</li>
+<li>同じファイルを複数のフォルダに入れておけて、ディスクを余分に使いません。</li>
+<li>ダブルクリックすると、元のファイルが関連付けられたソフトでそのまま開きます。</li>
+<li>整理した内容は <code>%APPDATA%\VFilemanage</code> の中の <code>filetree.db</code> 一つに入ります。このフォルダをコピーすれば別のPCでも同じライブラリが開きます。</li>
+</ul>
+<p><b>限界もはっきりしています。</b>この整理はアプリの中でしか見えません。ほかのソフトの「開く」ダイアログにも、エクスプローラーにも現れません。元を動かしたり消したりすると、一覧には残りますが開くときに「元のファイルが見つかりません」と知らせ、新しい場所につなぎ直すか一覧から消すかを選べます。</p>
+
+<h2>どれを選ぶか</h2>
+<table>
+<tr><th>状況</th><th>合う方法</th></tr>
+<tr><td>フォルダ単位でまとめてエクスプローラーで見たい</td><td>Windows ライブラリ</td></tr>
+<tr><td>数が少なくデスクトップに置いて使う</td><td>ショートカット</td></tr>
+<tr><td>ソフトがそのパスに実体があると信じる必要がある</td><td>シンボリックリンク・ジャンクション</td></tr>
+<tr><td>名前の分かっているファイルを一つ開く</td><td>検索</td></tr>
+<tr><td>よく見るファイル数百個をテーマ別にまとめる</td><td>VFilemanage のような仮想整理</td></tr>
+</table>
+<p>組み合わせても構いません。フォルダ単位はライブラリで、その中からよく取り出すものだけを別にまとめる、という形が実際には一番楽です。</p>
+      <p class="back"><a href="./#download">VFilemanage をダウンロード</a></p>
+    </article>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="left">VFilemanage 1.0.0 · ISC License</div>
+    <div class="right">
+      <a href="/ja">prelaps ホーム</a>
+      <a href="./">VFilemanage</a>
+      <a href="/ja/privacy#vfile">プライバシーポリシー</a>
+      <a href="/ja/terms">利用規約</a>
+      <a href="/ja/contact">お問い合わせ</a>
+      <a href="https://github.com/jjh1232/VFilemanage">リポジトリ</a>
+      <a href="https://github.com/jjh1232/VFilemanage/issues">不具合の報告</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

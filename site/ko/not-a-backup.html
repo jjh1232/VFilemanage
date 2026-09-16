@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>정리는 백업이 아니다 — 헷갈리면 생기는 일 | VFilemanage</title>
+<meta name="description" content="파일 정리 도구와 백업은 다른 일을 합니다. 목록에만 있고 원본이 사라졌을 때 무슨 일이 생기는지, 동기화가 왜 백업이 아닌지, 둘을 같이 쓰는 법.">
+
+<!-- canonical·hreflang·og:url 은 반드시 prelaps.com 절대 URL.
+     확장자 없는 형태다 — 자산 층이 .html 을 이쪽으로 301 하므로
+     .html 을 적으면 모든 링크에 리다이렉트가 한 번씩 붙는다. -->
+<link rel="canonical" href="https://prelaps.com/vfile/ko/not-a-backup">
+<link rel="alternate" hreflang="ko" href="https://prelaps.com/vfile/ko/not-a-backup">
+<link rel="alternate" hreflang="en" href="https://prelaps.com/vfile/en/not-a-backup">
+<link rel="alternate" hreflang="ja" href="https://prelaps.com/vfile/ja/not-a-backup">
+<link rel="alternate" hreflang="x-default" href="https://prelaps.com/vfile/en/not-a-backup">
+
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://prelaps.com/vfile/ko/not-a-backup">
+<meta property="og:title" content="정리는 백업이 아니다">
+<meta property="og:description" content="파일 정리 도구와 백업은 다른 일을 합니다. 목록에만 있고 원본이 사라졌을 때 무슨 일이 생기는지, 동기화가 왜 백업이 아닌지, 둘을 같이 쓰는 법.">
+<meta property="og:image" content="https://prelaps.com/vfile/icon.png">
+<meta property="og:locale" content="ko_KR">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "정리는 백업이 아니다 — 헷갈리면 생기는 일",
+  "description": "파일 정리 도구와 백업은 다른 일을 합니다. 목록에만 있고 원본이 사라졌을 때 무슨 일이 생기는지, 동기화가 왜 백업이 아닌지, 둘을 같이 쓰는 법.",
+  "inLanguage": "ko",
+  "mainEntityOfPage": "https://prelaps.com/vfile/ko/not-a-backup",
+  "author": { "@type": "Organization", "name": "prelaps", "url": "https://prelaps.com/" },
+  "publisher": { "@type": "Organization", "name": "prelaps", "url": "https://prelaps.com/" }
+}
+</script>
+
+<meta name="theme-color" content="#3D2FA8">
+<link rel="icon" href="../icon.png">
+<link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="wrap">
+    <a class="brand" href="./"><img src="../icon.png" alt="">VFilemanage</a>
+    <nav class="topnav">
+      <a href="./">개요</a>
+      <a href="./#download">다운로드</a>
+      <a href="./#faq">자주 묻는 질문</a>
+    </nav>
+    <div class="langs">
+      <a href="../ko/not-a-backup" aria-current="page" lang="ko">한국어</a><i>·</i>
+      <a href="../en/not-a-backup" lang="en">English</a><i>·</i>
+      <a href="../ja/not-a-backup" lang="ja">日本語</a>
+    </div>
+  </div>
+</header>
+
+<main class="band">
+  <div class="wrap">
+    <article class="article">
+      <p class="crumb"><a href="/ko">prelaps</a> · <a href="./">VFilemanage</a></p>
+      <div class="section-head">
+        <h1>정리는 백업이 아니다 — 헷갈리면 생기는 일</h1>
+        <p class="lead">정리 도구는 찾는 시간을 줄입니다. 파일을 지켜주지는 않습니다. 이 둘을 섞으면 잃고 나서 압니다.</p>
+      </div>
+<h2>가장 흔한 오해</h2>
+<p>파일을 한곳에 모아 두면 안전해진 것 같은 느낌이 듭니다. 한 화면에 다 보이고, 이름도 썸네일도 잘 나오고, 더블클릭하면 열립니다. 그래서 <b>「정리해 뒀으니 괜찮다」</b>고 생각하게 됩니다.</p>
+<p>그런데 <a href="organize-without-moving">파일을 옮기지 않고 정리하는 방법</a>에서 다룬 방식들 — 바로가기, 라이브러리, 그리고 이 프로그램 — 은 전부 <b>「원본이 어디 있는지」만 기억합니다.</b> 파일 자체의 사본은 어디에도 없습니다. 원본이 사라지면 목록에 남은 것은 이름뿐입니다.</p>
+
+<h2>실제로 무슨 일이 생기나</h2>
+<p>세 가지가 흔합니다.</p>
+<ul>
+<li><b>원본을 지웠을 때</b> — 정리해 둔 쪽은 아무 반응이 없습니다. 목록에는 그대로 있고, 열려고 할 때 「원본을 찾을 수 없습니다」가 뜹니다. 이미 휴지통도 비운 뒤일 수 있습니다.</li>
+<li><b>드라이브를 뺐을 때</b> — 외장하드나 USB 에 있던 것들이 통째로 안 열립니다. 이건 다시 꽂으면 돌아오므로 놀랄 필요는 없습니다.</li>
+<li><b>원본을 옮기거나 이름을 바꿨을 때</b> — 같은 증상입니다. 파일은 멀쩡히 살아 있는데 연결이 끊긴 것뿐입니다.</li>
+</ul>
+<p>세 번째와 첫 번째가 <b>화면에서 똑같이 보인다</b>는 게 문제입니다. 「찾을 수 없음」만으로는 옮긴 건지 지운 건지 알 수 없습니다. 정리 도구는 그걸 구분해 줄 방법이 없습니다 — 애초에 파일을 들고 있지 않으니까요.</p>
+
+<h2>동기화도 백업이 아니다</h2>
+<p>원드라이브나 드롭박스에 넣어 뒀으니 괜찮다고 생각하기 쉬운데, 동기화는 <b>「지운 것도 동기화합니다.」</b> 한쪽에서 지우면 다른 쪽에서도 사라지고, 그게 정상 동작입니다.</p>
+<p>덮어쓴 경우도 마찬가지입니다. 작업하던 파일을 잘못 저장하면 그 잘못된 버전이 모든 기기로 퍼집니다. 대부분의 서비스가 휴지통이나 버전 기록을 30일쯤 보관하지만, <b>알아채는 데 30일 넘게 걸리는 일이 실제로 있습니다.</b></p>
+<p>동기화가 지켜주는 것은 「이 기기가 고장 나는 경우」 하나입니다. 사람의 실수와 악성코드는 그대로 따라갑니다.</p>
+
+<h2>백업은 이런 것이다</h2>
+<p>널리 쓰이는 기준이 <b>3-2-1</b> 입니다. 외우기 쉽게 만든 것이라 그대로 쓰면 됩니다.</p>
+<ul>
+<li><b>사본 3개</b> — 원본 포함해서 셋. 하나가 죽어도 둘이 남습니다.</li>
+<li><b>매체 2종</b> — 내장 디스크와 외장하드처럼 서로 다른 곳에. 같은 디스크 안의 다른 폴더는 사본이 아닙니다.</li>
+<li><b>오프사이트 1개</b> — 집 밖 어딘가에. 클라우드든 사무실에 둔 하드든. 화재나 도난은 같은 방에 있는 것을 전부 가져갑니다.</li>
+</ul>
+<p>개인이 전부 지키기는 번거롭지만, 최소한 <b>「다른 물리적 매체에 사본이 하나 더 있는가」</b>만 만족해도 대부분의 사고는 넘어갑니다.</p>
+
+<h2>그럼 정리 도구는 무엇을 하나</h2>
+<p>정리 도구가 해결하는 것은 <b>찾는 시간</b>입니다. 그게 전부이고, 그게 충분한 가치입니다.</p>
+<p>깊은 폴더에 묻힌 파일을 매번 파고 들어가는 대신 한 화면에서 꺼내 쓰는 것, 같은 파일을 주제별로 여러 곳에 두고도 디스크를 안 쓰는 것, 원본 폴더 구조를 망가뜨리지 않고 내 방식대로 묶는 것. 이것들은 백업이 대신해 줄 수 없는 일입니다.</p>
+<p>반대도 마찬가지입니다. <b>백업은 정리를 대신하지 못합니다.</b> 백업 디스크에 파일이 다 들어 있어도 필요한 걸 찾는 데 삼십 분이 걸리면 그건 다른 문제입니다.</p>
+
+<h2>둘을 같이 쓰는 법</h2>
+<p>구조를 알면 조합은 간단합니다.</p>
+<ul>
+<li><b>백업 대상은 원본 폴더로 지정한다.</b> 정리 도구가 보여주는 목록이 아니라, 실제 파일이 있는 폴더들입니다. 정리는 파일을 옮기지 않으므로 원본 위치는 그대로입니다.</li>
+<li><b>정리해 둔 내용 자체도 백업 대상에 넣는다.</b> VFilemanage 는 <code>%APPDATA%\VFilemanage</code> 안의 <code>filetree.db</code> 하나에 전부 들어 있습니다. 파일은 백업했는데 이 폴더를 빼면, 복구한 뒤에 정리를 처음부터 다시 해야 합니다. <b>정리에 들인 시간이 거기 들어 있습니다.</b></li>
+<li><b>중요한 것은 원본 위치를 안정적인 곳에 둔다.</b> 임시 폴더나 다운로드 폴더에 둔 채로 정리만 해 두면, 나중에 정리하다가 그 폴더를 비우는 순간 연결이 끊깁니다.</li>
+</ul>
+
+<h2>원본을 옮겨야 할 때</h2>
+<p>정리해 둔 상태에서 원본을 옮겨야 하는 일이 생깁니다. 드라이브를 바꾸거나 폴더 구조를 정리할 때입니다. 순서를 지키면 안전합니다.</p>
+<ol>
+<li>옮기기 <b>전에</b> 백업을 한 번 돌립니다. 이 단계를 건너뛰면 나머지가 의미 없습니다.</li>
+<li>원본을 옮깁니다.</li>
+<li>정리 도구에서 「원본을 찾을 수 없습니다」로 뜨는 항목을 새 위치로 다시 연결합니다.</li>
+</ol>
+<p>드라이브 문자가 바뀌는 경우(D 에서 E 로)가 특히 흔합니다. 파일은 그대로인데 경로만 달라진 것이라, 다시 연결하면 됩니다.</p>
+
+<h2>한 줄로 줄이면</h2>
+<p><b>정리 도구는 「어디 있는지」를 기억하고, 백업은 「사본을 들고 있습니다」.</b> 앞엣것만 있는 상태에서 원본이 사라지면 남는 건 이름뿐입니다. 정리를 잘해 둘수록 그 상태를 안전하다고 착각하기 쉬우니, 백업은 따로 돌려 두세요.</p>
+      <p class="back"><a href="./#download">VFilemanage 내려받기</a></p>
+    </article>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="left">VFilemanage 1.0.0 · ISC License</div>
+    <div class="right">
+      <a href="/ko">prelaps 홈</a>
+      <a href="./">VFilemanage</a>
+      <a href="/ko/privacy#vfile">개인정보처리방침</a>
+      <a href="/ko/terms">이용약관</a>
+      <a href="/ko/contact">문의</a>
+      <a href="https://github.com/jjh1232/VFilemanage">저장소</a>
+      <a href="https://github.com/jjh1232/VFilemanage/issues">문제 신고</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

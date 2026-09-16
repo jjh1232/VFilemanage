@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>파일을 옮기지 않고 정리하는 방법 — 바로가기·라이브러리·심볼릭 링크 | VFilemanage</title>
+<meta name="description" content="원본 위치를 그대로 둔 채 파일을 정리하는 네 가지 방법과 각각의 한계. 바로가기, 윈도우 라이브러리, 심볼릭 링크, 검색을 언제 쓰는지 정리했습니다.">
+
+<!-- canonical·hreflang·og:url 은 반드시 prelaps.com 절대 URL.
+     확장자 없는 형태다 — 자산 층이 .html 을 이쪽으로 301 하므로
+     .html 을 적으면 모든 링크에 리다이렉트가 한 번씩 붙는다. -->
+<link rel="canonical" href="https://prelaps.com/vfile/ko/organize-without-moving">
+<link rel="alternate" hreflang="ko" href="https://prelaps.com/vfile/ko/organize-without-moving">
+<link rel="alternate" hreflang="en" href="https://prelaps.com/vfile/en/organize-without-moving">
+<link rel="alternate" hreflang="ja" href="https://prelaps.com/vfile/ja/organize-without-moving">
+<link rel="alternate" hreflang="x-default" href="https://prelaps.com/vfile/en/organize-without-moving">
+
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://prelaps.com/vfile/ko/organize-without-moving">
+<meta property="og:title" content="파일을 옮기지 않고 정리하는 방법">
+<meta property="og:description" content="원본 위치를 그대로 둔 채 파일을 정리하는 네 가지 방법과 각각의 한계. 바로가기, 윈도우 라이브러리, 심볼릭 링크, 검색을 언제 쓰는지 정리했습니다.">
+<meta property="og:image" content="https://prelaps.com/vfile/icon.png">
+<meta property="og:locale" content="ko_KR">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "파일을 옮기지 않고 정리하는 방법 — 바로가기·라이브러리·심볼릭 링크",
+  "description": "원본 위치를 그대로 둔 채 파일을 정리하는 네 가지 방법과 각각의 한계. 바로가기, 윈도우 라이브러리, 심볼릭 링크, 검색을 언제 쓰는지 정리했습니다.",
+  "inLanguage": "ko",
+  "mainEntityOfPage": "https://prelaps.com/vfile/ko/organize-without-moving",
+  "author": { "@type": "Organization", "name": "prelaps", "url": "https://prelaps.com/" },
+  "publisher": { "@type": "Organization", "name": "prelaps", "url": "https://prelaps.com/" }
+}
+</script>
+
+<meta name="theme-color" content="#3D2FA8">
+<link rel="icon" href="../icon.png">
+<link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="wrap">
+    <a class="brand" href="./"><img src="../icon.png" alt="">VFilemanage</a>
+    <nav class="topnav">
+      <a href="./">개요</a>
+      <a href="./#download">다운로드</a>
+      <a href="./#faq">자주 묻는 질문</a>
+    </nav>
+    <div class="langs">
+      <a href="../ko/organize-without-moving" aria-current="page" lang="ko">한국어</a><i>·</i>
+      <a href="../en/organize-without-moving" lang="en">English</a><i>·</i>
+      <a href="../ja/organize-without-moving" lang="ja">日本語</a>
+    </div>
+  </div>
+</header>
+
+<main class="band">
+  <div class="wrap">
+    <article class="article">
+      <p class="crumb"><a href="/ko">prelaps</a> · <a href="./">VFilemanage</a></p>
+      <div class="section-head">
+        <h1>파일을 옮기지 않고 정리하는 방법 — 바로가기·라이브러리·심볼릭 링크</h1>
+        <p class="lead">정리하고는 싶은데 옮기면 무언가가 끊깁니다. 옮기지 않고 묶는 방법이 네 가지 있고, 각각 잘 듣는 자리가 다릅니다.</p>
+      </div>
+<h2>왜 옮기면 안 되나</h2>
+<p>파일을 주제별로 모으고 싶어서 폴더를 새로 파고 끌어다 놓는 순간, 조용히 끊기는 것들이 있습니다.</p>
+<ul>
+<li><b>경로가 박혀 있는 것들</b> — 프리미어·애프터이펙트·블렌더 같은 편집 프로그램의 프로젝트 파일은 소재의 경로를 안에 적어 둡니다. 소재를 옮기면 다음에 열 때 "파일을 찾을 수 없음" 이 뜹니다.</li>
+<li><b>최근 파일 목록</b> — 프로그램마다 갖고 있는 그 목록이 전부 죽습니다.</li>
+<li><b>동기화 폴더</b> — 원드라이브나 드롭박스 안에서 밖으로 빼면 그 파일은 더 이상 동기화되지 않습니다. 반대로 안으로 넣으면 갑자기 용량을 먹기 시작합니다.</li>
+<li><b>백업 규칙</b> — 백업 대상을 폴더로 지정해 뒀다면, 옮긴 파일은 다음 백업부터 빠집니다. 빠졌다는 사실은 복구하려 할 때 알게 됩니다.</li>
+</ul>
+<p>그래서 정리를 포기하고 그냥 두게 됩니다. 하지만 옮기지 않고 묶는 방법이 몇 가지 있습니다.</p>
+
+<h2>바로가기 (.lnk)</h2>
+<p>원본을 가리키는 1KB 짜리 작은 파일입니다. 오른쪽 클릭으로 만들고 아무 폴더에나 둘 수 있습니다. 더블클릭하면 원본이 열립니다.</p>
+<p><b>잘 듣는 곳</b> — 몇 개 안 되고, 바탕화면이나 작업 폴더에 두고 쓰는 경우.</p>
+<p><b>한계</b> — 개수가 늘면 감당이 안 됩니다. 탐색기에서 바로가기만 모인 폴더를 열면 미리 보기가 제대로 안 나오고, 크기나 촬영 날짜로 정렬해도 원본 기준이 아니라 바로가기 파일 기준으로 정렬됩니다. 원본을 옮기면 윈도우가 추적을 시도하지만, 드라이브가 다르거나 이름까지 바뀌면 대개 실패합니다.</p>
+
+<h2>윈도우 라이브러리</h2>
+<p>탐색기 왼쪽의 「문서」·「사진」이 그것입니다. <b>흩어진 여러 폴더를 한 화면에 합쳐서 보여주는</b> 기능이고, 라이브러리를 오른쪽 클릭해 폴더를 더 넣을 수 있습니다.</p>
+<p><b>잘 듣는 곳</b> — "D드라이브 사진 폴더와 외장하드 사진 폴더를 한꺼번에 보고 싶다" 처럼 <b>폴더 단위</b>로 묶을 때. 윈도우 기본 기능이라 아무것도 설치할 필요가 없고, 정렬·검색·미리 보기가 전부 원본 기준으로 정상 동작합니다.</p>
+<p><b>한계</b> — 폴더 단위지 파일 단위가 아닙니다. "이 폴더에서 이 파일 세 개만" 은 안 됩니다. 그리고 라이브러리 자체를 여러 개 만들어 주제별로 쓰기에는 관리가 번거롭습니다.</p>
+
+<h2>심볼릭 링크와 정션 (mklink)</h2>
+<p>파일 시스템 수준에서 다른 경로를 가리키는 항목입니다. 바로가기와 결정적으로 다른 점은 <b>프로그램이 진짜 파일·폴더로 인식한다</b>는 것입니다. 명령 프롬프트에서 만듭니다.</p>
+<ul>
+<li><code>mklink /J 링크 대상</code> — 폴더 정션. 같은 PC 안의 폴더를 가리킬 때 가장 무난합니다. 관리자 권한이 필요 없습니다.</li>
+<li><code>mklink /D 링크 대상</code> — 폴더 심볼릭 링크. 네트워크 경로도 가리킬 수 있지만 관리자 권한이 필요합니다.</li>
+<li><code>mklink 링크 대상</code> — 파일 하나를 가리킵니다.</li>
+</ul>
+<p><b>잘 듣는 곳</b> — 프로그램이 반드시 그 경로에 있어야 하는 경우. 게임 저장 폴더를 다른 드라이브로 빼거나, 용량 큰 캐시 폴더를 옮길 때 흔히 씁니다.</p>
+<p><b>위험한 곳</b> — 지울 때입니다. 정션을 탐색기에서 지우면 링크만 지워지지만, <b>도구에 따라 안쪽 원본까지 따라 들어가 지우는 것이 있습니다.</b> 명령줄 삭제나 오래된 백업·동기화 프로그램이 특히 그렇습니다. 백업 프로그램이 원본과 링크를 각각 세어 같은 파일을 두 번 백업하는 문제도 흔합니다. 강력하지만 일상적인 정리 용도로 권하기는 어렵습니다.</p>
+
+<h2>검색으로 끝나는 경우</h2>
+<p>목적이 <b>이름을 아는 파일 하나를 여는 것</b>이라면, 정리할 필요 없이 검색이 빠릅니다. 파일명 색인 도구를 쓰면 전체 드라이브에서 즉시 나옵니다.</p>
+<p>검색이 못 하는 것은 <b>「내가 자주 보는 것 묶음」</b>이라는 개념입니다. 그 묶음은 이름에도 폴더에도 적혀 있지 않고 사람 머릿속에만 있습니다. 검색어로 표현할 수 없는 것이 바로 이 부분입니다.</p>
+
+<h2>VFilemanage 가 택한 방식</h2>
+<p><a href="./">VFilemanage</a> 는 파일 시스템을 아예 건드리지 않습니다. <b>원본이 어디 있는지를 데이터베이스 파일 하나에 기록해 두고, 앱 안에서만 가상의 폴더를 만듭니다.</b></p>
+<ul>
+<li>앱 안에서 폴더를 만들고 옮기고 지워도 실제 파일에는 아무 일도 일어나지 않습니다.</li>
+<li>같은 파일을 여러 폴더에 넣어 둘 수 있고, 디스크를 더 쓰지 않습니다.</li>
+<li>더블클릭하면 원본이 연결된 프로그램으로 바로 열립니다.</li>
+<li>정리한 내용은 <code>%APPDATA%\VFilemanage</code> 안의 <code>filetree.db</code> 하나에 들어갑니다. 이 폴더를 복사하면 다른 PC 에서도 같은 라이브러리가 열립니다.</li>
+</ul>
+<p><b>한계도 분명합니다.</b> 이 정리는 앱 안에서만 보입니다. 다른 프로그램의 「열기」 대화상자에는 나오지 않고, 탐색기에도 나타나지 않습니다. 원본을 옮기거나 지우면 목록에 남아 있되 열 때 「원본을 찾을 수 없습니다」로 알려 주고, 옮긴 위치를 다시 연결하거나 목록에서 지울 수 있습니다.</p>
+
+<h2>어느 것을 고를까</h2>
+<table>
+<tr><th>상황</th><th>맞는 방법</th></tr>
+<tr><td>폴더 단위로 묶고 탐색기에서 그대로 보고 싶다</td><td>윈도우 라이브러리</td></tr>
+<tr><td>몇 개 안 되고 바탕화면에 두고 쓴다</td><td>바로가기</td></tr>
+<tr><td>프로그램이 그 경로에 진짜 있다고 믿어야 한다</td><td>심볼릭 링크·정션</td></tr>
+<tr><td>이름을 아는 파일 하나를 연다</td><td>검색</td></tr>
+<tr><td>자주 보는 파일 수백 개를 주제별로 묶는다</td><td>VFilemanage 같은 가상 정리</td></tr>
+</table>
+<p>섞어 써도 됩니다. 폴더 단위는 라이브러리로, 그 안에서 자주 꺼내 보는 것만 따로 묶는 식이 실제로는 가장 편합니다.</p>
+      <p class="back"><a href="./#download">VFilemanage 내려받기</a></p>
+    </article>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="left">VFilemanage 1.0.0 · ISC License</div>
+    <div class="right">
+      <a href="/ko">prelaps 홈</a>
+      <a href="./">VFilemanage</a>
+      <a href="/ko/privacy#vfile">개인정보처리방침</a>
+      <a href="/ko/terms">이용약관</a>
+      <a href="/ko/contact">문의</a>
+      <a href="https://github.com/jjh1232/VFilemanage">저장소</a>
+      <a href="https://github.com/jjh1232/VFilemanage/issues">문제 신고</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

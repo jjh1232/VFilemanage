@@ -269,7 +269,7 @@ details code{font-family:var(--font-mono);font-size:.84em;color:var(--ink)}
 footer{border-top:1px solid var(--rule);padding:34px 0 46px}
 footer .wrap{display:flex;justify-content:space-between;gap:22px;flex-wrap:wrap}
 footer .left{font-size:.875rem;color:var(--ink-3)}
-footer .right{display:flex;gap:22px;font-size:.875rem}
+footer .right{display:flex;flex-wrap:wrap;gap:10px 22px;font-size:.875rem}
 footer .right a{color:var(--ink-2)}
 
 /* 히어로 파일 목록 등장 - 디렉터리를 읽어들이는 장면 */
@@ -313,4 +313,35 @@ footer .right a{color:var(--ink-2)}
   *,*::before,*::after{animation-duration:.001ms !important;animation-delay:0s !important;transition-duration:.001ms !important}
   .filelist .frow{opacity:1}
   .filelist .frow--on{background:var(--accent-soft)}
+}
+
+/* --- 글 페이지 (ko/organize-without-moving 등) -------------------------
+   본문 스타일이 도구 페이지에는 없다 — 저쪽은 섹션마다 전용 클래스를 쓴다.
+   p{margin:0} 이 전역이라 여백도 여기서 다시 준다. */
+
+.article { max-width: 74ch; }
+.article h1 { font-size: 2rem; line-height: 1.2; }
+.article h2 { font-size: 1.25rem; margin: 34px 0 10px; }
+.article p { margin: 0 0 12px; }
+.article ul { margin: 0 0 14px; padding-left: 20px; }
+.article li { margin: 0 0 6px; }
+.article b { font-weight: 700; }
+.article code {
+  font-family: var(--font-mono); font-size: .875em;
+  background: var(--accent-soft); padding: 1px 5px; border-radius: 4px;
+}
+
+.crumb { font-size: .8125rem; color: var(--ink-3); margin: 0 0 14px; }
+.crumb a { color: var(--ink-3); }
+
+.article table { border-collapse: collapse; width: 100%; margin: 0 0 14px; font-size: .9375rem; }
+.article th, .article td { border-bottom: 1px solid var(--rule-2); padding: 9px 12px; text-align: left; vertical-align: top; }
+.article th { color: var(--ink-2); font-weight: 700; }
+
+.article .back { margin-top: 34px; padding-top: 18px; border-top: 1px solid var(--rule); }
+
+/* 표는 좁은 화면에서 가로로 넘친다. 본문은 넘치면 안 되므로 표만 따로 굴린다. */
+@media (max-width: 560px) {
+  .article table { display: block; overflow-x: auto; }
+  .article h1 { font-size: 1.5rem; }
 }
