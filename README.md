@@ -1,5 +1,7 @@
 # VFilemanage 다운로드 페이지 (`prelaps.com/vfile/`)
 
+**사이트:** https://prelaps.com/vfile/
+
 이 브랜치는 **`main` 과 아무 관련이 없다.** `main` 은 Electron 앱 소스이고,
 여기는 그 앱을 받게 하는 웹 페이지다. 커밋 이력이 아예 갈라져 있으니
 둘을 머지하려 들지 말 것.
