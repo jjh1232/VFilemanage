@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>File tagging in Windows — which files can be tagged, and an alternative | VFilemanage</title>
+<meta name="description" content="How to tag files in Windows File Explorer, why PNG, PDF and many other formats have no Tags field at all, and a way to group files tag-style regardless of format.">
+
+<!-- canonical·hreflang·og:url 은 반드시 prelaps.com 절대 URL.
+     확장자 없는 형태다 — 자산 층이 .html 을 이쪽으로 301 하므로
+     .html 을 적으면 모든 링크에 리다이렉트가 한 번씩 붙는다. -->
+<link rel="canonical" href="https://prelaps.com/vfile/en/file-tags">
+<link rel="alternate" hreflang="ko" href="https://prelaps.com/vfile/ko/file-tags">
+<link rel="alternate" hreflang="en" href="https://prelaps.com/vfile/en/file-tags">
+<link rel="alternate" hreflang="ja" href="https://prelaps.com/vfile/ja/file-tags">
+<link rel="alternate" hreflang="x-default" href="https://prelaps.com/vfile/en/file-tags">
+
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://prelaps.com/vfile/en/file-tags">
+<meta property="og:title" content="File tagging in Windows — which files can be tagged, and an alternative">
+<meta property="og:description" content="How to tag files in Windows File Explorer, why PNG, PDF and many other formats have no Tags field at all, and a way to group files tag-style regardless of format.">
+<meta property="og:image" content="https://prelaps.com/vfile/icon.png">
+<meta property="og:locale" content="en_US">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "File tagging in Windows — which files can be tagged, and an alternative",
+  "description": "How to tag files in Windows File Explorer, why PNG, PDF and many other formats have no Tags field at all, and a way to group files tag-style regardless of format.",
+  "inLanguage": "en",
+  "mainEntityOfPage": "https://prelaps.com/vfile/en/file-tags",
+  "author": { "@type": "Organization", "name": "prelaps", "url": "https://prelaps.com/" },
+  "publisher": { "@type": "Organization", "name": "prelaps", "url": "https://prelaps.com/" }
+}
+</script>
+
+<meta name="theme-color" content="#3D2FA8">
+<link rel="icon" href="../icon.png">
+<link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="wrap">
+    <a class="brand" href="./"><img src="../icon.png" alt="">VFilemanage</a>
+    <nav class="topnav">
+      <a href="./">Overview</a>
+      <a href="./#download">Download</a>
+      <a href="./#faq">FAQ</a>
+    </nav>
+    <div class="langs">
+      <a href="../ko/file-tags" lang="ko">한국어</a><i>·</i>
+      <a href="../en/file-tags" aria-current="page" lang="en">English</a><i>·</i>
+      <a href="../ja/file-tags" lang="ja">日本語</a>
+    </div>
+  </div>
+</header>
+
+<main class="band">
+  <div class="wrap">
+    <article class="article">
+      <p class="crumb"><a href="/en">prelaps</a> · <a href="./">VFilemanage</a></p>
+      <div class="section-head">
+        <h1>File tagging in Windows — which files can be tagged, and an alternative</h1>
+        <p class="lead">Windows does have tags — just not for every file.</p>
+      </div>
+<p>A folder can hold a file in only one place. A file that is a "contract", from "2024" and for "Client A" can only live in one of those folders, and the other two will not find it. That is when people look for tags. macOS Finder has colour tags; what about Windows?</p>
+
+<h2>Tagging a file in Windows</h2>
+<ul>
+<li>Right-click the file and open <b>Properties</b>.</li>
+<li>On the <b>Details</b> tab, find <b>Tags</b> and type a word. Separate several with semicolons.</li>
+<li>Search File Explorer with <code>tags:contract</code> to find files with that tag.</li>
+</ul>
+<p>The tag is written into the file's own metadata, so it travels with the file when you move it.</p>
+
+<h2>Many files have no Tags field</h2>
+<p>The catch: the Tags field only appears <b>if the file format has room to store it</b>. JPEG photos and Office documents such as Word and Excel files have it; <b>PNG, PDF and TXT</b>, among many others, have no Tags field on the Details tab at all.</p>
+<p>In practice you end up with "photos yes, screenshots no; documents yes, PDFs no". When half the files you meant to tag cannot be tagged, searching by tag never becomes a habit.</p>
+
+<h2>Grouping regardless of format</h2>
+<p>What tags really do is <b>put one file in several groups</b>. If that is remembered outside the file instead of written into it, format no longer matters.</p>
+<p>That is how <a href="./">VFilemanage</a> works. Instead of tags it uses <b>virtual folders</b>, and the same file can sit in several of them at once.</p>
+<ul>
+<li>Put the same PDF in "Contracts", "2024" and "Client A" and it shows up in all three.</li>
+<li>There is one original, and it is not moved. No extra disk space is used.</li>
+<li>PNG, PDF, video — any format, because the file itself is never modified.</li>
+</ul>
+<p>The trade-off: these groups exist <b>only inside VFilemanage</b>. Send the file to another PC and they do not travel with it. For a classification that must move with the file, use Windows tags (where the format allows) or put it in the file name.</p>
+<p>For shortcuts, libraries and symbolic links, see <a href="organize-without-moving">how to organize files without moving them</a>.</p>
+      <p class="back"><a href="./#download">Download VFilemanage</a></p>
+    </article>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="left">VFilemanage 1.0.0 · ISC License</div>
+    <div class="right">
+      <a href="/en">prelaps home</a>
+      <a href="./">VFilemanage</a>
+      <a href="/en/privacy#vfile">Privacy</a>
+      <a href="/en/terms">Terms</a>
+      <a href="/en/contact">Contact</a>
+      <a href="https://github.com/jjh1232/VFilemanage">Repository</a>
+      <a href="https://github.com/jjh1232/VFilemanage/issues">Report an issue</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
