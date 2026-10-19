@@ -3,15 +3,16 @@
    도구는 루트에 있지 않으므로 각 페이지에서 상대 경로(../styles.css)로 부른다. */
 
 :root{
-  --paper:#EEEEE8;
+  /* 토스풍(2026-10-19, 헌법 §12). 다른 도구와 같은 값을 이 파일의 이름 체계에 옮겨 적었다. */
+  --paper:#F2F4F6;
   --panel:#FFFFFF;
-  --ink:#171A1D;
-  --ink-2:#5E6572;
-  --ink-3:#8A9099;
-  --rule:#D9D9D1;
-  --rule-2:#E8E8E1;
-  --accent:#3D2FA8;
-  --accent-soft:#EDEBFA;
+  --ink:#191F28;
+  --ink-2:#4E5968;
+  --ink-3:#5F6B7A;
+  --rule:#E5E8EB;
+  --rule-2:#EEF0F3;
+  --accent:#1B64DA;
+  --accent-soft:#E8F3FF;
   --amber:#D99B2B;
   --font-ui:"Pretendard Variable",Pretendard,-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Segoe UI","Malgun Gothic","Noto Sans KR",sans-serif;
   --font-mono:ui-monospace,"SF Mono","Cascadia Mono",Consolas,"D2Coding","Nanum Gothic Coding",monospace;
@@ -58,7 +59,7 @@ p{margin:0}
 /* 상단 바 */
 .topbar{
   position:sticky;top:0;z-index:20;height:56px;
-  background:rgba(238,238,232,.88);
+  background:rgba(242,244,246,.88);
   backdrop-filter:saturate(180%) blur(12px);
   border-bottom:1px solid var(--rule);
 }
@@ -97,7 +98,7 @@ p{margin:0}
 }
 .btn:hover{text-decoration:none}
 .btn--primary{background:var(--accent);color:#fff}
-.btn--primary:hover{background:#33268f}
+.btn--primary:hover{background:#1957c2}
 .btn--ghost{background:transparent;color:var(--ink);border-color:var(--rule)}
 .btn--ghost:hover{border-color:var(--ink-3);background:var(--panel)}
 .btn .size{font-family:var(--font-mono);font-weight:400;opacity:.75;font-size:.8125rem}
@@ -345,3 +346,20 @@ footer .right a{color:var(--ink-2)}
   .article table { display: block; overflow-x: auto; }
   .article h1 { font-size: 1.5rem; }
 }
+
+/* ═════════════════════════════════════════════════════════════
+ * 토스풍 얼굴 — 2026-10-19, 헌법 §12. 테두리 대신 면 · 큰 곡률. 맨 끝에 둬야 이긴다.
+ * ═════════════════════════════════════════════════════════════ */
+.topbar{border-bottom:0}
+.band--panel{border-block:0}
+.btn{border-radius:14px;padding:14px 22px;font-weight:700}
+.btn--ghost{background:var(--panel);border-color:transparent}
+.btn--ghost:hover{border-color:transparent;background:var(--rule-2)}
+.appwin{border:0;border-radius:20px;box-shadow:0 18px 44px -26px rgba(0,29,58,.28)}
+.tablewrap{border:0;border-radius:16px;background:var(--panel)}
+.note{border-left:0;border-radius:16px}
+.codeblock{border-radius:16px}
+.copybtn{border-radius:10px}
+/* 흰 띠 위의 보조 버튼은 회색 면이어야 보인다 */
+.band--panel .btn--ghost{background:var(--paper)}
+.band--panel .btn--ghost:hover{background:var(--rule)}
